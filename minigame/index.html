@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Tranca Arcana — Sistema de Conjuração</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="topbar">
+    <div><h1>Tranca Arcana</h1><span class="topbar-subtitle">Alinhe os símbolos e teça a magia</span></div>
+    <div class="tools">
+      <a href="../Menu%20inicial/ferro_arcano_documentacao.html">Voltar ao Hub</a>
+      <button id="btnCreateSpell" class="primary">✨ Criar Magia</button>
+    </div>
+  </div>
+
+  <!-- MENU DE CRIAÇÃO -->
+  <div class="create-panel" id="createPanel">
+    <h2>Nova Magia Arcana</h2>
+    <div class="form-group">
+      <label for="newSpellName">Nome da Magia</label>
+      <input type="text" id="newSpellName" placeholder="Ex: Chamas Eternas">
+    </div>
+    <div class="form-group">
+      <label for="newSpellDesc">Descrição</label>
+      <textarea id="newSpellDesc" rows="2" placeholder="Efeito mágico..."></textarea>
+    </div>
+    <div class="form-group">
+      <label for="newSpellCircle">Círculo de Destino (Nível de Dificuldade)</label>
+      <select id="newSpellCircle">
+        <option value="1">1º Círculo (Fácil · 30s · 7 erros max)</option>
+        <option value="2">2º Círculo (Médio · 25s · 6 erros max)</option>
+        <option value="3">3º Círculo (Médio · 22s · 5 erros max)</option>
+        <option value="4">4º Círculo (Difícil · 18s · 4 erros max)</option>
+        <option value="5">5º Círculo (Difícil · 16s · 3 erros max)</option>
+        <option value="6">6º Círculo (Heróico · 13s · 2 erros max)</option>
+        <option value="7">7º Círculo (Lendário · 7s · 1 erro max)</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Escolha os Símbolos/Runas (Mín 1, Máx 7)</label>
+      <div class="rune-picker" id="runePicker"></div>
+    </div>
+    <div class="form-group">
+      <label>Sequência:</label>
+      <div class="selected-runes" id="selectedRunes"></div>
+    </div>
+    <div style="display:flex; gap:10px; justify-content:flex-end;">
+      <button id="btnCancelCreate">Cancelar</button>
+      <button id="btnStartCreationTest" class="primary">Testar Conjuração</button>
+    </div>
+  </div>
+
+  <!-- PAINEL DE SELEÇÃO DE MAGIAS -->
+  <div class="wrap" id="listScreen">
+    <div class="circle-tabs" id="circleTabs"></div>
+    <div class="spell-grid" id="spellGrid"></div>
+  </div>
+
+  <!-- TELA DO JOGO (CANVAS) -->
+  <div class="cast-screen" id="castScreen">
+    <div style="width: 100%; max-width: 500px; display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <h2 id="castSpellName">—</h2>
+        <span id="castSpellBadge" style="font-size: 0.75rem; color: var(--ink-dim);">—</span>
+      </div>
+      <button id="btnBack">← Voltar</button>
+    </div>
+
+    <div class="hud">
+      <div class="hud-row">
+        <span id="timerLabel">Tempo: 0.0s</span>
+        <span id="errorLabel">Erros: 0/0</span>
+      </div>
+      <div class="timer-bar"><div class="timer-fill" id="timerFill"></div></div>
+      <div class="rune-tracker" id="runeTracker"></div>
+    </div>
+
+    <canvas id="gameCanvas" width="540" height="540"></canvas>
+    <p class="cast-help">Pressione <strong>ESPAÇO</strong> ou <strong>CLIQUE/TOQUE</strong> quando o símbolo dourado estiver alinhado no topo.</p>
+  </div>
+
+  <!-- OVERLAY / MODAL DE FIM -->
+  <div class="overlay" id="overlay">
+    <div class="overlay-card">
+      <h2 id="overlayTitle">—</h2>
+      <p id="overlayText" style="margin-top: 8px; font-size:0.85rem; color: var(--ink-dim);">—</p>
+      <div class="damage-badge" id="damageBox"></div>
+      <div style="display: flex; gap: 10px; justify-content: center;">
+        <button id="btnRetry" class="primary">Tentar Novamente</button>
+        <button id="btnExit">Lista de Magias</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

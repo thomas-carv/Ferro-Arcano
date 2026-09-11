@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Ficha Automática - Arcano & Tático</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+    body { background: #0f172a; color: #1e293b; padding: 20px; font-size: 11px; }
+    
+    .sheet { 
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto; 
+      background: #ffffff; 
+      padding: 12mm; 
+      border-radius: 4px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* BANNER SUPERIOR */
+    .header-banner {
+      background: #1e293b;
+      color: #fff;
+      padding: 10px;
+      border-radius: 4px;
+      display: grid;
+      grid-template-columns: 2fr 1.5fr 0.8fr 1fr 1fr;
+      gap: 10px;
+      border-bottom: 3px solid #3b82f6;
+    }
+    .header-field { display: flex; flex-direction: column; }
+    .header-field label { font-size: 8px; font-weight: bold; color: #94a3b8; text-transform: uppercase; }
+    .header-field input { 
+      background: transparent; border: none; border-bottom: 1px solid #475569; 
+      color: #fff; font-weight: bold; font-size: 12px; padding: 2px 0;
+    }
+    .header-field input.calc-field { color: #60a5fa; }
+
+    /* TITULOS DE SEÇÃO */
+    .section-title { 
+      background: #1e293b; color: #fff; font-size: 9px; font-weight: bold; 
+      padding: 4px 8px; text-transform: uppercase; border-radius: 2px; margin-bottom: 4px;
+    }
+
+    /* BLOCOS VITAIS */
+    .vitals-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    .vital-card {
+      border: 2px solid #1e293b;
+      border-radius: 6px;
+      padding: 6px;
+      text-align: center;
+      background: #f1f5f9;
+    }
+    .vital-card.pv { border-color: #dc2626; background: #fef2f2; }
+    .vital-card.exaustao { border-color: #9333ea; background: #faf5ff; }
+    .vital-card.defesa { border-color: #2563eb; background: #eff6ff; }
+    
+    .vital-title { font-size: 9px; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; }
+    .vital-inputs { display: flex; justify-content: center; align-items: center; gap: 4px; }
+    .vital-inputs input { width: 45px; height: 26px; text-align: center; font-weight: bold; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 4px; background: #fff; }
+    .vital-inputs input.auto { background: #e2e8f0; color: #0f172a; }
+
+    /* LAYOUT MEIO (ATRIBUTOS & PERÍCIAS) */
+    .mid-grid { display: grid; grid-template-columns: 210px 1fr; gap: 10px; }
+
+    /* ATRIBUTOS BASE */
+    .attr-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      padding: 6px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .attr-card { background: #e2e8f0; padding: 4px 2px; border-radius: 3px; border: 1px solid #94a3b8; }
+    .attr-card label { font-size: 8px; font-weight: bold; display: block; color: #475569; }
+    .attr-card input { width: 100%; border: none; background: transparent; text-align: center; font-weight: bold; font-size: 14px; color: #1e3a8a; }
+
+    /* PERÍCIAS */
+    .skills-table { width: 100%; border-collapse: collapse; font-size: 10px; }
+    .skills-table th { background: #334155; color: #fff; padding: 3px; font-size: 8px; text-transform: uppercase; }
+    .skills-table td { border-bottom: 1px solid #e2e8f0; padding: 3px; text-align: center; }
+    .skills-table td.name { text-align: left; font-weight: bold; }
+    .skills-table input[type="number"] { width: 32px; text-align: center; border: 1px solid #cbd5e1; border-radius: 2px; font-size: 10px; }
+    .skills-table input.total { background: #f1f5f9; font-weight: bold; color: #2563eb; border: none; }
+
+    /* TABELAS GERAIS */
+    table.data-table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+    table.data-table th { background: #475569; color: #fff; padding: 4px; font-size: 8px; text-transform: uppercase; }
+    table.data-table td { border: 1px solid #cbd5e1; padding: 3px; text-align: center; height: 22px; }
+    table.data-table input { width: 98%; border: none; background: transparent; font-size: 10px; text-align: center; }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .sheet { box-shadow: none; border: none; width: 100%; height: 100%; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <!-- CABEÇALHO -->
+  <div class="header-banner">
+    <div class="header-field">
+      <label>Nome do Personagem</label>
+      <input type="text" value="Nasser">
+    </div>
+    <div class="header-field">
+      <label>Classe / Subclasse</label>
+      <input type="text" value="Vanguardista / Bastião">
+    </div>
+    <div class="header-field">
+      <label>Nível</label>
+      <input type="number" id="level" value="1" min="1" max="20" onchange="calcularFicha()" oninput="calcularFicha()">
+    </div>
+    <div class="header-field">
+      <label>Pontos Ação (PA)</label>
+      <input type="text" value="3 / Turno" readonly class="calc-field">
+    </div>
+    <div class="header-field">
+      <label>Carga Limite</label>
+      <input type="text" id="max_carga" value="5 Slots" readonly class="calc-field">
+    </div>
+  </div>
+
+  <!-- STATUS VITAIS -->
+  <div class="vitals-grid">
+    <div class="vital-card pv">
+      <div class="vital-title">Pontos de Vida (PV)</div>
+      <div class="vital-inputs">
+        <input type="number" placeholder="Atual"> / <input type="number" id="pv_max" readonly class="auto" title="PV Máximo Automático">
+      </div>
+    </div>
+
+    <div class="vital-card exaustao">
+      <div class="vital-title">Exaustão Arcana</div>
+      <div class="vital-inputs">
+        <input type="number" value="0"> / <input type="number" id="exaustao_max" readonly class="auto" title="Limite Automático">
+      </div>
+    </div>
+
+    <div class="vital-card defesa">
+      <div class="vital-title">Defesa (10 + REF + Armadura)</div>
+      <div class="vital-inputs">
+        Armad: <input type="number" id="armadura_bonus" value="2" onchange="calcularFicha()" oninput="calcularFicha()" style="width:35px;"> 
+        = <input type="number" id="defesa_total" readonly class="auto" style="width:50px;">
+      </div>
+    </div>
+  </div>
+
+  <!-- CORPO PRINCIPAL -->
+  <div class="mid-grid">
+    <!-- COLUNA ESQUERDA: ATRIBUTOS & PERÍCIAS -->
+    <div>
+      <div class="section-title">Atributos Base</div>
+      <div class="attr-box">
+        <div class="attr-card"><label>CON</label><input type="number" id="attr_con" value="3" onchange="calcularFicha()" oninput="calcularFicha()"></div>
+        <div class="attr-card"><label>CONH</label><input type="number" id="attr_conh" value="1" onchange="calcularFicha()" oninput="calcularFicha()"></div>
+        <div class="attr-card"><label>FOC</label><input type="number" id="attr_foc" value="2" onchange="calcularFicha()" oninput="calcularFicha()"></div>
+        <div class="attr-card"><label>FOR</label><input type="number" id="attr_for" value="2" onchange="calcularFicha()" oninput="calcularFicha()"></div>
+        <div class="attr-card"><label>REF</label><input type="number" id="attr_ref" value="2" onchange="calcularFicha()" oninput="calcularFicha()"></div>
+      </div>
+
+      <div class="section-title">Perícias & Modificadores</div>
+      <table class="skills-table">
+        <thead>
+          <tr>
+            <th style="text-align:left;">Perícia</th>
+            <th>Atr.</th>
+            <th>Tr.</th>
+            <th>Outros</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="name">Acrobacia</td><td>REF</td><td><input type="number" class="sk-tr" value="0" oninput="calcularFicha()"></td><td><input type="number" class="sk-out" value="0" oninput="calcularFicha()"></td><td><input type="number" class="total sk-tot" readonly></td></tr>
+          <tr><td class="name">Atletismo</td><td>FOR</td><td><input type="number" class="sk-tr" value="0" oninput="calcularFicha()"></td><td><input type="number" class="sk-out" value="0" oninput="calcularFicha()"></td><td><input type="number" class="total sk-tot" readonly></td></tr>
+          <tr><td class="name">Fortitude</td><td>CON</td><td><input type="number" class="sk-tr" value="2" oninput="calcularFicha()"></td><td><input type="number" class="sk-out" value="0" oninput="calcularFicha()"></td><td><input type="number" class="total sk-tot" readonly></td></tr>
+          <tr><td class="name">Misticismo</td><td>CONH</td><td><input type="number" class="sk-tr" value="0" oninput="calcularFicha()"></td><td><input type="number" class="sk-out" value="0" oninput="calcularFicha()"></td><td><input type="number" class="total sk-tot" readonly></td></tr>
+          <tr><td class="name">Percepção</td><td>FOC</td><td><input type="number" class="sk-tr" value="2" oninput="calcularFicha()"></td><td><input type="number" class="sk-out" value="0" oninput="calcularFicha()"></td><td><input type="number" class="total sk-tot" readonly></td></tr>
+          <tr><td class="name">Pontaria</td><td>REF</td><td><input type="number" class="sk-tr" value="0" oninput="calcularFicha()"></td><td><input type="number" class="sk-out" value="0" oninput="calcularFicha()"></td><td><input type="number" class="total sk-tot" readonly></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- COLUNA DIREITA: ATAQUES -->
+    <div>
+      <div class="section-title">Ataques & Armamento</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="text-align:left;">Arma / Ataque</th>
+            <th>Teste</th>
+            <th>Dano</th>
+            <th>Crítico</th>
+            <th>Alcance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><input type="text" value="Rifle de Assalto Rúnico" style="text-align:left;"></td><td><input type="text" value="d20+2"></td><td><input type="text" value="2d8+2"></td><td><input type="text" value="19/x3"></td><td><input type="text" value="18m"></td></tr>
+          <tr><td><input type="text" value="Lâmina Concussiva" style="text-align:left;"></td><td><input type="text" value="d20+2"></td><td><input type="text" value="1d10+2"></td><td><input type="text" value="x2"></td><td><input type="text" value="Corpo a Corpo"></td></tr>
+          <tr><td><input type="text" style="text-align:left;"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CATÁLOGO DE MAGIAS / MINIGAME -->
+  <div>
+    <div class="section-title">Catálogo de Magias & Minigame (scripts.js)</div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="text-align:left;">Magia Equipada</th>
+          <th>Círculo</th>
+          <th>Custo</th>
+          <th>Sequência de Runas</th>
+          <th>Erros Max.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><input type="text" value="Fagulha Ardente" style="text-align:left;"></td><td><input type="text" value="1º"></td><td><input type="text" value="1 PA"></td><td><input type="text" value="[ fogo ]"></td><td><input type="text" value="7"></td></tr>
+        <tr><td><input type="text" value="Pulso de Concussão" style="text-align:left;"></td><td><input type="text" value="2º"></td><td><input type="text" value="1 PA"></td><td><input type="text" value="[ ar, terra ]"></td><td><input type="text" value="6"></td></tr>
+        <tr><td><input type="text" value="Lança de Gelo" style="text-align:left;"></td><td><input type="text" value="3º"></td><td><input type="text" value="2 PA"></td><td><input type="text" value="[ agua, terra, ar ]"></td><td><input type="text" value="5"></td></tr>
+        <tr><td><input type="text" style="text-align:left;"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- INVENTÁRIO E CONSUMÍVEIS -->
+  <div>
+    <div class="section-title">Equipamento & Consumíveis</div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="text-align:left;">Item</th>
+          <th>Qtd</th>
+          <th>Slots</th>
+          <th style="text-align:left;">Efeito / Descrição</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><input type="text" value="Traje Tático Leve" style="text-align:left;"></td><td><input type="text" value="1"></td><td><input type="text" value="1"></td><td><input type="text" value="+2 de Defesa Base" style="text-align:left;"></td></tr>
+        <tr><td><input type="text" value="Injetor de Estimulante" style="text-align:left;"></td><td><input type="text" value="2"></td><td><input type="text" value="1"></td><td><input type="text" value="Recupera 1d8 PV" style="text-align:left;"></td></tr>
+        <tr><td><input type="text" style="text-align:left;"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text" style="text-align:left;"></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- SCRIPT DE CÁLCULO AUTOMÁTICO EM TEMPO REAL -->
+<script>
+  function calcularFicha() {
+    // 1. Obter Atributos e Nível
+    const lvl = parseInt(document.getElementById('level').value) || 1;
+    const con = parseInt(document.getElementById('attr_con').value) || 0;
+    const conh = parseInt(document.getElementById('attr_conh').value) || 0;
+    const foc = parseInt(document.getElementById('attr_foc').value) || 0;
+    const forca = parseInt(document.getElementById('attr_for').value) || 0;
+    const ref = parseInt(document.getElementById('attr_ref').value) || 0;
+    const armadura = parseInt(document.getElementById('armadura_bonus').value) || 0;
+
+    // 2. Fórmulas Derivadas
+    const pvMax = 20 + (con * 4) + ((lvl - 1) * (4 + con));
+    const exaustaoMax = 10 + (foc * 3) + conh;
+    const cargaMax = 5 + (forca * 2);
+    const defesaTotal = 10 + ref + armadura;
+
+    // 3. Atualizar Campos
+    document.getElementById('pv_max').value = pvMax;
+    document.getElementById('exaustao_max').value = exaustaoMax;
+    document.getElementById('max_carga').value = cargaMax + " Slots";
+    document.getElementById('defesa_total').value = defesaTotal;
+
+    // 4. Mapeamento e Cálculo das Perícias
+    const attrMap = [ref, forca, con, conh, foc, ref]; // Mapeia na ordem da tabela
+    const trInputs = document.querySelectorAll('.sk-tr');
+    const outInputs = document.querySelectorAll('.sk-out');
+    const totInputs = document.querySelectorAll('.sk-tot');
+
+    trInputs.forEach((trInput, index) => {
+      const treino = parseInt(trInput.value) || 0;
+      const outros = parseInt(outInputs[index].value) || 0;
+      const atrBase = attrMap[index];
+      
+      totInputs[index].value = atrBase + treino + outros;
+    });
+  }
+
+  // Executar o cálculo inicial ao carregar a página
+  window.onload = calcularFicha;
+</script>
+
+</body>
+</html>

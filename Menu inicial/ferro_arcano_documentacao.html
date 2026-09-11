@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Ferro & Arcano: documentação, criação de personagem e acesso aos subsistemas do RPG.">
+  <title>Ferro & Arcano | Hub do sistema</title>
+  <link rel="stylesheet" href="landing.css">
+</head>
+<body>
+  <div class="grain"></div>
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="Ferro e Arcano, início"><span class="brand-mark">F&A</span><span><strong>Ferro & Arcano</strong><small>Hub do sistema · v1.4b</small></span></a>
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a class="nav-link" href="wiki.html">Wiki do sistema</a><button class="nav-link" data-open-saved>Minhas fichas</button><a href="#personagem">Personagem</a><a href="#arsenal">Arsenal</a><a href="#referencia">Referência</a>
+    </nav>
+    <button class="button button-accent" data-open-builder>Montar ficha <span>↗</span></button>
+  </header>
+
+  <main id="inicio">
+    <section class="hero section-shell">
+      <div class="hero-copy"><p class="eyebrow">Livro vivo de regras · documentação oficial</p><h1>Onde o <em>ferro</em> encontra o arcano.</h1><p class="hero-lead">Um ponto de entrada único para aprender o Core, construir personagens e consultar tudo que mantém a mesa em movimento.</p><div class="hero-actions"><button class="button button-accent" data-open-builder>Criar personagem</button><a class="button button-quiet" href="#sistema">Explorar o sistema <span>↓</span></a></div><div class="hero-meta"><span><b>5</b> classes</span><span><b>10</b> origens</span><span><b>19</b> perícias</span><span><b>14</b> níveis</span></div></div>
+      <div class="hero-art" aria-label="Símbolo decorativo do sistema"><div class="sigil sigil-outer"></div><div class="sigil sigil-mid"></div><div class="sigil sigil-inner">✦</div><span class="art-label">F&A / 01</span><span class="art-note">TECNOLOGIA<br>ARCANA</span></div>
+    </section>
+
+    <section class="section-shell intro-grid" id="sistema"><div><p class="eyebrow">Uma mesa, várias camadas</p><h2>O sistema foi feito para ser consultado no calor da cena.</h2><a class="button button-quiet" href="wiki.html">Abrir Wiki completa <span>↗</span></a></div><p class="section-intro">A documentação completa vive em um menu próprio, com capítulos, busca e fichas de referência para consulta durante a sessão.</p></section>
+    <section class="section-shell module-grid"><article class="module module-dark"><span class="module-index">01 / CORE</span><h3>Regras que sustentam tudo</h3><p>3 Pontos de Ação por turno, testes d20, atributos, Defesa e a economia de combate em uma leitura rápida.</p><a href="wiki.html#core">Abrir regras <span>→</span></a></article><article class="module module-amber"><span class="module-index">02 / FORJA</span><h3>Crie sua ficha</h3><p>Escolha Classe, Origem, atributos, perícias e arma. Os valores derivados são recalculados enquanto você decide.</p><button class="text-button" data-open-builder>Entrar na forja <span>→</span></button></article><article class="module module-image"><span class="module-index">03 / ARCANO</span><h3>Tranca Arcana</h3><p>Conjure runas no minijogo e teste suas magias antes de levá-las para a sessão.</p><a href="../minigame/index.html">Abrir minijogo <span>↗</span></a></article></section>
+
+    <section class="section-shell split-section" id="personagem"><div class="section-heading"><p class="eyebrow">Construção de personagem</p><h2>Escolha uma função.<br><em>O motor faz o resto.</em></h2><p>O criador preserva as fórmulas do motor original: 10 pontos de atributo, limite 4, PV por Classe, VA e recurso específico.</p><button class="button button-accent" data-open-builder>Começar agora <span>↗</span></button></div><div class="class-list" id="class-list"></div></section>
+
+    <section class="section-shell data-section" id="arsenal"><div class="section-heading compact"><p class="eyebrow">Arsenal</p><h2>O lado Ferro da equação.</h2><p>Valores oficiais das armas disponíveis para a ficha.</p></div><div class="table-wrap"><table><thead><tr><th>Arma</th><th>Dano</th><th>Alcance</th><th>Munição</th><th>Crítico</th><th>Falha</th></tr></thead><tbody id="weapon-table"></tbody></table></div></section>
+
+    <section class="section-shell reference-section" id="referencia"><div class="section-heading compact"><p class="eyebrow">Consulta de mesa</p><h2>Referência rápida</h2></div><div class="reference-grid"><article><b>Economia de ações</b><p>3 PA por turno, 1 Reação por rodada e movimento base de 9m.</p></article><article><b>Ataques de fogo</b><p>VA = 10 + FOC + bônus da arma + modificadores.</p></article><article><b>Descansos</b><p>Curto: 30 minutos. Completo: 8 horas e reduz 1 Colapso.</p></article><article><b>Arcano</b><p>Exaustão e Colapso seguem as faixas específicas do Core.</p></article></div></section>
+  </main>
+
+  <footer class="section-shell footer"><span>Ferro & Arcano · v1.4b</span><span>Regras consolidadas para a mesa.</span></footer>
+
+  <div class="layer" id="builder-layer" aria-hidden="true"><div class="layer-backdrop" data-close-builder></div><section class="builder-panel" role="dialog" aria-modal="true" aria-labelledby="builder-title"><div class="panel-head"><div><p class="eyebrow">Forja de personagem</p><h2 id="builder-title">Monte sua ficha</h2><p class="panel-status" id="builder-status"></p></div><button class="icon-button" data-close-builder aria-label="Fechar">×</button></div><div class="builder-layout"><div class="builder-form"><div class="form-row"><label>Nome<input id="character-name" placeholder="Ex.: Kael Voss"></label><label>Nível<select id="character-level"></select></label></div><label>Conceito<textarea id="character-concept" rows="2" placeholder="Ex.: ex-soldado que caça máquinas corrompidas..."></textarea></label><div class="builder-block"><div class="block-title">Classe</div><div class="choice-grid" id="class-choices"></div></div><div class="builder-block"><div class="block-title">Origem</div><select id="origin-choice"></select><p class="choice-help" id="origin-help"></p></div><div class="builder-block"><div class="block-title">Atributos <span id="attribute-budget">10 pontos · limite 4</span></div><div class="attribute-grid" id="attribute-choices"></div></div><div class="builder-block"><div class="block-title">Perícias treinadas <span>1 obrigatória + 3 escolhas</span></div><div class="skill-grid" id="skill-choices"></div><p class="choice-help" id="skill-help"></p></div><div class="builder-block"><div class="block-title">Equipamento inicial</div><div class="form-row"><label>Arma de fogo<select id="weapon-choice"></select></label><label>Corpo a corpo<select id="melee-choice"></select></label></div><label class="check-row"><input type="checkbox" id="shield-choice"> Escudo ou proteção improvisada</label></div></div><aside class="sheet-preview" id="sheet-preview"></aside></div><div class="panel-actions"><button class="button button-quiet" data-save-sheet>Salvar ficha</button><button class="button button-quiet" data-close-builder>Continuar depois</button><button class="button button-accent" id="export-pdf">Exportar ficha em PDF <span>↓</span></button></div></section></div>
+  <div class="layer" id="wiki-layer" aria-hidden="true"><div class="layer-backdrop" data-close-wiki></div><section class="wiki-panel" role="dialog" aria-modal="true" aria-labelledby="wiki-title"><div class="panel-head"><div><p class="eyebrow">Ferro & Arcano · documentação</p><h2 id="wiki-title">Wiki do sistema</h2></div><button class="icon-button" data-close-wiki aria-label="Fechar">×</button></div><div class="wiki-layout"><aside class="wiki-nav"><input id="wiki-search" type="search" placeholder="Buscar regra, classe ou perícia..."><div id="wiki-tabs"></div></aside><article class="wiki-content" id="wiki-content"></article></div></section></div>
+  <div class="layer" id="saved-layer" aria-hidden="true"><div class="layer-backdrop" data-close-saved></div><section class="saved-panel" role="dialog" aria-modal="true" aria-labelledby="saved-title"><div class="panel-head"><div><p class="eyebrow">Arquivo pessoal</p><h2 id="saved-title">Minhas fichas</h2><p class="panel-status">Revisite e edite suas personagens conforme a campanha avança.</p></div><button class="icon-button" data-close-saved aria-label="Fechar">×</button></div><div class="saved-list" id="saved-list"></div></section></div>
+  <script src="landing.js"></script>
+</body>
+</html>

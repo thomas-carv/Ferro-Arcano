@@ -1,0 +1,236 @@
+CLASSES E TRILHAS — FERRO & ARCANO (v1.2)
+CLASSE 1: ATIRADOR
+O Atirador é o especialista em engajamento balístico de alta precisão, controle de campo de batalha a longo alcance, suporte de fogo de supressão e abate tático de ameaças prioritárias. Opera na interface entre a mecânica de armas de fogo modernas e o cálculo preciso de trajetórias sob a influência de variáveis arcanas.
+Visão Geral & Estatísticas Base
+Pontos de Vida Iniciais (PV): 30 + (CON x 10).
+Incremento de PV por Nível: 4 + CON.
+Reserva de Exaustão Arcana Máxima: (CON x 15) + (CONH x 10).
+Atributos Primários Chave: Foco (FOC) e Reflexo (REF).
+Proficiência com Armamentos: Armas de fogo curtas, médias, rifles de precisão (armas longas), supressores de cano, miras ópticas e acessórios balísticos.
+Proficiência com Proteções: Coletes balísticos leves e médios (RD 2 a RD 6).
+Mecânica Exclusiva — Foco de Combate
+O recurso central do Atirador é o acúmulo e consumo estratégico de Pontos de Foco.
+Geração de Foco: O Atirador ganha 1 Ponto de Foco sempre que despende 1 PA utilizando a ação Mirar, quando permanece completamente estático na sua rodada, ou através de acertos críticos com armas longas.
+Consumo & Aplicações de Foco:
+Anulação de Recuo (1 Foco): Anula totalmente a penalidade de recuo ao realizar disparos em modo automático ou rajada curta.
+Estabilização Arcana de Munição (1 Foco): Adiciona +1,5s fixos ao temporizador do minigame rúnico ao disparar cartuchos pré-encantados ou projéteis rúnicos.
+Expansão de Ameaça Crítica (1 Foco): Expande a margem de ameaça para Acerto Crítico em +1 no próximo disparo.
+Perfuração de Cobertura (1 Foco): Ignora a Defesa fornecida por coberturas leves e camuflagens mágicas.
+Progressão Completa do Atirador (Níveis 1 ao 10)
+Nível 1
+Foco de Combate (Ativa - 1 PA): Aciona o acúmulo de Pontos de Foco. Permite converter 1 PA em 1 Ponto de Foco imediato para ser utilizado na mesma rodada ou mantido até o final da cena.
+Olho Clínico (Passiva): O Atirador soma o valor do seu atributo Foco (FOC) diretamente nos testes de acerto ao utilizar armas de fogo de médio e longo alcance.
+Nível 2
+Mira Estável (Passiva): Recebe bônus de +2 no teste de acerto contra alvos que estejam desprovidos de cobertura total ou que estejam em terreno aberto.
+Nível 3
+Disparo Rápido (Ativa - 2 PA): Permite efetuar um disparo adicional na mesma rodada com a mesma arma, sofrendo uma penalidade leve de -1 na jogada de acerto devido à aceleração do gatilho.
+Nível 4
+Ajuste de Balística (Passiva): O alcance efetivo de todas as armas de fogo (curtas, médias e longas) equipadas pelo Atirador é aumentado em +3 metros.
+Nível 5
+Cadência Operacional (Passiva): A ação de recarregar armas de fogo curtas ou de carregador descartável é reduzida de Ação Mínima (1 PA) para Ação Livre (0 PA, limitado a 1 vez por rodada).
+Nível 6
+Respiro Tático (Ativa - 1 PA): Consome 1 PA para efetuar um recuo tático de até 3 metros sem provocar reações de ataques corpo a corpo ou disparos de oportunidade de inimigos engajados.
+Nível 7
+Disparo de Penetração (Ativa - 2 PA): Efetua um disparo altamente calibrado que ignora até 4 pontos de Redução de Dano (RD) fornecida por coletes balísticos ou estruturas rígidas.
+Nível 8
+Fogo de Supressão Tático (Ativa - 3 PA): Consome uma Ação Pesada (3 PA) e munição extra para cobrir um cone de 9 metros. Todos os inimigos na área afetada devem passar num teste de Reflexo (REF) ou sofrem penalidade de -2 nos testes de acerto e têm seu deslocamento reduzido pela metade até o início do próximo turno do Atirador.
+Nível 9
+Postura do Caçador (Passiva): O Atirador torna-se imune à condição Caído e não sofre penalidades em testes de disparo enquanto estiver empunhando rifles de precisão ou armas longas acopladas com suporte bipé.
+Nível 10
+Mestria Balística (Escolha de Trilha): Desbloqueia a escolha de uma das 3 Trilhas de Especialização de Atirador (Franco-Atirador, Pistoleiro Tático, Caçador Arcano).
+Trilhas de Especialização do Atirador (Níveis 1 ao 5)
+Trilha A: Franco-Atirador
+Especialista em eliminação a altíssima distância, neutralização com um único disparo e tiros que perfuram infraestrutura e blindagem pesada.
+Lv 1 (Trilha) — Multiplicador de Elite (Passiva): O multiplicador de dano para Acertos Críticos realizados com rifles de precisão e armas longas passa de x2 para x3.
+Lv 2 (Trilha) — Balística Extrema (Passiva): Anula totalmente qualquer penalidade em testes de acerto por disparar contra alvos posicionados além do alcance nominal da arma, até o limite visual.
+Lv 3 (Trilha) — Tiro Perfurante de Cúpula (Ativa - 2 PA): Consome 2 PA e 2 Pontos de Foco. Efetua um disparo que atravessa paredes ou estruturas de concreto/aço de até 10 cm de espessura, ignorando Cobertura Total e reduzindo a armadura balística do alvo atingido em -4 pontos até o fim da cena.
+Lv 4 (Trilha) — Ocultação em Posição (Passiva): Disparar com arma longa estando sob efeito de Furtividade ou em Cobertura Total não revela sua posição exata; inimigos devem passar num teste de Percepção (CONH/SAB) contra a Furtividade do Franco-Atirador para localizá-lo.
+Lv 5 (Trilha) — Abate em Cadeia (Ativa / Reação - 0 PA): Ao eliminar um alvo ou obter um Acerto Crítico com uma arma longa, executa imediatamente um disparo extra gratuito contra um segundo alvo visível no mesmo raio de alcance.
+Trilha B: Pistoleiro Tático
+Focado em combate de curta distância, mobilidade extrema, disparos duplos e transições rápidas no meio do tiroteio.
+Lv 1 (Trilha) — Saque e Troca Instantânea (Passiva): As ações de sacar, guardar ou alternar entre duas armas de fogo curtas (pistolas, revólveres) passam a ser consideradas Ações Livres (0 PA).
+Lv 2 (Trilha) — Esquiva Dinâmica em Ponto Cego (Passiva): Enquanto empunhar armas curtas e se movimentar no turno, recebe bônus de +2 no teste de Reflexo (REF) para Reações de Esquiva contra tiros de armas de fogo.
+Lv 3 (Trilha) — Disparo em Cone (Ativa - 2 PA): Efetua uma varredura balística em leque com pistolas, atingindo até 3 alvos adjacentes dentro de um cone de 6 metros, causando o dano base da arma para cada alvo atingido.
+Lv 4 (Trilha) — Flanqueamento Letal (Passiva): Disparos realizados contra alvos que estejam engajados corpo a corpo por aliados (alvos flanqueados) recebem +1d8 de dano físico perfurante adicional.
+Lv 5 (Trilha) — Esvaziar Pente à Queima-Roupa (Ativa - 3 PA): Consome uma Ação Pesada (3 PA) e descarrega todos os cartuchos restantes da arma contra um único alvo a até 3 metros. Causa o dano base da arma multiplicado pelo número de balas descarregadas (máximo de 6 projéteis), cortando a Armadura do alvo pela metade.
+Trilha C: Caçador Arcano
+Especialista em abater entidades arcanas, interceptar feiticeiros e disparar projéteis guiados imbuídos com energia de disrupção.
+Lv 1 (Trilha) — Projéteis Anti-Éter (Passiva): Converte o dano físico dos disparos do Caçador em dano mágico de essência, superando Reduções de Dano convencional de criaturas arcanas e escudos mágicos.
+Lv 2 (Trilha) — Rastreio Etéreo (Passiva): Seus disparos deixam um rastro luminoso invisível a olho nu que dura 1 hora, concedendo +4 em testes de Percepção para rastrear o alvo e revelando inimigos invisíveis ou ocultos.
+Lv 3 (Trilha) — Projétil Rastreador Guiado (Ativa - 2 PA): Canaliza energia na munição (2 PA). O disparo contorna quinas, superfícies e coberturas físicas, impondo penalidade de -2 no teste de Esquiva (REF) do alvo.
+Lv 4 (Trilha) — Selo de Interrupção (Passiva): Inimigos atingidos por sua munição rúnica sofrem a condição Disrupção Arcana, aumentando o custo de Exaustão de suas próximas magias em +10 pts.
+Lv 5 (Trilha) — Disparo de Anulação Total (Ativa - 2 PA): Dispara um projétil pesado que cancela imediatamente qualquer feitiço sustentado ou barreira arcana ativa no alvo atingido, além de causar 3d10 de dano mágico direto.
+CLASSE 2: CANALIZADOR
+O Canalizador é o mestre absoluto do éter, manipulação do tempo do minigame rúnico e regulação do fluxo de exaustão bio-arcana. Ele domina a teoria dos anéis rúnicos e possui capacidade única de mitigar os riscos de falhas graves, colapsos ou repiques de magia.
+Visão Geral & Estatísticas Base
+Pontos de Vida Iniciais (PV): 30 + (CON x 10).
+Incremento de PV por Nível: 2 + CON.
+Reserva de Exaustão Arcana Máxima: (CON x 15) + (CONH x 10).
+Atributos Primários Chave: Conhecimento (CONH) e Constituição (CON).
+Proficiência com Armamentos: Varinhas de precisão, cajados de potência, grimórios rúnicos e anéis de absorção.
+Proficiência com Proteções: Trajes de tecido rúnico e proteção leve (RD 1 a RD 3).
+Mecânica Exclusiva — Ajuste Fino & Manipulação Rúnica
+O Canalizador utiliza seu vasto domínio teórico (atributo Conhecimento - CONH) para interferir diretamente na resolução do Minigame Arcano em Tempo Real.
+Interferência Rúnica: Permite gastar pontos de CONH para ignorar erros cometidos na sequência de anéis rúnicos ou estender o tempo do temporizador base durante a conjuração.
+Mitigação de Flinch Balístico: Quando atingido por um disparo de arma de fogo enquanto conjura, o Canalizador pode acionar o Ajuste Fino para anular a penalidade de -2,0s no temporizador e a aceleração de +25% nos anéis.
+Controle de Sobrecarga: Minimiza o acúmulo de Pontos de Colapso e permite contornar efeitos da Tabela de Sequelas de Sobrecarga (1d20).
+Progressão Completa do Canalizador (Níveis 1 ao 10)
+Nível 1
+Ajuste Fino (Ativa - 1 PA): Consome 1 Ponto de CONH para ignorar 1 erro cometido no minigame rúnico de conjuração ou anular completamente a penalidade de Interrupção Balística (Flinch) sofrida no turno.
+Fluxo Contínuo (Passiva): A aceleração de rotação dos anéis rúnicos pendentes após cada acerto cai de +25% para apenas +10% por anel resolvido.
+Nível 2
+Mente Expandida (Passiva): Durante descansos curtos (15 minutos de pausa tática), o Canalizador recupera +15 pontos adicionais de sua reserva de Exaustão Arcana.
+Nível 3
+Emanação Rúnica de Repulsão (Ativa - 2 PA): Gasta 2 PA e 10 pts de Exaustão para emitir uma onda de choque que empurra todas as criaturas adjacentes 3 metros para trás e causa 2d6 de dano de força.
+Nível 4
+Barreira de Éter (Ativa - 1 PA): Converte até 20 pontos de Exaustão restante em uma barreira temporária de PV de mesmo valor, durando 1 rodada inteira contra danos físicos e mágicos.
+Nível 5
+Sintonia Rúnica Aprimorada (Passiva): Feitiços do 1º e 2º Círculo exigem menos 1 runa no minigame rúnico de conjuração (mantendo o mínimo de 1 runa).
+Nível 6
+Recalibração Mental (Ativa - 1 PA): Gasta 1 PA para dispersar a carga bio-residual, reduzindo imediatamente 10 pontos de Exaustão acumulada sem necessitar de descanso.
+Nível 7
+Foco de Concentração Extrema (Passiva): Recebe bônus de +4 em testes de Fortitude (CON) para manter o temporizador rúnico ativo mesmo sob fogo hostil ou condições adversas de combate.
+Nível 8
+Modulação de Amplitude (Ativa - 2 PA): Aumenta a categoria do dado de dano do feitiço atual que está sendo conjurado em um patamar (ex: d6 \to d8, d8 \to d10, d10 \to d12).
+Nível 9
+Mente Inviolável (Passiva): Concede imunidade total a efeitos mentais de medo, feitiços de dominação, encanto e sono induzido por feitiçaria hostil.
+Nível 10
+Domínio da Ruptura Arcana (Escolha de Trilha): Desbloqueia a escolha de uma das 3 Trilhas de Especialização do Canalizador (Arcanista Elemental, Manipulador Espacial, Taumaturgo de Sobrecarga).
+Trilhas de Especialização do Canalizador (Níveis 1 ao 5)
+Trilha A: Arcanista Elemental
+Mestre na manipulação dos elementos primordiais, controle de grandes áreas, destruição em massa e aplicação de status térmicos/elétricos.
+Lv 1 (Trilha) — Infusão Tri-Elemental (Passiva): Alterna o elemento base de seus feitiços entre Fogo (aplica Queimadura residual de 1d6/rodada), Gelo (restringe movimento em -50%) e Elétrico (desativa dispositivos eletrônicos e impõe -2 na Reação de Esquiva do alvo).
+Lv 2 (Trilha) — Ampliação de Domínio (Passiva): O raio de ação de todas as magias de área (explosões, cones, cilindros) é aumentado em +3 metros.
+Lv 3 (Trilha) — Tempestade Rúnica Sustentada (Ativa - 3 PA): Invoca uma tempestade contínua em um raio de 9 metros (3 PA e 35 pts de Exaustão). A cada rodada, criaturas na área sofrem 3d8 de dano elemental automático e entram em terreno difícil.
+Lv 4 (Trilha) — Desintegração de Resistência (Passiva): Inimigos atingidos por seus feitiços elementais perdem 5 pontos de Redução de Dano (RD) contra aquele elemento específico por 2 rodadas.
+Lv 5 (Trilha) — Mantos Primordiais (Passiva / Reação): Absorve 100% do dano sofrido de um elemento que tenha conjurado na última rodada, convertendo esse dano em cura direta de PV ou restauração de Exaustão.
+Trilha B: Manipulador Espacial
+Especialista em dobra dimensional, deslocamentos instantâneos, reposicionamento tático de aliados e criação de fendas de atração gravítica.
+Lv 1 (Trilha) — Passo Etéreo (Passiva): Aumenta o deslocamento base em +3m e ignora completamente a penalidade de movimento por terreno difícil enquanto estiver conjurando.
+Lv 2 (Trilha) — Salto Quântico (Ativa - 1 PA): Teletransporta-se instantaneamente para qualquer ponto desocupado e visível a até 12 metros sem provocar ataques de oportunidade ou disparos de reação.
+Lv 3 (Trilha) — Transposição Tática (Ativa - 2 PA): Troca instantaneamente a posição espacial de duas criaturas (aliados ou inimigos a até 15m). Alvos hostis podem realizar um teste de Reflexo (REF) para evitar a troca.
+Lv 4 (Trilha) — Distorção Refratária (Passiva): Ataques balísticos e disparos à distância direcionados a você sofrem 20% de chance de erro automático devido à curvatura do espaço ao redor do seu corpo.
+Lv 5 (Trilha) — Fenda Gravitacional Singular (Ativa - 3 PA): Abre um ponto de gravidade extrema em uma área a até 18m. Todos os inimigos em um raio de 8m são puxados para o centro, sofrem 4d10 de dano de força e ficam atordoados por 1 rodada.
+Trilha C: Taumaturgo de Sobrecarga
+Especialista em extrair potência destrutiva extrema aceitando riscos limiares de exaustão, volatilidade, repique arcano e manipulação de pontos de colapso.
+Lv 1 (Trilha) — Poder Desmedido (Passiva): Soma o número total de Pontos de Exaustão acumulados durante o combate diretamente como um bônus numérico fixo de dano ao valor final de seus feitiços.
+Lv 2 (Trilha) — Canalização de Risco Limiar (Passiva): Permite conjurar magias sem ter os pontos de Exaustão necessários, aceitando em troca somar voluntariamente +1 Ponto de Colapso para a contagem da Detonação Arcana.
+Lv 3 (Trilha) — Invocação Extrema de Backfire (Ativa - 2 PA): Rola voluntariamente com risco dobrado na Tabela de Sequelas de Sobrecarga (1d20) para dobrar a quantidade de dados de dano ou dobrar a área de efeito do feitiço conjurado.
+Lv 4 (Trilha) — Conversão Volátil de Sequela (Passiva): Sempre que sofrer um efeito da Tabela de Sequelas de Sobrecarga, converte metade do dano sofrido pelo repique em restauração imediata de PV ou ganho de +2 PA no turno seguinte.
+Lv 5 (Trilha) — Ruptura de Colapso Total (Ativa - 3 PA): Descarrega toda a energia residual do seu corpo em um raio devastador que causa 5d20 de dano arcano puro em um cone de 15m. O Taumaturgo entra em estado de exaustão máxima imediata.
+CLASSE 3: HÍBRIDO
+O Híbrido é o engenheiro e combatente tático que representa a fusão simbiótica perfeita entre a tecnologia mecânica de armas de fogo e a canalização de feitiços arcanos. Ele não escolhe entre a balística e a feitiçaria: ele as funde em um único cartucho.
+Visão Geral & Estatísticas Base
+Pontos de Vida Iniciais (PV): 30 + (CON x 10).
+Incremento de PV por Nível: 3 + CON.
+Reserva de Exaustão Arcana Máxima: (CON x 15) + (CONH x 10).
+Atributos Primários Chave: Conhecimento (CONH) e Foco (FOC) ou Reflexo (REF).
+Proficiência com Armamentos: Armas híbridas (lâminas energizadas, pistolas acopladas), carregadores rúnicos, engenhos mecânicos e armas de fogo médias.
+Proficiência com Proteções: Armaduras táticas leves e médias (RD 2 a RD 6).
+Mecânica Exclusiva — Munição Encantada & Tecno-Magia
+O Híbrido integra o combate com armas de fogo diretamente à feitiçaria.
+Injeção Rúnica (1 PA): Gasta 1 PA para recarregar o carregador da arma e canalizar simultaneamente feitiços de 1º ou 2º Círculo diretamente nas munições.
+Sincronia de Ações: O uso combinado de disparos e canalização no mesmo turno concede eficiência na economia de pontos de ação.
+Operação via Conhecimento: Permite utilizar o atributo Conhecimento (CONH) no lugar de Força para manejar armas pesadas ou calcular modificadores mecânicos.
+Progressão Completa do Híbrido (Níveis 1 ao 10)
+Nível 1
+Munição Encantada (Ativa - 1 PA): Recarrega o pente da arma e canaliza feitiços armazenados diretamente nos cartuchos balísticos em um único movimento tático.
+Sintonia Tecno-Mágica (Passiva): Usar uma ação de ataque físico/balístico e uma ação de feitiço na mesma rodada concede +1 PA temporário no início do turno seguinte.
+Nível 2
+Adaptabilidade de Sistemas (Passiva): O Híbrido pode utilizar seu atributo Conhecimento (CONH) no lugar de Força (FOR) para operar armas pesadas e calcular modificadores de dano mecânico.
+Nível 3
+Golpe Arcana-Infuso (Ativa - 2 PA): Realiza um ataque com arma branca ou disparo de curta distância adicionando +1d8 de dano eletromagnético/arcano extra ao impacto.
+Nível 4
+Sobrecarga de Núcleo (Ativa - 1 PA): Superaquece temporariamente o núcleo da arma (1 PA). Aumenta a margem de ameaça de acerto crítico em +2 pelas próximas 2 rodadas.
+Nível 5
+Malha de Tecido Rúnico (Passiva): Coletes e armaduras equipadas pelo Híbrido ganham Redução de Dano física e mágica adicional (RD +2) contra fogo, raios e essência pura.
+Nível 6
+Recarga Sincronizada (Ativa - 1 PA): Efetua a substituição do pente de munição e canaliza um elemento secundário nos projéteis consumindo apenas 1 Ação Mínima (1 PA).
+Nível 7
+Emissão de Campo Estático (Ativa - 2 PA): Emite um pulso de desaceleração eletromagnética em um raio de 4m (2 PA). Inimigos atingidos perdem 1 PA em seu próximo turno e sofrem 2d6 de dano elétrico.
+Nível 8
+Reciclagem de Energia Absorvida (Passiva): Sempre que sofrer dano elétrico ou arcano, absorve 20% do valor do dano e o converte em recuperação direta de sua reserva de Exaustão Arcana.
+Nível 9
+Injeção de Éter Medicinal (Ativa - 1 PA): Consome uma carga do núcleo da sua arma para injetar um composto alquímico-tecnológico em seu próprio corpo, restaurando 2d10 + CON Pontos de Vida em meio ao combate.
+Nível 10
+Síntese Absoluta do Ferro & Arcano (Escolha de Trilha): Desbloqueia a escolha de uma das 3 Trilhas de Especialização de Híbrido (Engenheiro Arcano, Lâmina/Gatilho Rúnico, Infiltrador).
+Trilhas de Especialização do Híbrido (Níveis 1 ao 5)
+Trilha A: Engenheiro Arcano
+Focado no suporte de campo, forja de modificações, reparos mecânicos expressos e suporte tático via drones autônomos e torres arcanas.
+Lv 1 (Trilha) — Módulos Aprimorados de Campo (Passiva): Acessórios, miras ópticas, supressores e modificações instalados em armas do esquadrão ganham +1 de bônus adicional em suas estatísticas padrão.
+Lv 2 (Trilha) — Forja de Campo Expressa (Ativa - 1 PA): Consome sucatas e componentes metálicos para reparar armaduras, coletes balísticos destruídos ou desentalar armas emperradas instantaneamente.
+Lv 3 (Trilha) — Deploy de Drone Tático (Ativa - 2 PA): Lança um Drone Autônomo na arena (2 PA). O drone pode ser configurado para projetar um escudo de +15 PV temporários em um aliado ou efetuar disparos de suporte (1d8 de dano por rodada).
+Lv 4 (Trilha) — Bateria Eletrostática do Drone (Passiva): Enquanto o Drone Tático estiver ativo no campo, ele regenera 5 pontos de Exaustão de todos os aliados posicionados a até 3 metros dele a cada início de rodada.
+Lv 5 (Trilha) — Automação de Torre Pesada (Ativa - 3 PA): Transforma o Drone em uma Torre Automática Fixa armada com calibre pesado e matriz rúnica. A torre dispara automaticamente 2 vezes por rodada (2d10 de dano por disparo) durante 3 turnos.
+Trilha B: Lâmina / Gatilho Rúnico
+Especialista em combate fluido alternando entre ataques de lâmina à queima-roupa e disparos balísticos devastadores no mesmo movimento.
+Lv 1 (Trilha) — Cadência Alternada (Passiva): Acertar um ataque corpo a corpo com lâmina concede bônus de +2 no acerto do próximo disparo com arma de fogo na mesma rodada, e vice-versa.
+Lv 2 (Trilha) — Esgrima Balística (Passiva): Permite utilizar a perícia Pontaria (baseada em FOC/REF) no lugar de Luta (FOR) para realizar ataques corpo a corpo com lâminas híbridas energizadas.
+Lv 3 (Trilha) — Combo Integrado à Queima-Roupa (Ativa - 2 PA): Executa um corte profundo com lâmina e, no mesmo movimento contínuo, dispara a arma de fogo contra a ferida aberta do alvo, causando dano do ataque físico + dano do disparo com +1d10 de dano crítico adicional.
+Lv 4 (Trilha) — Parry Energizado de Repulsão (Ativa / Reação - 1 Reação): Utiliza a lâmina rúnica para bloquear um ataque físico corpo a corpo hostil, anulando o dano recebido e refletindo 2d6 de dano elétrico de volta ao atacante.
+Lv 5 (Trilha) — Execução Devastadora em Cadeia (Ativa - 3 PA): Realiza uma investida cortante atravessando até 3 alvos em linha reta (10m), descarregando cartuchos rúnicos em cada um. Causa 4d10 de dano combinado por alvo.
+Trilha C: Infiltrador
+Especialista em ocultação óptica, desorientação via hologramas, movimentação fantasma e eliminações silenciosas sem detecção.
+Lv 1 (Trilha) — Camuflagem Rúnica Passiva (Passiva): Torna o agente completamente indetectável por sensores tecnológicos, visores térmicos e detecção de aura arcana enquanto estiver imóvel em cobertura.
+Lv 2 (Trilha) — Passos de Espectro (Passiva): Movimentar-se na zona de engajamento de inimigos não provoca ataques de oportunidade ou disparos de reação de qualquer tipo.
+Lv 3 (Trilha) — Emboscada Perfurante (Ativa - 2 PA): Desfere um ataque de surpresa a partir da Furtividade que ignora completamente os valores de armadura balística e coletes do alvo (RD 0).
+Lv 4 (Trilha) — Holograma de Distração Tática (Ativa - 1 PA): Projeta uma cópia holográfica-espacial de si mesmo que força os inimigos próximos a realizarem um teste de Vontade/Percepção ou gastarem suas ações atacando o holograma falso.
+Lv 5 (Trilha) — Deslocamento Sombra & Execução (Ativa - 3 PA): Deixa uma ilusão em sua posição original, teletransporta-se para as costas do alvo a até 10m e realiza um ataque crítico automático que causa o triplo do dano normal da arma.
+CLASSE 4: VANGUARDISTA
+O Vanguardista é a fortaleza biológica e tática do esquadrão. Projetado para absorção pesada de impactos, mitigação de ferimentos críticos, provocalção de alvos e proteção ativa da linha de frente contra disparos e explosões.
+Visão Geral & Estatísticas Base
+Pontos de Vida Iniciais (PV): 30 + (CON x 10).
+Incremento de PV por Nível: 5 + CON.
+Reserva de Exaustão Arcana Máxima: (CON x 15) + (CONH x 10).
+Atributos Primários Chave: Constituição (CON) e Força (FOR).
+Proficiência com Armamentos: Armas de impacto corpo a corpo, escudos torre rúnicos, armamento pesado de supressão e escopetas.
+Proficiência com Proteções: Coletes balísticos pesados e armaduras rígidas (RD 4 a RD 10).
+Mecânica Exclusiva — Pontos de Inflexibilidade
+O Vanguardista acumula e consome Pontos de Inflexibilidade ao absorver dano direto ou interpor-se na trajetória de ataques.
+Acúmulo por Absorção: Ganha Pontos de Inflexibilidade sempre que recebe dano físico/balístico de inimigos.
+Projeção de Escudos: Consome os pontos para criar barreiras temporárias, absorver projéteis destinados aos aliados ou adiar o limiar de Sangramento Crítico.
+Resistência Biológica: Aumenta o limite de Sangramento Crítico de menos de 30% para menos de 15% do PV máximo.
+Progressão Completa do Vanguardista (Níveis 1 ao 10)
+Nível 1
+Pontos de Inflexibilidade (Ativa - 1 PA): Consome 1 ponto do atributo CON para absorver até 15 pontos de dano imediato recebidos na rodada e projetar um escudo para um aliado a até 3m.
+Blindagem Biológica (Passiva): Adiciona +2 fixos em testes de Fortitude e adia o gatilho inicial do estado de Sangramento Crítico para menos de 15% do PV máximo.
+Nível 2
+Postura Imóvel (Passiva): Torna-se completamente imune a efeitos de empurrar, derrubar ou deslocamento forçado provocados por explosões ou manobras físicas.
+Nível 3
+Provocação Tática (Ativa - 1 PA): Gasta 1 PA emitindo uma ameaça ostensiva. Todos os alvos em um raio de 4m devem focar seus ataques primários no Vanguardista na próxima rodada.
+Nível 4
+Pele de Ferro Aprimorada (Passiva): Aumenta a Defesa natural contra disparos em +2 e concede Redução de Dano permanente (RD +2) contra todos os tipos de dano físico.
+Nível 5
+Retaliação de Impacto (Passiva): Ao bloquear um ataque corpo a corpo ou absorver um tiro em seu escudo, devolve 1d8 de dano físico de impacto ao agressor.
+Nível 6
+Interceptação Balística (Ativa / Reação - 1 Reação): Gasta 1 Ponto de Inflexibilidade para interpor seu corpo ou escudo na trajetória de um disparo direcionado a um aliado adjacente, reduzindo o dano pela metade.
+Nível 7
+Escudo de Absorção Absoluta (Ativa - 2 PA): Consome seus Pontos de Inflexibilidade acumulados para anular completamente todo e qualquer dano recebido no próximo ataque físico ou explosivo direcionado a você.
+Nível 8
+Ancoragem Territorial (Ativa - 1 PA): Ancora-se firmemente no solo (1 PA). Dobra sua Redução de Dano (RD) total enquanto não se mover da posição escolhida.
+Nível 9
+Vigor Inextinguível (Passiva): Quando seus Pontos de Vida chegarem a 0 PV, o Vanguardista permanece consciente e agindo normalmente por mais 1 rodada inteira antes de cair em incapacitação.
+Nível 10
+Baluarte Supremo do Ferro (Escolha de Trilha): Desbloqueia a escolha de uma das 3 Trilhas de Especialização de Vanguardista (Bastião, Demolidor, Guardião Rúnico).
+Trilhas de Especialização do Vanguardista (Níveis 1 ao 5)
+Trilha A: Bastião
+O ápice da defesa inamovível, especializado em projeção de domos de força, imunidade a impactos físicos e cobertura para o esquadrão.
+Lv 1 (Trilha) — Muralha Viva (Passiva): Concede Redução de Dano massiva (RD +5) enquanto permanecer estático na postura de defesa em cobertura ou escudo levantado.
+Lv 2 (Trilha) — Ancoragem de Esquadrão (Passiva): Aliados posicionados adjacentes ao Bastião (a até 1,5m) tornam-se imunes a serem derrubados ou empurrados por explosões e ondas de choque.
+Lv 3 (Trilha) — Projeção de Cúpula de Força (Ativa - 2 PA): Gasta Pontos de Inflexibilidade para erguer uma cúpula de energia arcana em um raio de 3m. A cúpula possui 50 PV temporários e bloqueia todos os disparos e feitiços vindos do exterior.
+Lv 4 (Trilha) — Escudo Redirecionador (Passiva): 30% de todo o dano absorvido pela cúpula ou pelo escudo do Bastião é convertido em regeneração de Pontos de Inflexibilidade para uso imediato.
+Lv 5 (Trilha) — Fortaleza Inexpugnável (Ativa - 2 PA): Entra em um estado de invulnerabilidade total contra danos físicos e balísticos durante 1 rodada inteira, bloqueando qualquer avanço inimigo no setor.
+Trilha B: Demolidor
+Especialista em quebrar formações inimigas, destruição de coberturas rígidas, ondas de choque no solo e quebra de blindagem.
+Lv 1 (Trilha) — Carga de Supressão Destrutiva (Passiva): Seus ataques e manobras causam dano dobrado contra estruturas, coberturas físicas rígidas e escudos energéticos inimigos.
+Lv 2 (Trilha) — Abalar Estrutura Corporal (Passiva): Inimigos atingidos por seus ataques corpo a corpo ou armas de impacto ficam na condição Vulnerável (sofrem -2 na Defesa e no Reflexo) por 1 rodada.
+Lv 3 (Trilha) — Impacto Sísmico Rúnico (Ativa - 3 PA): Consome uma Ação Pesada (3 PA) golpeando o solo com uma marreta ou escudo energizado. Causa 3d10 de dano físico em um raio de 5 metros e aplica a condição Caído em todos os alvos afetados.
+Lv 4 (Trilha) — Triturador de Armaduras (Passiva): Seus ataques reduzem permanentemente a Redução de Dano (RD) de coletes balísticos de alvos atingidos em -2 por golpe.
+Lv 5 (Trilha) — Onda de Choque de Colapso (Ativa - 2 PA): Emite uma fenda retilínea no solo de até 12 metros de comprimento. Destrói todas as coberturas no caminho, causa 4d12 de dano físico e atordoa todos os alvos por 1 rodada.
+Trilha C: Guardião Rúnico
+Focado na neutralização de feitiçaria hostil, reflexão de feitiços direcionados, absorção de energia mágica e auras protetoras.
+Lv 1 (Trilha) — Aura Abstratora Mágica (Passiva): Concede Redução de Dano Mágico (RD +3) para o Guardião Rúnico e para todos os aliados localizados a até 3 metros de distância.
+Lv 2 (Trilha) — Sentido de Fluidez Arcana (Passiva): Permite detectar a presença, elemento e intensidade de qualquer conjuração mágica ou item arcano ativo em um raio de 15 metros.
+Lv 3 (Trilha) — Refletir Feitiço Hostil (Ativa / Reação - 1 Reação): Ao ser alvo direto de uma magia direcionada, energiza sua armadura rúnica para rebater o feitiço de volta ao conjurador original se passar em um teste oposto de FOR/CON vs feitiçaria.
+Lv 4 (Trilha) — Siphon de Absorção Arcana (Passiva): Sempre que rebater ou absorver uma magia hostil, o Guardião recupera Pontos de Vida iguais ao triplo do Círculo da magia interceptada.
+Lv 5 (Trilha) — Negação Rúnica de Campo (Ativa - 3 PA): Emite um pulso de anulação total em um raio de 6m (3 PA). Qualquer magia ativa, efeito sustentado ou minigame arcano na área é imediatamente cancelado, e conjurações são proibidas na área por 1 rodada.
