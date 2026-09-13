@@ -111,10 +111,10 @@
       ['Acessorios magicos',
         'Acessórios mágicos são instrumentos desenvolvidos para auxiliar a manipulação do Arcano. Eles podem reduzir os efeitos da Exaustão, facilitar a execução de uma conjuração ou aumentar a potência das magias.' +
         'A lista para acessórios mágicos:<br><br>' +
-        '• <strong>:Grimório</strong> Uma vez por descanso, reduz pela metade a Exaustão de uma magia de até 3º Círculo.<br>' +
-        '• <strong>:Anel Rúnico</strong> Uma vez por conjuração, ignora 1 erro do minigame.<br>' +
-        '• <strong>:Varinha</strong> Concede +1,5 s ao tempo inicial do minigame.<br>' +
-        '• <strong>:Cajado</strong> Concede +1 dano por dado em magias de dano.<br>' 
+        '• <strong>Grimório:</strong> Uma vez por descanso, reduz pela metade a Exaustão de uma magia de até 3º Círculo.<br>' +
+        '• <strong>Anel Rúnico:</strong> Uma vez por conjuração, ignora 1 erro do minigame.<br>' +
+        '• <strong>Varinha:</strong> Concede +1,5 s ao tempo inicial do minigame.<br>' +
+        '• <strong>Cajado:</strong> Concede +1 dano por dado em magias de dano.<br>' 
       ],
       ]
     },
