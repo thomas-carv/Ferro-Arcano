@@ -3,7 +3,67 @@
 
   const chapters = [
     {
-      id: 'core', number: '01', title: 'O Núcleo do Sistema', lead: 'A base técnica que rege a realidade física e de desenvolvimento em Ferro & Arcano.', blocks: [
+      id: 'lore', number: '00', title: 'O Universo de Ferro & Arcano', lead: 'O mundo que aprendeu a não tocar no desconhecido, o tabu do Arcano, a ascensão do Ferro e a guerra nas sombras.', blocks: [
+        ['O Mundo que Aprendeu a Não Tocar no Desconhecido', 'A humanidade sempre acreditou que o mundo possuía regras: a água corria para baixo, o fogo consumia o que encontrava, a matéria ocupava espaço e a vida nascia, crescia e morria. Durante séculos, cada descoberta científica parecia aproximar a humanidade de uma compreensão completa da realidade.<br><br>Então havia o <strong>Arcano</strong>.<br>Ele sempre esteve aqui. Antes das cidades, antes das máquinas, antes das primeiras civilizações e antes mesmo de existirem palavras para descrevê-lo. O Arcano não foi criado, não foi descoberto e não foi concedido por deuses. Ele simplesmente existe. E essa talvez seja a coisa mais assustadora sobre ele.'],
+        ['O Arcano Não Obedece', 'Sacerdotes o interpretaram como manifestação divina, filósofos tentaram transformá-lo em conhecimento e cientistas tentaram reproduzi-lo em condições controladas. Todos estavam parcialmente errados. O Arcano não possui a estabilidade que a razão espera da natureza: ele é selvagem, imprevisível e instável. Duas pessoas tentando o mesmo efeito colhem manifestações completamente diferentes.<br><br>E existe uma verdade que a humanidade demorou tempo demais para aceitar: <strong>todo ser humano possui acesso ao Arcano</strong>. Não existem escolhidos, nem famílias destinadas, nem bênção divina. Qualquer um pode tentar tocar a trama arcana — e qualquer um pode perder o controle. Cada cidadão carrega dentro de si uma arma de destruição em massa em potencial.'],
+        ['O Maior Tabu da Humanidade', 'Com o passar das eras, usar o Arcano deixou de ser uma demonstração de poder e passou a ser um alerta de perigo público. A sociedade moderna não baniu necessariamente a magia: ela simplesmente aprendeu a temê-la e evitá-la a todo custo.<br><br>Aquele que decide estudá-lo é vigiado; aquele que o conjura é denunciado. Um homem que salva uma criança usando uma manifestação arcana pode ser chamado de herói pelas câmeras, mas também será rotulado de irresponsável pelas autoridades. A humanidade não deixou de acreditar no Arcano: <strong>ela passou a ter pavor dele</strong>.'],
+        ['O Ferro: A Alternativa Construída', 'Diante daquilo que não podia controlar, a humanidade construiu sua alternativa: <strong>O Ferro</strong>. Se a magia exigia talento e risco, máquinas operavam seguindo código e engrenagens. Se uma pessoa corria risco de entrar em colapso ao manipular energia, uma máquina podia ser forjada para executar o trabalho com fria precisão.<br><br>Próteses mecânicas superaram membros naturais, implantes transformaram corpos em plataformas tecnológicas e inteligências artificiais passaram a gerir cidades inteiras. O Ferro encontrou seu lugar como alternativa indispensável:<br><br><i>"O Arcano oferece poder sem garantias. O Ferro oferece poder construído para oferecer garantias."</i>'],
+        ['A Terra Que Sobreviveu', 'O futuro de Ferro & Arcano não se passa em outro planeta nem em uma galáxia distante: é a mesma Terra. Os mesmos continentes, oceanos e nações históricas — Brasil, Estados Unidos, Japão, China, Alemanha, Rússia e tantas outras.<br><br>As grandes cidades cresceram verticalmente em quilômetros de altura, onde prédios abrigam verdadeiras cidades em seus interiores, hologramas disputam espaço publicitário e o tráfego aéreo é controlado por malhas sintéticas. Mas a estabilidade civil é apenas uma fachada sobre um abismo corporativo.'],
+        ['A Era das Giga Empresas', 'Os governos ainda existem oficialmente, presidentes discursam e leis são votadas. Mas, com o avanço tecnológico e econômico, certas megacorporações cresceram além de qualquer escala conhecida: as <strong>Giga Empresas</strong>.<br><br>Elas controlam energia, comunicação, transporte, saúde, segurança, arcanotecnologia e defesa. Não precisaram abolir os governos: aprenderam a operar através deles. Uma decisão tomada em uma sala corporativa em São Paulo, Nova York ou Tóquio afeta milhões de vidas antes que o Estado consiga sequer reagir.'],
+        ['As Novas Guerras & Espionagem Privada', 'As maiores guerras do mundo moderno raramente começam com tanques cruzando fronteiras abertas. As verdadeiras guerras são econômicas e clandestinas. Uma empresa descobre uma tecnologia; a concorrente precisa roubá-la. Uma pesquisa ameaça um monopólio; laboratórios precisam desaparecer em "acidentes controlados".<br><br>As disputas começam com funcionários sequestrados, servidores infiltrados, patentes hackeadas e campanhas de desinformação. As Giga Empresas não lutam abertamente: <strong>lutam através de operadores especializados, mercenários e equipes de extração</strong>.'],
+        ['O Brasil, a BRAVIA e a BRASA', 'Entre as potências globais ergue-se o Brasil — gigantesco, diverso e profundamente redefinido pela arcanotecnologia. A principal força econômica do país é a <strong>BRAVIA</strong>, gigante que controla matriz energética, infraestrutura, biocombustíveis e defesa.<br><br>Para proteger seus segredos e agir onde as leis não alcançam, a Bravia mantém a <strong>BRASA (Brigada de Reconhecimento, Análise, Segurança e Ações)</strong> — sua lendária divisão de inteligência privada. Seus operadores investigam concorrentes, recuperam patentes e contêm surtos arcanos sob um juramento inquebrável:<br><br><blockquote style="border-left:3px solid #fbbf24; padding-left:12px; margin:8px 0; color:#fcd34d;">"Enquanto houver cobra fumando, haverá BRASA."</blockquote>'],
+        ['A Humanidade Brinca de Deus: Os Monstros', 'A biologia dos animais nunca foi feita para suportar o Arcano. Isso não impediu a curiosidade humana: corporações expuseram espécimes a infusões forçadas de energia mágica, combinadas com implantes cibernéticos e edição genética.<br><br>O resultado foi o nascimento de aberrações biotecnológicas que nunca deveriam existir. Em Ferro & Arcano, muitos monstros não são feras mitológicas que despertaram: são armas biológicas descartadas, cobaias que escaparam e experimentos que funcionaram bem demais — até deixarem de obedecer.'],
+        ['Corpos Além do Humano', 'Não existem outras raças inteligentes no cenário: existe apenas a humanidade. Porém, o conceito de corpo humano foi completamente transformado. Próteses avançadas, chassis de titânio, moduladores de voz e hologramas subdérmicos permitem que as pessoas reconstruam sua própria estética.<br><br>Alguns escolhem parecer quase inteiramente biológicos; outros se tornam titãs de cromo e engrenagens. Mas sob qualquer carcaça tecnológica ou blindagem rígida, continua existindo a mesma centelha humana vulnerável.'],
+        ['O Fogo Cruzado nas Sombras', 'No centro dessa engrenagem estão pessoas tentando sobreviver: atiradores de aluguel, canalizadores clandestinos que desafiam o tabu, vanguardistas blindados, ciborgues caçadores e híbridos de laboratório.<br><br>Uma missão nunca é apenas uma investigação de rotina. Um desaparecimento esconde uma patente roubada, e um monstro no esgoto é a assinatura de uma megacorporação rival. E nas frestas da realidade, o Arcano continua sussurrando... instável e eterno.']
+      ]
+    },
+    {
+      id: 'corps', number: '01', title: 'Dossiê das Giga Empresas & Inteligência', lead: 'O tabuleiro geopolítico com as 20 potências corporativas dominantes e suas agências clandestinas de espionagem.', blocks: [
+        ['🇧🇷 Brasil · BRAVIA | BRASA', '<strong>Giga Empresa:</strong> BRAVIA<br><strong>Setor de Inteligência:</strong> BRASA — Brigada de Reconhecimento, Análise, Segurança e Ações.<br><strong>Setores:</strong> Energia, infraestrutura, arcanotecnologia pesada, transporte e defesa territorial.<br><strong>Lema de Campo:</strong> <i>"Enquanto houver cobra fumando, haverá BRASA."</i><br><br>A maior corporação da América Latina mantém megacomplexos verticais e laboratórios de contenção. A BRASA é reverenciada pela letalidade em ambientes hostis, combate em selva e guerra assimétrica.'],
+        ['🇺🇸 Estados Unidos · VALOR | VANT', '<strong>Giga Empresa:</strong> VALOR<br><strong>Setor de Inteligência:</strong> VANT — Vigilância, Análise e Neutralização Tática.<br><strong>Setores:</strong> Balística avançada, inteligência artificial tática, drones hipersônicos e satélites de monitoramento éter.<br><br>O gigante norte-americano comanda a indústria de armamentos de maior precisão do mundo. O VANT coordena esquadrões de ataque cirúrgico e monitoramento em tempo real em qualquer ponto do globo.'],
+        ['🇨🇳 China · TIANLONG | LONGA', '<strong>Giga Empresa:</strong> TIANLONG<br><strong>Setor de Inteligência:</strong> LONGA — Liga de Operações, Neutralização e Gestão Avançada.<br><strong>Setores:</strong> Computação quântica rúnica, manufatura pesada, redes neurais e ferrovias maglev continentais.<br><br>A Tianlong ("Dragão Celestial") opera em simbiose com o Estado. A LONGA é uma teia invisível de vigilância massiva capaz de antecipar e erradicar dissidências corporativas antes de seu nascimento.'],
+        ['🇯🇵 Japão · KAGE | SHIN', '<strong>Giga Empresa:</strong> KAGE<br><strong>Setor de Inteligência:</strong> SHIN — Seção de Inteligência e Neutralização.<br><strong>Setores:</strong> Microcibernética de luxo, camuflagem termo-óptica, lâminas tecno-arcanas e automação autônoma.<br><br>Com tecnologia refinada até a perfeição microscópica, a KAGE produz os implantes neurais mais cobiçados do mercado. A SHIN é especialista em infiltrações silenciosas e eliminação sem vestígios.'],
+        ['🇩🇪 Alemanha · EISENWERK | WOLF', '<strong>Giga Empresa:</strong> EISENWERK<br><strong>Setor de Inteligência:</strong> WOLF — Wehr Operations, Logistik und Feldaufklärung.<br><strong>Setores:</strong> Metalurgia de ligas reforçadas, exoesqueletos industriais, blindagens de combate e maquinário pesado.<br><br>Representando a máxima expressão do Ferro, a Eisenwerk fabrica veículos e armaduras impenetráveis. A WOLF atua como uma matilha de contraespionagem implacável e reconhecimento blindado.'],
+        ['🇫🇷 França · LUMIÈRE | OMBRE', '<strong>Giga Empresa:</strong> LUMIÈRE<br><strong>Setor de Inteligência:</strong> OMBRE — Organisation de Monitoring, Búsqueda, Reconnaissance et Extraction.<br><strong>Setores:</strong> Bioestética cibernética, teoria rúnica clássica, diplomacia corporativa e redes de satélites ópticos.<br><br>A Lumière dita as tendências de sofisticação e implantes de alta sociedade. Nas sombras dos salões requintados, a OMBRE intercepta segredos e financia golpes em empresas concorrentes.'],
+        ['🇬🇧 Reino Unido · CROWN | BLACK', '<strong>Giga Empresa:</strong> CROWN<br><strong>Setor de Inteligência:</strong> BLACK — Bureau for Liaison, Analysis, Covert Knowledge.<br><strong>Setores:</strong> Mercados financeiros globais, criptografia quântica, inteligência acústica e rotas navais automatizadas.<br><br>A Crown administra os fluxos de crédito e capitais que financiam o mundo corporativo. O Bureau BLACK guarda registros seculares de linhagens e arquivos confidenciais sobre todas as outras Giga Empresas.'],
+        ['🇷🇺 Rússia · ZVEZDA | VOLK', '<strong>Giga Empresa:</strong> ZVEZDA<br><strong>Setor de Inteligência:</strong> VOLK — Vigilância, Operações, Logística e Komando.<br><strong>Setores:</strong> Mineração subterrânea de éter, reatores criogênicos, ciborgues pesados de ruptura e armas antimaterial.<br><br>A Zvezda domina as reservas energéticas do norte gelado. A divisão armada VOLK é conhecida pela brutalidade sem precedentes: quando entram em campo, instalações inteiras são apagadas do mapa.'],
+        ['🇮🇳 Índia · VEDA | NETRA', '<strong>Giga Empresa:</strong> VEDA<br><strong>Setor de Inteligência:</strong> NETRA — National Espionage, Tracking and Reconnaissance Agency.<br><strong>Setores:</strong> Redes de dados biométricos, arcanofarmacologia, neuroprocessadores e modelos preditivos.<br><br>A Veda comanda a maior infraestrutura de pesquisa biofarmacêutica e processamento da Ásia. A NETRA utiliza algoritmos preditivos capazes de calcular movimentações de mercado e rotas de contrabando.'],
+        ['🇮🇹 Itália · AURELIA | CORVO', '<strong>Giga Empresa:</strong> AURELIA<br><strong>Setor de Inteligência:</strong> CORVO — Centro Operativo de Reconhecimento, Vigilância e Operações.<br><strong>Setores:</strong> Veículos ultrarrápidos de indução arcana, balística personalizada e engenharia aeroespacial.<br><br>A Aurelia transforma velocidade e letalidade em arte. Seus carros de interceptação cruzam rodovias magnéticas, enquanto os agentes do CORVO executam extrações em alta velocidade.'],
+        ['🇨🇦 Canadá · NORTHSTAR | FROST', '<strong>Giga Empresa:</strong> NORTHSTAR<br><strong>Setor de Inteligência:</strong> FROST — Federal Reconnaissance and Operations Security Taskforce.<br><strong>Setores:</strong> Radares de rastreamento sub-éter, patrulha ártica e contenção de vazamentos energéticos nas calotas polares.'],
+        ['🇦🇺 Austrália · SOUTHERN CROSS | DINGO', '<strong>Giga Empresa:</strong> SOUTHERN CROSS<br><strong>Setor de Inteligência:</strong> DINGO — Directorate of Intelligence, Neutralization and Global Operations.<br><strong>Setores:</strong> Rastreamento em desertos extremos, caça a quimeras fugitivas e exploração mineral profunda.'],
+        ['🇰🇷 Coreia do Sul · HAN | GWI', '<strong>Giga Empresa:</strong> HAN<br><strong>Setor de Inteligência:</strong> GWI — Global Reconnaissance & Watch Intelligence.<br><strong>Setores:</strong> Conexões neurais de latência zero, telas táteis holográficas, guerra cibernética e drones autônomos de combate.'],
+        ['🇲🇽 México · QUETZAL | ÁGUILA', '<strong>Giga Empresa:</strong> QUETZAL<br><strong>Setor de Inteligência:</strong> ÁGUILA — Agência de Gestão, Investigação, Vigilância e Ações.<br><strong>Setores:</strong> Redes de logística subterrânea, engenharia sísmica, balística pesada e operações contra cartéis clandestinos.'],
+        ['🇮🇩 Indonésia · GARUDA | NAGA', '<strong>Giga Empresa:</strong> GARUDA<br><strong>Setor de Inteligência:</strong> NAGA — National Analysis, Guard and Assessment.<br><strong>Setores:</strong> Defesa arquipelágica, plataformas offshore de refino de éter e segurança de cabos submarinos.'],
+        ['🇸🇦 Arábia Saudita · SABAA | RIMAL', '<strong>Giga Empresa:</strong> SABAA<br><strong>Setor de Inteligência:</strong> RIMAL — Reconnaissance, Intelligence, Monitoring and Action Legion.<br><strong>Setores:</strong> Fortalezas corporativas no deserto, refino tecno-arcano de alta pressão e regimentos privados de elite.'],
+        ['🇿🇦 África do Sul · UBUNTU | MAMBA', '<strong>Giga Empresa:</strong> UBUNTU<br><strong>Setor de Inteligência:</strong> MAMBA — Monitoring, Analysis, Management and Black Actions.<br><strong>Setores:</strong> Mineração de minerais raros para núcleos arcanos, veículos blindados de savana e segurança de depósitos profundos.'],
+        ['🇹🇷 Turquia · AYYILDIZ | BOZKURT', '<strong>Giga Empresa:</strong> AYYILDIZ<br><strong>Setor de Inteligência:</strong> BOZKURT — Bureau of Operations, Zero-Knowledge, Reconnaissance and Tactical Operations.<br><strong>Setores:</strong> Hub logístico Eurásia, rotas comerciais terrestres e redes de operações de inteligência zero-knowledge.'],
+        ['🇦🇷 Argentina · PLATA | CONDOR', '<strong>Giga Empresa:</strong> PLATA<br><strong>Setor de Inteligência:</strong> CONDOR — Comando de Operaciones, Neutralización, Defensa, Observación y Reconocimiento.<br><strong>Setores:</strong> Monitoramento aeroespacial do hemisfério sul, agricultura mecanizada massiva e telecomunicações austrais.'],
+        ['🇪🇸 Espanha · IBERIA | LANCE', '<strong>Giga Empresa:</strong> IBERIA<br><strong>Setor de Inteligência:</strong> LANCE — Logística, Análisis, Neutralización, Contraespionaje y Extracción.<br><strong>Setores:</strong> Portos marítimos de alta segurança, estaleiros navais automatizados e redes de contraespionagem do Mediterrâneo.'],
+        ['Tabela Consolidada das 20 Giga Empresas', 'Lista completa para referência rápida em mesa:<br><br>' +
+          '• 🇧🇷 <strong>Brasil:</strong> BRAVIA · Inteligência: <strong>BRASA</strong><br>' +
+          '• 🇺🇸 <strong>Estados Unidos:</strong> VALOR · Inteligência: <strong>VANT</strong><br>' +
+          '• 🇨🇳 <strong>China:</strong> TIANLONG · Inteligência: <strong>LONGA</strong><br>' +
+          '• 🇯🇵 <strong>Japão:</strong> KAGE · Inteligência: <strong>SHIN</strong><br>' +
+          '• 🇩🇪 <strong>Alemanha:</strong> EISENWERK · Inteligência: <strong>WOLF</strong><br>' +
+          '• 🇫🇷 <strong>França:</strong> LUMIÈRE · Inteligência: <strong>OMBRE</strong><br>' +
+          '• 🇬🇧 <strong>Reino Unido:</strong> CROWN · Inteligência: <strong>BLACK</strong><br>' +
+          '• 🇷🇺 <strong>Rússia:</strong> ZVEZDA · Inteligência: <strong>VOLK</strong><br>' +
+          '• 🇮🇳 <strong>Índia:</strong> VEDA · Inteligência: <strong>NETRA</strong><br>' +
+          '• 🇮🇹 <strong>Itália:</strong> AURELIA · Inteligência: <strong>CORVO</strong><br>' +
+          '• 🇨🇦 <strong>Canadá:</strong> NORTHSTAR · Inteligência: <strong>FROST</strong><br>' +
+          '• 🇦🇺 <strong>Austrália:</strong> SOUTHERN CROSS · Inteligência: <strong>DINGO</strong><br>' +
+          '• 🇰🇷 <strong>Coreia do Sul:</strong> HAN · Inteligência: <strong>GWI</strong><br>' +
+          '• 🇲🇽 <strong>México:</strong> QUETZAL · Inteligência: <strong>ÁGUILA</strong><br>' +
+          '• 🇮🇩 <strong>Indonésia:</strong> GARUDA · Inteligência: <strong>NAGA</strong><br>' +
+          '• 🇸🇦 <strong>Arábia Saudita:</strong> SABAA · Inteligência: <strong>RIMAL</strong><br>' +
+          '• 🇿🇦 <strong>África do Sul:</strong> UBUNTU · Inteligência: <strong>MAMBA</strong><br>' +
+          '• 🇹🇷 <strong>Turquia:</strong> AYYILDIZ · Inteligência: <strong>BOZKURT</strong><br>' +
+          '• 🇦🇷 <strong>Argentina:</strong> PLATA · Inteligência: <strong>CONDOR</strong><br>' +
+          '• 🇪🇸 <strong>Espanha:</strong> IBERIA · Inteligência: <strong>LANCE</strong>']
+      ]
+    },
+    {
+      id: 'core', number: '02', title: 'O Núcleo do Sistema', lead: 'A base técnica que rege a realidade física e de desenvolvimento em Ferro & Arcano.', blocks: [
         ['Atributos Fundamentais', 'O sistema conta com 5 atributos fundamentais que definem todas as capacidades da sua personagem:<br><br>• <strong>CON (Constituição):</strong> Sustenta seus PV (Pontos de Vida), testes de Fortitude, resistência física e tolerância ao desgaste arcano.<br>• <strong>CONH (Conhecimento):</strong> Rege tecnologia e sistemas, investigação, medicina de combate, teoria arcana e sua Exaustão Máxima.<br>• <strong>FOC (Foco):</strong> Rege sua precisão balística, concentração e adiciona tempo inicial ao minijogo arcano.<br>• <strong>FOR (Força):</strong> Aplica-se ao combate corpo a corpo, manobras físicas e capacidade de carga.<br>• <strong>REF (Reflexo):</strong> Controla sua Esquiva, mobilidade, iniciativa e agilidade geral.'],
         ['Distribuição na Criação', 'Todos os atributos começam em <strong>0</strong>. Você recebe <strong>10 pontos</strong> para distribuir livremente, com um limite de <strong>máximo 4</strong> pontos em qualquer atributo. Os custos de compra são progressivos:<br><br>• Atributo 0 → custo 0<br>• Atributo 1 → custo 1<br>• Atributo 2 → custo 2<br>• Atributo 3 → custo 4<br>• Atributo 4 → custo 7.'],
         ['Perícias Oficiais', 'Existem <strong>19 perícias oficiais</strong> no sistema. O treinamento concede um bônus de <strong>+2</strong>. Na criação, você recebe 1 perícia obrigatória da sua Classe e mais 3 escolhas livres da lista da Classe, totalizando 4 perícias treinadas.<br><br><i>Regra de teste fora de combate:</i> Rola-se <strong>1d20 + Atributo</strong> OU <strong>1d20 + Perícia Treinada</strong>, o que for maior (nunca ambos combinados).<br><br><strong>Lista completa por atributo chave:</strong><br>• <strong>CON:</strong> Fortitude, Tolerância Arcana.<br>• <strong>CONH:</strong> Simbologia & Runas, História Arcana, Tecnologia & Sistemas, Medicina de Combate, Investigação.<br>• <strong>FOC:</strong> Armas de Fogo, Percepção / Prontidão, Intuição, Sintonia Arcana.<br>• <strong>FOR:</strong> Briga / Corpo a Corpo, Atletismo, Imposição.<br>• <strong>REF:</strong> Esquiva, Acrobacia, Furtividade, Pilotagem, Prestidigitação.<br><br>'],
@@ -15,8 +75,8 @@
     },
     {
       id: 'combat', 
-      number: '02', 
-      title: 'Combate e Equipamento', 
+      number: '03', 
+      title: 'Combate e Balística', 
       lead: 'Regras de engajamento, armas de fogo, posicionamento e condições de sobrevivência.',
        blocks: [
         ['Resolução de Ataques',
@@ -72,8 +132,8 @@
     },
     {
       id: 'equipment',
-      number: '03',
-      title: 'Equipamentos e Acessorios',
+      number: '04',
+      title: 'Equipamentos e Acessórios',
       lead: 'Em uma guerra, as unicas coisas que importam são as armas que tenhos e os coletes que usamos ',
       blocks: [
         ['Equipamentos Defensivos',
@@ -119,7 +179,7 @@
       ]
     },
     {
-      id: 'magic', number: '04', title: 'Magia e Minijogo Arcano', lead: 'A mecânica da Tranca Arcana, os sete círculos, falhas de conjuração, sobrecarga e colapso.', blocks: [
+      id: 'magic', number: '05', title: 'Magia e Minijogo Arcano', lead: 'A mecânica da Tranca Arcana, os sete círculos, falhas de conjuração, sobrecarga e colapso.', blocks: [
         ['O Minijogo de Runas', 'Conjurar magias custa <strong>2 PA</strong> e inicia o minijogo da Tranca Arcana. A Exaustão correspondente deve ser paga obrigatoriamente no início da ação. Cada ponto no atributo FOC (Foco) do conjurador adiciona <strong>+1,5 segundos</strong> ao limite de tempo inicial da resolução. Cada runa concluída corretamente na tela equivale a 1 acerto. Cada acerto recupera até 4 segundos de tempo (sem superar o tempo inicial) e acelera a rotação dos anéis restantes em +25% cumulativos.'],
         ['Os Sete Círculos Arcanos', 'Requisitos e dados de efeito de acordo com a potência da magia:<br><br>' +
           '• <strong>1º Círculo:</strong> Custo: 10 Exaustão | Tempo: 8s | Erros tolerados: 7 | Runas: 1 | Dado de Dano: d4<br>' +
@@ -131,21 +191,50 @@
           '• <strong>7º Círculo:</strong> Custo: 100 Exaustão | Tempo: 4s | Erros tolerados: 1 | Runas: 7 | Dado de Dano: d100'],
         ['Falhas na Conjuração', 'Caso o tempo do minijogo expire (chegue a 0) ou você cometa erros além do limite tolerado pelo Círculo, a magia <strong>ainda é conjurada</strong>, utilizando os acertos obtidos até o momento. No entanto, o conjurador deve rolar <strong>1d3 na Tabela de Falhas</strong> para aplicar o efeito negativo imediato:<br><br>' +
           '• <strong>1 - Exaustão Dobrada:</strong> O conjurador sofre o dobro do custo original de Exaustão da magia.<br>' +
-          '• <strong>2 - Repique Arcano:</strong> O conjurador sofre imediatamente 1d6 de dano mágico/elétrico por Círculo da magia.<br>' +
+          '• <strong>2 - FireBack:</strong> O conjurador sofre imediatamente 1d6 de dano mágico por Círculo da magia.<br>' +
           '• <strong>3 - Degradação de Cátedra:</strong> O dado de dano/efeito da magia desce um estágio (ex.: d10 para d8). Se o dado já for d4, remove-se um dado de efeito completo.'],
         ['Sobrecarga de Energia', 'A Exaustão do conjurador pode ficar negativa (abaixo de 0). O <strong>Limite de Sobrecarga</strong> seguro é igual a <strong>-10% da Exaustão Máxima</strong> (ex.: se a Exaustão Máxima for 100, o limite negativo seguro é -10). Conjurar enquanto já estiver abaixo deste limite seguro gera pontos de Colapso direto na personagem:<br><br>' +
           '<strong>Excedente</strong> = custo da magia − valor absoluto do limite negativo.<br>' +
           '<strong>Colapso gerado</strong> = excedente ÷ Círculo da magia (arredondado para cima).'],
+
         ['Faixas de Colapso', 'Pontos de Colapso acumulados geram sequelas e perigos físicos extremos de acordo com a faixa:<br><br>' +
           '• <strong>0:</strong> Estado Normal.<br>' +
           '• <strong>1–4 (Sequela Simples):</strong> Recebe penalidades em testes físicos devido a quebras de integridade biológica ou modificações leves na estrutura do corpo.<br>' +
           '• <strong>5–9 (Sequela Crítica):</strong> Penalidades graves de locomoção, exaustão acelerada e danos crônicos aos sistemas vitais.<br>' +
-          '• <strong>10 (Detonação Arcana):</strong> O personagem é instantaneamente desintegrado em uma violenta explosão de éter, causando 10d100 de dano mágico em uma área de 20 a 50 metros. Não há ressurreição por meios normais.'],
-        ['Tempo Real em Jogo', 'Nenhum efeito ou duração de magia no Ferro & Arcano é medido em minutos ou horas de tempo real fora de combate. Todos os efeitos duram em turnos, rodadas ou cenas. Os únicos componentes baseados em tempo real do sistema são as regras estruturais de recuperação: <strong>Descanso Curto (30 minutos)</strong> e <strong>Descanso Completo (8 horas)</strong>. O minijogo arcano possui sua própria escala temporal de segundos que não deve ser convertida para combate.']
+          '• <strong>10 (Detonação Arcana):</strong> O personagem é instantaneamente desintegrado em uma violenta explosão de éter, causando 10d100 de dano mágico em uma área de 20 a 50 metros. Não há ressurreição por meios normais.'
+        ],
+        ['Tempo Real em Jogo', 'Nenhum efeito ou duração de magia no Ferro & Arcano é medido em minutos ou horas de tempo real fora de combate. Todos os efeitos duram em turnos, rodadas ou cenas. Os únicos componentes baseados em tempo real do sistema são as regras estruturais de recuperação: <strong>Descanso Curto (30 minutos)</strong> e <strong>Descanso Completo (8 horas)</strong>. O minijogo arcano possui sua própria escala temporal de segundos que não deve ser convertida para combate.'
+
+        ],
+        ['Sequelas do Arcano',
+          'O arcano é algo instavel e perigoso, porem uma das poucas coisas que se tem um padrão são as marcas que ele deixa naqueles que abusam de sua sorte<br><br>' +
+          'O Colapso Arcano deixa marcas físicas, mentais e energéticas que permanecem enquanto o personagem não recuperar sua estabilidade. Role 1d20 e consulte na tabela o numero correspondente, ou escolha por conta propria o fardo que vai carregar<br><br>' +
+          'Tabela de Colapso<br>' +
+            '• <strong> 1 Vascularização Rúnica <strong> Sequela Simples: As veias brilham em condições de pouca luz. –2 em Furtividade.</strong>  Sequela Critica:Recebe -4 em furtividade e inimigos recebem +2 em percepção contra voce.<br><br>' +
+            '• <strong>  2 Necrose Elemental  <strong> Sequela Simples:–1,5 s no tempo inicial do minigame de conjuração. </strong>  Sequela Critica:–1,5 s no tempo inicial do minigame de conjuração.. <br><br>' +
+            '•  <strong>  3 Cegueira Parcial de Mana  <strong> Sequela Simples:–2 em testes de Percepção. </strong>  Sequela Critica:Recebe -6 em Percepção/Esquiva . <br><br>' +
+            '•  <strong>  4 Sangramento Estelar <strong> Sequela Simples:Ao realizar uma conjuração forçada, sofre um dado de dano a mais de FireBack . </strong>  Sequela Critica:Ao realizar uma conjuração forçada,recebe o dano de FireBack em todo caso <br><br>' +
+            '•  <strong>  5 Voz Ecoante <strong> Sequela Simples:Você não pode usar Furtividade enquanto conjura. </strong>  Sequela Critica:Criaturas recebem +2 nos testes para localizar ou antecipar suas conjurações. <br><br>' +
+            '•  <strong>  6 Chama Interna <strong> Sequela Simples:Você sofre 2 dano de fogo quando conjurar uma magia. </strong>  Sequela Critica:Você sofre +1d6 dano de fogo e fica com o status queimado. <br><br>' +
+            '•  <strong>  7 Rigidez Muscular <strong> Sequela Simples:–2 em Esquiva. </strong>  Sequela Critica:–3 m de Movimento. <br><br>' +
+            '•  <strong>  8 Cicatriz de Descarga <strong> Sequela Simples:Você sofre +2 de dano elétrico, inclusive de magias proprias com esse elemento. </strong>  Sequela Critica:Você sofre +1d6 dano elétrico. <br><br>' +
+            '•  <strong>  9 Ressonância Eletrônica <strong> Sequela Simples:Ao tocar em uma arma, ela apresenta falha. </strong>  Sequela Critica:Durante uma conjuração, armas e equipamentos a até 1,5 m sofrem interferência por 1 rodada, perdendo seus efeitos, bonus e entrando em falha. <br><br>' +
+            '•  <strong>  10 Tremores nas Mãos <strong> Sequela Simples:O limite de erros do minigame é reduzido em 1. </strong>  Sequela Critica:O limite é reduzido em 2, mas nunca pode ficar abaixo de 1 erro. <br><br>' +
+            '•  <strong>  11 Atrofia do Foco <strong> Sequela Simples:O bônus de FOC no tempo inicial do minigame passa a fornecer apenas +1 s. </strong>  Sequela Critica:FOC não fornece tempo adicional ao minigame. <br><br>' +
+            '•  <strong>  12 Sombra Desincronizada <strong> Sequela Simples:Ataques corpo a corpo contra você recebem +2 VA. </strong>  Sequela Critica:Além disso, esses ataques causam +1d6 dano. <br><br>' +
+            '•  <strong>  13 Dependência de Mana <strong> Sequela Simples:Um Descanso Curto recupera apenas 10 Exaustão. </strong>  Sequela Critica:Um Descanso Curto recupera apenas 5 Exaustão. <br><br>' +
+            '•  <strong>  14 Pele de Vidro <strong> Sequela Simples:Você sofre +2 dano físico. </strong>  Sequela Critica:Você sofre +1d6 dano físico adicional. <br><br>' +
+            '•  <strong>  15 Instabilidade Elemental <strong> Sequela Simples:Cada falha no minigame causa 1d4 dano em você. </strong>  Sequela Critica:Cada falha causa 1d8 dano em você e 1d4 dano em criaturas adjacentes.. <br><br>' +
+            '•  <strong>  16 Audição Espectral <strong> Sequela Simples:–2 em Percepção/Prontidão. </strong>  Sequela Critica:Ruído intenso causa –2 s no tempo inicial da sua próxima conjuração. <br><br>' +
+            '•  <strong>  17 Eco de Conjuração <strong> Sequela Simples:Sua conjuração deixa um rastro arcano perceptível por Sintonia Arcana durante 3 rodadas CD 10. </strong>  Sequela Critica:O rastro permanece por 6 rodadas e passa a ter CD 5. <br><br>' +
+            '•  <strong>  18 Cristalização Nervosa <strong> Sequela Simples:Recebe 1d4 de dano gelido adicional  </strong>  Sequela Critica:Recebe 3d4 de dano gelido adicional de todas as origens. <br><br>' +
+            '•  <strong>  19 Pulso Arcano <strong> Sequela Simples:Voce se torna prioridade para magias de alvo unico inimigas em um raio de 3m  </strong>  Sequela Critica:Magias desviadas para voce recebem +2 VA . <br><br>' +
+            '•  <strong>  20 Marca do Abismo <strong> Sequela Simples:Suas próprias magias causam +2 dano por Círculo contra você. </strong>  Sequela Critica:A margem de Detonação Arcana é reduzida de 10 para 8 Colapsos. <br><br>'
+        ],
       ]
     },
     {
-      id: 'classes', number: '04', title: 'Classes e Protocolos', lead: 'As cinco classes oficiais de Ferro & Arcano, suas identidades táticas e o avanço de habilidades de nível 1 a 10.', classes: [
+      id: 'classes', number: '06', title: 'Classes e Habilidades', lead: 'As cinco classes oficiais de Ferro & Arcano, suas identidades táticas e o avanço de habilidades de nível 1 a 10.', classes: [
         ['Atirador', 'Especialista em distância, precisão balística e controle de área.', ['Olho Clínico', 'Mira Estável', 'Disparo Rápido', 'Ajuste de Balística', 'Cadência Operacional', 'Respiro Tático', 'Disparo de Penetração', 'Fogo de Supressão', 'Postura do Caçador', 'Mestria Balística']],
         ['Canalizador', 'Manipulador das energias etéreas e riscos arcanos.', ['Ajuste Fino + Fluxo Contínuo', 'Mente Expandida', 'Emanação Rúnica de Repulsão', 'Barreira de Éter', 'Sintonia Rúnica', 'Recalibração Mental', 'Foco de Concentração Extrema', 'Modulação de Amplitude', 'Mente Inviolável', 'Domínio da Ruptura Arcana']],
         ['Híbrido', 'A fusão tática entre a técnica mecânica e a força arcana.', ['Munição Encantada + Sintonia Tecno-Mágica', 'Adaptabilidade de Sistemas', 'Golpe Arcano-Infuso', 'Sobrecarga do Núcleo', 'Malha de Tecido Rúnico', 'Recarga Sincronizada', 'Emissão de Campo Estático', 'Reciclagem de Energia', 'Injeção de Éter Medicinal', 'Síntese Absoluta do Ferro & Arcano']],
@@ -154,7 +243,7 @@
       ]
     },
     {
-      id: 'origins', number: '05', title: 'Origens e Manifestações', lead: 'As dez origens do cenário e como seus benefícios se adaptam de acordo com a Classe selecionada.', blocks: [
+      id: 'origins', number: '07', title: 'Origens e Manifestações', lead: 'As dez origens do cenário e como seus benefícios se adaptam de acordo com a Classe selecionada.', blocks: [
         ['Soldado', '<strong>Geral (Treinamento Militar):</strong> Concede treinamento na perícia Fortitude ou Imposição. Caso já possua o treinamento, recebe especialização (+2).<br><br>' +
           '• <strong>Atirador (Disciplina de Combate):</strong> Escolha uma categoria de arma de fogo. 1/rodada, recebe +1 VA no primeiro ataque realizado com ela no turno.<br>' +
           '• <strong>Canalizador (Concentração Militar):</strong> 1/rodada, ao conjurar uma magia com sucesso, reduz em 10 a Exaustão gerada (respeitando o mínimo de 0).<br>' +
@@ -288,8 +377,186 @@
     ]
   }
 
+  const classTrails = {
+    'Atirador': [
+      {
+        name: 'Franco-Atirador',
+        identity: 'Longo alcance · precisão extrema · perfuração',
+        abilities: [
+          { name: 'Tiro de Elite', type: 'Passiva', cost: '', desc: 'Com rifles ou armas longas: +2 VA contra alvos a 12 m ou mais. Se não tiver se movido desde o início do turno, recebe +1 VA adicional. Um Crítico com arma longa recupera 1 Precisão (máx. 1/rodada).' },
+          { name: 'Balística Extrema', type: 'Passiva', cost: '', desc: 'Ignora penalidade de alcance e pode atingir até o dobro do alcance efetivo da arma.' },
+          { name: 'Tiro Perfurante', type: 'Ativa', cost: '2 PA + 2 Precisão', desc: 'Ignora Cobertura Leve e Pesada; atravessa até 10 cm de concreto ou 5 cm de aço; ignora até 6 RD Física. Após atravessar o obstáculo, sofre –2 VA. Não atravessa Cobertura Total além desses limites.' },
+          { name: 'Assinatura Fantasma', type: 'Passiva', cost: '', desc: 'Atacando de Cobertura Total ou Furtividade, o disparo não revela automaticamente sua posição. Para localizá-lo, o inimigo precisa obter dois sucessos separados de Percepção contra Furtividade: o primeiro descobre a direção e o segundo a localização exata.' },
+          { name: 'Abate em Cadeia', type: 'Suprema', cost: '2 PA + 2 Precisão', desc: 'Se o disparo eliminar o alvo ou causar Crítico, realiza imediatamente um segundo disparo gratuito contra outro alvo visível. O segundo disparo não pode gerar outro Abate em Cadeia.' }
+        ]
+      },
+      {
+        name: 'Pistoleiro Tático',
+        identity: 'Mobilidade · armas leves · pressão contínua',
+        abilities: [
+          { name: 'Saque Instintivo', type: 'Passiva', cost: '', desc: 'Sacar, guardar ou trocar entre até duas armas leves custa 0 PA. A primeira troca no turno concede +1 VA no próximo ataque com a arma recém-equipada.' },
+          { name: 'Movimento de Combate', type: 'Passiva', cost: '', desc: 'Após mover pelo menos 3 m com arma leve, recebe +2 Esquiva até o início do próximo turno. Uma vez por rodada, pode sair de engajamento sem Ataque de Oportunidade.' },
+          { name: 'Rajada de Varredura', type: 'Ativa', cost: '2 PA + 1 Precisão', desc: 'Cone de 6 m contra até 3 criaturas, uma vez cada. Cada acerto usa os dados normais de dano da arma utilizada.' },
+          { name: 'Flanqueamento Letal', type: 'Passiva', cost: '', desc: 'Ataques de arma leve contra alvo Engajado com um aliado recebem +1d8 perfurante.' },
+          { name: 'Descarregar o Pente', type: 'Suprema', cost: '3 PA + 3 Precisão', desc: 'Escolhe uma criatura e consome toda a munição restante da arma leve equipada. Cada munição gera um disparo consecutivo no mesmo turno com acerto automático. Dano normal da arma com crítico. Contra alvos com condição negativa, ignora RD.' }
+        ]
+      },
+      {
+        name: 'Caçador Arcano',
+        identity: 'Rastreio mágico · contra-magia · caça etérea',
+        abilities: [
+          { name: 'Munição Anti-Éter', type: 'Passiva', cost: '', desc: 'A cada disparo, escolha dano físico ou arcano. Uma vez por rodada, ao causar dano arcano, pode gastar 1 Precisão para revelar a proteção mágica temporária do alvo por 1 rodada.' },
+          { name: 'Rastreio Etéreo', type: 'Passiva', cost: '', desc: 'Detecta energia mágica em até 15 m. Recebe +4 em Percepção/Prontidão e Sintonia Arcana para rastrear magia. Percebe invisibilidade, ilusões, barreiras e rastros mágicos recentes.' },
+          { name: 'Projétil Rastreador', type: 'Ativa', cost: '2 PA + 1 Precisão', desc: 'Primeiro projétil ignora Cobertura Leve/Pesada. Se acertar, o segundo disparo é gratuito, persegue e acerta automaticamente causando dano arcano (mitigado por RD do alvo + RD da cobertura).' },
+          { name: 'Selo de Interrupção', type: 'Passiva', cost: '', desc: 'Ao acertar um conjurador preparando magia, cancela a preparação e aumenta o desgaste da próxima conjuração.' },
+          { name: 'Disparo de Anulação', type: 'Suprema', cost: '2 PA + 3 Precisão', desc: 'Contra criatura: 3d10 arcano e encerra 1 efeito mágico sustentado. Contra barreira ou invocação: 6d10 arcano direto nos PV da estrutura (sem Esquiva).' }
+        ]
+      }
+    ],
+    'Canalizador': [
+      {
+        name: 'Arcanista Elemental',
+        identity: 'Elementos · controle de área · efeitos de status',
+        abilities: [
+          { name: 'Infusão Elemental', type: 'Passiva', cost: '', desc: 'Aplica efeito elemental por magia: Fogo (Queimando), Gelo (Lentificado), Raio (–1 PA no próximo turno), Terra (–2 Defesa), Ar (empurra 2m), Sombra (–2 Percepção), Luz (+2 Defesa aliado), Arcano (+5 Exaustão recuperada), Cura (+1d6 PV).' },
+          { name: 'Domínio Elemental', type: 'Passiva', cost: '', desc: '+3 m na área de ação das magias de área.' },
+          { name: 'Reação Elemental', type: 'Ativa', cost: '2 PA + 1 Sintonia', desc: 'Efeito ampliado: Fogo (+2d6), Gelo (Imobilizado), Raio (sem Reação), Terra (Caído), Ar (empurra 3m), Sombra (Cego), Luz (cura 2d6), Arcano (ignora 5 RD Mágica), Cura (remove Caído, Assustado ou Lentificado).' },
+          { name: 'Ruptura Elemental', type: 'Passiva', cost: '', desc: 'Alvos atingidos por sua magia perdem 3 RD correspondente ao elemento por 2 rodadas.' },
+          { name: 'Inscrição Dupla & Canalização Cruzada', type: 'Suprema', cost: 'Passiva', desc: 'Antes do minijogo, escolha 2 Runas Prioritárias. Cada ocorrência delas conta como acerto automático mesmo fora da sequência original.' }
+        ]
+      },
+      {
+        name: 'Manipulador Espacial',
+        identity: 'Teleporte · dobra dimensional · controle gravítico',
+        abilities: [
+          { name: 'Passo Etéreo', type: 'Passiva', cost: '', desc: '+3 m de deslocamento e ignora terreno difícil enquanto conjura.' },
+          { name: 'Salto Espacial', type: 'Ativa', cost: '1 PA + 1 Sintonia', desc: 'Teleporta até 12 m para ponto visível e desocupado, sem provocar Ataques de Oportunidade.' },
+          { name: 'Transposição Tática', type: 'Ativa', cost: '2 PA + 2 Sintonia', desc: 'Troca a posição de duas criaturas a até 15 m. Alvo hostil pode realizar REF contra CD 15 para evitar.' },
+          { name: 'Distorção Refratária', type: 'Reação', cost: '1 Reação + 1 Sintonia', desc: 'Aplica –3 VA contra ataque à distância direto direcionado a você.' },
+          { name: 'Fenda Gravitacional', type: 'Suprema', cost: '3 PA + 3 Sintonia + 20 Exaustão', desc: 'Fenda a até 18 m com área de 8 m por 2 rodadas. Causa 4d10 de força e puxa 4 m; 2d10 no início do turno; atordoa criaturas no centro. Fenda possui 20 PV e Defesa 12.' }
+        ]
+      },
+      {
+        name: 'Taumaturgo de Sobrecarga',
+        identity: 'Risco extremo · sobrecarga · potência devastadora',
+        abilities: [
+          { name: 'Potência da Ruptura', type: 'Passiva', cost: '', desc: 'Enquanto a Exaustão estiver abaixo de 0, suas magias causam +2 dano por Círculo.' },
+          { name: 'Conjuração de Risco', type: 'Ativa', cost: '1 Sintonia', desc: 'Permite lançar magia mesmo sem Exaustão suficiente, pagando toda a Exaustão restante e ganhando +2 Colapso.' },
+          { name: 'Tolerância Extrema', type: 'Passiva', cost: '', desc: 'Seu limite seguro de Sobrecarga é ampliado em +5 Exaustão.' },
+          { name: 'Purga Violenta', type: 'Ativa', cost: '2 PA + 2 Sintonia', desc: 'Pode queimar até 30 de Exaustão restante. Para cada 5 de Exaustão gastos, causa 1d10 em cone de 6 m.' },
+          { name: 'Além do Limite', type: 'Suprema', cost: 'Passiva (1/Descanso Completo)', desc: 'Ao atingir 10 de Colapso, evita a Detonação Arcana e recupera 50% da Exaustão Máxima mantendo 10 Colapso.' }
+        ]
+      }
+    ],
+    'Híbrido': [
+      {
+        name: 'Engenheiro Arcano',
+        identity: 'Drones · torres automatizadas · suporte técnico',
+        abilities: [
+          { name: 'Módulos Aprimorados de Campo', type: 'TECNOLOGIA • Passiva', cost: '', desc: 'Acessórios, miras, supressores e modificações em armas do grupo recebem +1 em suas estatísticas padrão.' },
+          { name: 'Forja de Campo Expressa', type: 'TECNOLOGIA • Ativa', cost: '1 PA', desc: 'Usa sucata/metal para reparar armadura ou colete destruído ou destravar arma emperrada instantaneamente.' },
+          { name: 'Deploy de Drone Tático', type: 'TECNOLOGIA • Ativa', cost: '2 PA', desc: 'Lança drone com +15 PV temporários de escudo a um aliado ou fogo de suporte (1d8 por rodada).' },
+          { name: 'Bateria Eletrostática do Drone', type: 'TECNOLOGIA • Passiva', cost: '', desc: 'Enquanto o drone estiver ativo, aliados a até 3 m recuperam Exaustão no início da rodada.' },
+          { name: 'Automação de Torre Pesada', type: 'Suprema', cost: '3 PA', desc: 'Transforma o drone em torre pesada fixa. Realiza 2 disparos por rodada (2d10 cada) durante 3 turnos.' }
+        ]
+      },
+      {
+        name: 'Lâmina/Gatilho Rúnico',
+        identity: 'Combate fluido · lâminas energizadas · combos corpo a corpo e fogo',
+        abilities: [
+          { name: 'Cadência Alternada', type: 'TECNOLOGIA • Passiva', cost: '', desc: 'Acerto corpo a corpo Cortante concede +2 VA no próximo disparo de fogo no turno. Acerto de fogo concede +2 VA no próximo golpe Cortante.' },
+          { name: 'Esgrima Balística', type: 'TECNOLOGIA • Passiva', cost: '', desc: 'Com arma Cortante e arma leve, pode usar FOC + Pontaria no VA corpo a corpo e FOR + Briga nos ataques à distância da arma leve.' },
+          { name: 'Combo Integrado à Queima-Roupa', type: 'TECNOLOGIA • Ativa', cost: '2 PA', desc: 'Ataque corpo a corpo Cortante e disparo na mesma sequência. Aciona Cadência Alternada e adiciona +1d10 de dano crítico.' },
+          { name: 'Parry Energizado de Repulsão', type: 'ARCANO • Reação', cost: '1 Reação', desc: 'Bloqueia ataque corpo a corpo hostil e causa 2d6 de dano elétrico ao atacante.' },
+          { name: 'Execução Devastadora em Cadeia', type: 'Suprema', cost: '3 PA + 3 Cargas', desc: 'Metade do deslocamento livre sem terreno difícil, encadeando ataques contra alvos visíveis a até 3 m do anterior. Causa 1d12 por alvo marcado.' }
+        ]
+      },
+      {
+        name: 'Infiltrador',
+        identity: 'Camuflagem óptica · emboscada · assassinato fantasma',
+        abilities: [
+          { name: 'Camuflagem Rúnica', type: 'ARCANO • Passiva', cost: '', desc: 'Enquanto imóvel em cobertura, é indetectável por sensores tecnológicos, térmicos e auras arcanas.' },
+          { name: 'Passos de Espectro', type: 'ARCANO • Passiva', cost: '', desc: 'Mover-se na zona de engajamento inimiga não provoca Ataques de Oportunidade nem disparos de reação.' },
+          { name: 'Emboscada Perfurante', type: 'TECNOLOGIA • Ativa', cost: '2 PA', desc: 'Ataque surpresa vindo de Furtividade ignora coletes e armadura balística, levando a RD balística do alvo para 0.' },
+          { name: 'Holograma de Distração Tática', type: 'TECNOLOGIA • Ativa', cost: '1 PA', desc: 'Cria cópia holográfica espacial; inimigos próximos gastam ações e ataques contra o holograma falso.' },
+          { name: 'Deslocamento Sombra & Execução', type: 'Suprema', cost: 'ARCANO • 3 PA', desc: 'Deixa ilusão e teleporta às costas do alvo a até 10 m. Ataque provoca Crítico automático com multiplicador triplicado.' }
+        ]
+      }
+    ],
+    'Vanguardista': [
+      {
+        name: 'Bastião',
+        identity: 'Fortaleza inamovível · cúpulas protetoras · defesa territorial',
+        abilities: [
+          { name: 'Muralha Viva', type: 'Passiva', cost: '', desc: 'Em Cobertura ou com escudo: +3 RD Física. Se estático no turno, +2 Defesa adicional.' },
+          { name: 'Ancoragem de Esquadrão', type: 'Passiva', cost: '', desc: 'Aliados adjacentes recebem +2 Defesa contra tiros e imunidade a Empurrado/Caído.' },
+          { name: 'Cúpula de Proteção', type: 'Ativa', cost: '2 PA + 2 Inflexibilidade', desc: 'Cúpula com 40 PV, Defesa 12, RD 4 Física/Mágica em raio de 3 m por 2 rodadas, bloqueando ataques externos.' },
+          { name: 'Redistribuição de Impacto', type: 'Passiva', cost: '', desc: 'Quando cúpula ou escudo absorver 5+ de dano em um ataque, recupera 1 Inflexibilidade.' },
+          { name: 'Fortaleza Inexpugnável', type: 'Suprema', cost: '2 PA + 3 Inflexibilidade', desc: 'Até próximo turno: +5 Defesa, +5 RD Física/Balística, imune a Caído; aliados adjacentes recebem +3 RD.' }
+        ]
+      },
+      {
+        name: 'Demolidor',
+        identity: 'Quebra de armaduras · ondas de choque · destruição de estruturas',
+        abilities: [
+          { name: 'Especialista em Demolição', type: 'Passiva', cost: '', desc: 'Dobra dados contra estruturas/escudos; ignora 3 RD de estruturas; destruir proteção dá +1d8 no alvo atrás; espingarda não gasta munição.' },
+          { name: 'Abalo Brutal', type: 'Passiva', cost: '', desc: 'Acerto físico aplica –2 Defesa e –2 REF até próximo turno. Crítico causa Caído.' },
+          { name: 'Impacto Sísmico', type: 'Ativa', cost: '3 PA + 2 Inflexibilidade', desc: 'Ponto a até 6 m com raio de 5 m: causa 3d10 físico; REF CD 15 ou Caído. Estruturas sofrem dano dobrado.' },
+          { name: 'Triturador de Proteções', type: 'Passiva', cost: '1 Inflexibilidade', desc: 'Reduz RD Física do alvo em 3 por 2 rodadas. Próximo tiro de espingarda ganha +1d8 (ou +2d8 em crítico).' },
+          { name: 'Onda de Demolição', type: 'Suprema', cost: '2 PA + 3 Inflexibilidade', desc: 'Linha de 12 m × 2 m causando 4d12 físico (REF CD 15 ou Atordoado). Coberturas destruídas geram tiros gratuitos de espingarda com +2d10 ignorando 6 RD.' }
+        ]
+      },
+      {
+        name: 'Guardião Rúnico',
+        identity: 'Absorção mágica · auras protetoras · reflexão de feitiços',
+        abilities: [
+          { name: 'Escudo Rúnico', type: 'Passiva', cost: '', desc: 'Com 1+ Inflexibilidade, concede +3 RD Mágica a si e aliados adjacentes. Detecta magia sustentada a até 6 m.' },
+          { name: 'Retaliação Arcana', type: 'Reação', cost: '1 Reação + 1 Inflexibilidade', desc: 'Ao sofrer dano mágico, reduz em 10 e causa 1d8 arcano ao atacante.' },
+          { name: 'Sifão Rúnico', type: 'Ativa', cost: '2 PA + 2 Inflexibilidade', desc: 'Aliado a 6 m ganha +5 RD Mágica por 2 rodadas. Absorver 5+ dano recupera 1 Inflexibilidade.' },
+          { name: 'Vínculo Guardião', type: 'Passiva', cost: '', desc: 'Assume metade do dano mágico sofrido por aliado a até 3 m e ganha 1 Inflexibilidade (1/rodada).' },
+          { name: 'Espelho do Caos', type: 'Suprema', cost: 'Reação + 3 Inflexibilidade', desc: 'Teste oposto de CONH + Sintonia Arcana reflete feitiço direcionado hostil de volta ao conjurador.' }
+        ]
+      }
+    ],
+    'Ciborgue': [
+      {
+        name: 'Samurai Cibernético',
+        identity: 'Duelo • Precisão • Execução (Programas Passivos & Sobrecargas Ativas 1 PA + 1 PP)',
+        abilities: [
+          { name: 'Nível 10 — Lâmina de Precisão', type: 'Passiva', cost: '', desc: 'Escolha arma cortante como Lâmina Principal: +2 VA, +1d6 dano e não sofre penalidade por Caído.' },
+          { name: 'Nível 11 — Leitura do Duelo', type: 'Passiva', cost: '', desc: 'Apenas um inimigo a até 3 m: +2 Defesa e +2 Esquiva. Sem outros inimigos a 6 m: +1 VA adicional.' },
+          { name: 'Nível 12 — IAIDO', type: 'Ativa', cost: '2 PA + 1 PP', desc: 'Em alvo Marcado: único ataque do turno com Lâmina Principal dobra todos os dados de dano antes da RD.' },
+          { name: 'Nível 13 — Caminho do Corte', type: 'Passiva', cost: '', desc: 'Após acertar criatura no turno, próximo ataque recebe +1 VA e +1d8 de dano.' },
+          { name: 'Nível 14 — Forma Final: Último Duelo', type: 'Suprema', cost: '3 PA + 2 PP', desc: 'Zona de Duelo de 6 m sem interferência externa; golpe com Lâmina causa derrota imediata. Vitória recupera PV perdidos, 1 PA, +2 VA e +2 Defesa por 3 rodadas.' }
+        ]
+      },
+      {
+        name: 'Arsenal de Combate',
+        identity: 'Armadura • Armamento • Potência (Programas Passivos & Sobrecargas Ativas 1 PA + 1 PP)',
+        abilities: [
+          { name: 'Nível 10 — Armadura de Combate', type: 'Passiva', cost: '', desc: '+3 Defesa, +3 RD física/balística e +3 m de deslocamento permanente.' },
+          { name: 'Nível 11 — Vetor Aéreo', type: 'Passiva', cost: '', desc: 'Pequenos deslocamentos aéreos sem dano de queda, ignora terreno comum e recebe +2 Acrobacia.' },
+          { name: 'Nível 12 — Fluxo de Armas', type: 'Ativa', cost: '2 PA + 1 PP', desc: 'Segundo ataque no turno com outra arma com +2 VA. Se ambos acertarem: +2d6 de dano extra.' },
+          { name: 'Nível 13 — Núcleo de Armamento', type: 'Passiva', cost: '', desc: 'Escolha 2 sistemas integrados: Canhão de Pulso (2d8 elétrico, 12m), Míssil Guiado (2d6 explosivo, área 2m), Lâmina Energizada (1d10 elétrico) ou Repulsor (1d10 força, empurra 3m).' },
+          { name: 'Nível 14 — Forma Final: Ironheart', type: 'Suprema', cost: '3 PA + 2 PP', desc: 'Por 3 rodadas: Voo, +4 Defesa, +4 RD, +3 VA, +2d6 dano, +6 m deslocamento. Disparo de Barragem Total (3d10 + 2d8) contra até 3 alvos a 18 m. Sofre 10 Exaustão ao fim.' }
+        ]
+      },
+      {
+        name: 'Caçador de Máquinas',
+        identity: 'Sabotagem • Invasão • Controle (Programas Passivos & Sobrecargas Ativas 1 PA + 1 PP)',
+        abilities: [
+          { name: 'Nível 10 — Interface Hostil & Invasão Forçada', type: 'Passiva / Ativa', cost: '2 PA + 1 PP', desc: '+2 Tecnologia & Sistemas e +2 VA contra máquinas analisadas. Invasão Forçada aplica Interferido (-2 VA, -2 Defesa, -1 PA) até o próximo turno.' },
+          { name: 'Nível 11 — Rede de Combate', type: 'Passiva', cost: '', desc: 'Aliado causando dano à máquina na interface recupera 1 PP para você (1 vez por rodada).' },
+          { name: 'Nível 12 — Sequestro de Sistema', type: 'Ativa', cost: '2 PA + 1 PP', desc: 'Teste de Tecnologia contra máquina a até 9 m: assume controle temporário para atacar, desligar ou mover.' },
+          { name: 'Nível 13 — Arquitetura Inversa', type: 'Passiva', cost: '', desc: 'Ao destruir máquina sob interface: escolha recuperar 1 PP, mover 3 m ou recuperar 1 PA (1/rodada).' },
+          { name: 'Nível 14 — Forma Final: Domínio Mecânico', type: 'Suprema', cost: '3 PA + 2 PP', desc: 'Rede de 12 m com até 3 interfaces ativas por 3 rodadas. +2 VA contra alvos conectados. Encerramento assume controle de até 3 máquinas e sofre 8 Exaustão.' }
+        ]
+      }
+    ]
+  };
+
   const esc = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]))
-  const match = (chapter, query) => !query || JSON.stringify(chapter).toLowerCase().includes(query)
+  const match = (chapter, query) => !query || JSON.stringify(chapter).toLowerCase().includes(query) || (chapter.classes && JSON.stringify(classTrails).toLowerCase().includes(query))
 
   function renderNav() { nav.innerHTML = chapters.map(chapter => `<a class="chapter-link" href="#${chapter.id}">${chapter.number} · ${chapter.title}<span>→</span></a>`).join('') }
 
@@ -298,6 +565,36 @@
 
     const classEntries = chapter.classes ? chapter.classes.map(item => {
       const mechanics = classMechanics[item[0]] || [];
+      const trails = classTrails[item[0]] || [];
+
+      const trailsHtml = trails.length ? `
+        <div class="trail-section" style="margin-top:24px; border-top:1px solid #3f3f46; padding-top:16px;">
+          <h5 style="color:#fbbf24; font-size:15px; margin-bottom:12px; letter-spacing:0.02em;">Trilhas de Especialização · ${item[0]} (Níveis 10 ao 14)</h5>
+          <div class="trail-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:12px;">
+            ${trails.map(tr => `
+              <div class="trail-box" style="background:rgba(255,255,255,0.02); border:1px solid rgba(245,158,11,0.25); border-radius:12px; padding:14px; display:flex; flex-direction:column; gap:8px;">
+                <div style="border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:6px;">
+                  <strong style="color:#fcd34d; font-size:14px;">${tr.name}</strong>
+                  ${tr.identity ? `<small style="display:block; color:#a1a1aa; font-size:11px; margin-top:2px;">${tr.identity}</small>` : ''}
+                </div>
+                <div style="display:flex; flex-direction:column; gap:6px;">
+                  ${tr.abilities.map((ab, abIdx) => {
+                    const detailIdx = addDetail(`${tr.name} · N${10 + abIdx} · ${ab.name}`, `<strong>${ab.cost ? ab.cost + ' · ' : ''}${ab.type}</strong><br><br>${ab.desc}`, 'Habilidade de Trilha');
+                    return `<button type="button" class="power" data-detail="${detailIdx}" style="padding:6px 0; font-size:11px; grid-template-columns: 24px 1fr;">
+                      <span class="power-level" style="font-size:10px;">N${10 + abIdx}</span>
+                      <div>
+                        <b style="color:#f4f4f5; display:block;">${ab.name} <small style="color:#fbbf24; font-weight:normal;">(${ab.type}${ab.cost ? ' · ' + ab.cost : ''})</small></b>
+                        <span style="color:#a1a1aa; font-size:10px; line-height:1.4; display:block; margin-top:2px;">${ab.desc}</span>
+                      </div>
+                    </button>`;
+                  }).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      ` : '';
+
       return `<article class="class-entry">
         <h4>${item[0]}</h4>
         <p class="class-meta">${item[1]}</p>
@@ -318,6 +615,7 @@
             <span class="power-desc">${body}</span>
           </button>`
       }).join('')}</div>
+        ${trailsHtml}
       </article>`
     }).join('') : ''
 

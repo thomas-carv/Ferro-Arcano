@@ -9,11 +9,17 @@
 <body>
 
   <div class="topbar">
-    <div><h1>Tranca Arcana</h1><span class="topbar-subtitle">Alinhe os símbolos e teça a magia</span></div>
+    <div><h1>Tranca Arcana</h1><span class="topbar-subtitle">Terminal Tático Arcano-Tecnológico · Protocolo de Contenção BRASA / Bravia</span></div>
     <div class="tools">
-      <a href="../Menu%20inicial/ferro_arcano_documentacao.html">Voltar ao Hub</a>
+      <a href="../home/ferro_arcano.html"><button>🏠 Hub</button></a>
+      <a href="ficha/index.html"><button style="border-color: var(--brass); color: var(--brass);">👤 Ficha do Personagem</button></a>
       <button id="btnCreateSpell" class="primary">✨ Criar Magia</button>
     </div>
+  </div>
+
+  <!-- BARRA DE STATUS DO PERSONAGEM (SINCRONIA COM A FICHA) -->
+  <div class="agent-bar" id="agentBar">
+    <!-- Populated dynamically by script.js -->
   </div>
 
   <!-- MENU DE CRIAÇÃO -->
@@ -28,15 +34,15 @@
       <textarea id="newSpellDesc" rows="2" placeholder="Efeito mágico..."></textarea>
     </div>
     <div class="form-group">
-      <label for="newSpellCircle">Círculo de Destino (Nível de Dificuldade)</label>
+      <label for="newSpellCircle">Círculo de Destino (Nível de Dificuldade & Custo)</label>
       <select id="newSpellCircle">
-        <option value="1">1º Círculo (Fácil · 30s · 7 erros max)</option>
-        <option value="2">2º Círculo (Médio · 25s · 6 erros max)</option>
-        <option value="3">3º Círculo (Médio · 22s · 5 erros max)</option>
-        <option value="4">4º Círculo (Difícil · 18s · 4 erros max)</option>
-        <option value="5">5º Círculo (Difícil · 16s · 3 erros max)</option>
-        <option value="6">6º Círculo (Heróico · 13s · 2 erros max)</option>
-        <option value="7">7º Círculo (Lendário · 7s · 1 erro max)</option>
+        <option value="1">1º Círculo (Fácil · 8s · 7 erros max · Custo 10 Exaustão)</option>
+        <option value="2">2º Círculo (Médio · 8s · 6 erros max · Custo 18 Exaustão)</option>
+        <option value="3">3º Círculo (Médio · 8s · 5 erros max · Custo 28 Exaustão)</option>
+        <option value="4">4º Círculo (Difícil · 8s · 4 erros max · Custo 40 Exaustão)</option>
+        <option value="5">5º Círculo (Difícil · 8s · 3 erros max · Custo 55 Exaustão)</option>
+        <option value="6">6º Círculo (Heróico · 4s · 2 erros max · Custo 75 Exaustão)</option>
+        <option value="7">7º Círculo (Lendário · 4s · 1 erro max · Custo 100 Exaustão)</option>
       </select>
     </div>
     <div class="form-group">
@@ -69,6 +75,32 @@
       <button id="btnBack">← Voltar</button>
     </div>
 
+    <!-- HUD DO PERSONAGEM NA CONJURAÇÃO -->
+    <div class="hud-character-bar" id="hudCharBar">
+      <div class="hud-char-info">
+        <img id="hudCharAvatar" src="" class="hud-char-avatar" alt="Avatar">
+        <div>
+          <strong id="hudCharName">—</strong>
+          <span id="hudCharClassLvl" style="font-size:0.75rem; color:var(--ink-dim); display:block;">—</span>
+        </div>
+      </div>
+      <div class="hud-vitals-mini">
+        <div class="hud-vital-item">
+          <div class="hud-vital-label"><span>PV</span><strong id="hudCharPv">—</strong></div>
+          <div class="mini-bar"><div id="hudCharPvFill" class="mini-fill fill-pv"></div></div>
+        </div>
+        <div class="hud-vital-item">
+          <div class="hud-vital-label"><span>Exaustão</span><strong id="hudCharEx">—</strong></div>
+          <div class="mini-bar"><div id="hudCharExFill" class="mini-fill fill-ex"></div></div>
+        </div>
+      </div>
+      <div id="hudCastCostBadge" class="badge badge-gold">Custo: 10 Ex</div>
+    </div>
+
+    <div id="hudWarningSobrecarga" class="hud-warning" style="display:none;">
+      ⚠️ SOBRECARGA ARCANA! Exaustão abaixo de zero!
+    </div>
+
     <div class="hud">
       <div class="hud-row">
         <span id="timerLabel">Tempo: 0.0s</span>
@@ -87,8 +119,10 @@
     <div class="overlay-card">
       <h2 id="overlayTitle">—</h2>
       <p id="overlayText" style="margin-top: 8px; font-size:0.85rem; color: var(--ink-dim);">—</p>
+      <div id="failureDetailBox" style="display:none; margin-top:10px; padding:10px; border-radius:8px; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); font-size:0.82rem; text-align:left;"></div>
       <div class="damage-badge" id="damageBox"></div>
-      <div style="display: flex; gap: 10px; justify-content: center;">
+      <div id="charUpdateSummary" style="font-size:0.8rem; color:var(--ink-dim); margin-bottom:14px;"></div>
+      <div style="display: flex; gap: 10px; justify-content: center; flex-wrap:wrap;">
         <button id="btnRetry" class="primary">Tentar Novamente</button>
         <button id="btnExit">Lista de Magias</button>
       </div>

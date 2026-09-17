@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Mesa Virtual — Painel do Mestre | Ferro & Arcano</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="mestre.css">
+  <!-- Supabase JS Client Oficial (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <div class="mestre-container">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-brand">
+        <div class="brand-badge">🎲</div>
+        <div>
+          <h1 style="font-size:1.3rem; font-weight:800; color:var(--ink);">Mesa Virtual · Sala de Operações do Mestre</h1>
+          <span style="font-size:0.75rem; color:var(--ink-dim);">Monitoramento em tempo real de PV, Exaustão, Armas e Habilidades dos Agentes</span>
+        </div>
+      </div>
+
+      <div class="topbar-tools">
+        <div class="room-badge">
+          <span>Sala:</span>
+          <strong id="display-room-code">FA-7842</strong>
+        </div>
+        <button type="button" id="btn-copy-code" title="Copiar código da sala">📋 Copiar Código</button>
+        <button type="button" id="btn-new-room" class="quiet" title="Criar nova sala">➕ Nova Sala</button>
+        <button type="button" id="btn-open-supabase-config" class="quiet" title="Configurar conexão Supabase">⚙️ Supabase</button>
+        <span id="connection-status-pill" class="status-pill">⚡ Mesa Local / Broadcast</span>
+        <a href="../home/ferro_arcano.html" target="_blank"><button class="quiet">🏠 Hub</button></a>
+        <a href="../minigame/ficha/index.html" target="_blank"><button class="primary">👤 Abrir Ficha</button></a>
+      </div>
+    </header>
+
+    <!-- RESUMO DO ESQUADRÃO -->
+    <section class="squad-summary-grid">
+      <div class="summary-card">
+        <div class="summary-icon">👥</div>
+        <div class="summary-content">
+          <strong id="summary-total-agents">0</strong>
+          <span>Agentes Conectados</span>
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-icon" style="color:#ef4444;">❤️</div>
+        <div class="summary-content">
+          <strong id="summary-total-pv">0 / 0</strong>
+          <span>PV Total do Esquadrão</span>
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-icon" style="color:#60a5fa;">⚡</div>
+        <div class="summary-content">
+          <strong id="summary-avg-ex">0%</strong>
+          <span>Média de Exaustão</span>
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-icon" style="color:var(--brass);">✨</div>
+        <div class="summary-content">
+          <strong id="summary-active-powers">0 ativas</strong>
+          <span>Posturas &amp; Efeitos Ativos</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ÁREA PRINCIPAL: GRID DE AGENTES + PAINEL LATERAL DO MESTRE -->
+    <main class="mestre-layout">
+      
+      <!-- Coluna Principal: Grid de Jogadores -->
+      <section>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <h2 style="font-size:1.1rem; color:var(--brass); display:flex; align-items:center; gap:8px;">
+            <span>🛡️ Agentes em Campo</span>
+            <small style="color:var(--ink-dim); font-size:0.75rem; font-weight:normal;">(Sincronização em Tempo Real)</small>
+          </h2>
+          <span style="font-size:0.75rem; color:var(--ink-dim);">Clique na trava para liberar/bloquear edição</span>
+        </div>
+
+        <div class="players-grid" id="players-grid">
+          <!-- Jogadores renderizados dinamicamente via mestre.js -->
+        </div>
+      </section>
+
+      <!-- Coluna Lateral: Log de Rolagens e Ferramentas Rápidas -->
+      <aside class="side-panel">
+        
+        <!-- Ferramentas Rápidas do Mestre -->
+        <div class="panel-box">
+          <div class="panel-box-header">
+            <h3>⚡ Ações de Esquadrão &amp; Dados</h3>
+          </div>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:10px;">
+            <button type="button" id="btn-gm-d20">🎲 Rolar 1d20</button>
+            <button type="button" id="btn-gm-d100">🎲 Rolar 1d100</button>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <button type="button" id="btn-gm-descanso" class="quiet" style="justify-content:center; color:var(--success);">
+              🩹 Descanso Curto Geral (+20 EX)
+            </button>
+            <button type="button" id="btn-gm-curatotal" class="quiet" style="justify-content:center; color:#60a5fa;">
+              🏕️ Descanso Completo (100% PV/EX)
+            </button>
+          </div>
+        </div>
+
+        <!-- Log de Eventos e Combate em Tempo Real -->
+        <div class="panel-box">
+          <div class="panel-box-header">
+            <h3>📜 Log de Combate &amp; Rolagens</h3>
+            <span style="font-size:0.7rem; color:var(--ink-dim);">Ao Vivo</span>
+          </div>
+          <div class="event-log-container" id="event-log-feed">
+            <div style="text-align:center; padding:20px 10px; color:var(--ink-dim); font-size:0.75rem;">
+              Aguardando ações ou rolagens dos agentes...
+            </div>
+          </div>
+        </div>
+
+        <!-- Dica de Regra: VA Fixo -->
+        <div class="panel-box" style="background:rgba(245,158,11,0.05); border-color:var(--border-brass); font-size:0.75rem; color:var(--ink-dim); line-height:1.4;">
+          <strong style="color:var(--brass); display:block; margin-bottom:4px;">💡 Regra Core: VA Fixo</strong>
+          Em Ferro &amp; Arcano, o VA é fixo e substitui a rolagem de acerto d20. Jogadores rolam apenas o <strong>dano das armas</strong>. Se a ficha estiver travada (🔒), o jogador pode alternar posturas no seu turno e rolar seus dados de dano.
+        </div>
+
+      </aside>
+
+    </main>
+
+  </div>
+
+  <!-- MODAL DE CONFIGURAÇÃO SUPABASE -->
+  <div class="modal-backdrop" id="supabase-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 style="color:var(--brass); font-size:1.1rem;">⚙️ Configuração do Supabase</h3>
+        <button type="button" class="quiet" id="btn-close-supabase-modal" style="padding:4px 8px;">✕</button>
+      </div>
+      <p style="font-size:0.78rem; color:var(--ink-dim); margin-bottom:14px; line-height:1.4;">
+        Para sincronizar mesas entre múltiplos computadores ou dispositivos remotos via Internet, insira a URL do seu projeto e a chave anônima (anon public key). Para jogar localmente no mesmo navegador/máquina, o modo local já funciona automaticamente sem chaves.
+      </p>
+      <div class="form-group">
+        <label for="supabase-url">Project URL (Ex: https://xyzcompany.supabase.co)</label>
+        <input type="text" id="supabase-url" placeholder="https://seu-projeto.supabase.co">
+      </div>
+      <div class="form-group">
+        <label for="supabase-key">Anon Public Key</label>
+        <input type="password" id="supabase-key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+        <button type="button" class="primary" id="btn-save-supabase-config">Salvar &amp; Conectar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="supabaseClient.js"></script>
+  <script src="mestre.js"></script>
+</body>
+</html>
