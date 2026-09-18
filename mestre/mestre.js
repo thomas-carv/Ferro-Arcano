@@ -6,7 +6,7 @@
 
   // Catálogo de colapsos para rolagem rápida pelo mestre
   const COLAPSOS = [
-    { id: 1, name: "Visão Fraturada", simples: "–2 em Percepção/Prontidão e pontaria a mais de 12 m.", critica: "–4 em Percepção e alcance de visão reduzido a 18 m." },
+    { id: 1, name: "Visão Fraturada", simples: "–2 em Percepção/Prontidão e no VA de armas de fogo a mais de 12 m.", critica: "–4 em Percepção e alcance de visão reduzido a 18 m." },
     { id: 2, name: "Necrose Elemental", simples: "–1,5 s no tempo inicial do minigame.", critica: "–3 s no tempo inicial do minigame." },
     { id: 3, name: "Eco de Ressonância", simples: "Após conjurar, –1 Defesa até o próximo turno.", critica: "–2 Defesa até o próximo turno." },
     { id: 4, name: "Dreno Vital", simples: "1 de dano não reduzível ao conjurar.", critica: "2 de dano não reduzível ao conjurar." },
@@ -92,6 +92,16 @@
     }
   }
 
+  function broadcastSquadRoster() {
+    const roster = Array.from(players.values()).map(p => ({
+      id: p.id,
+      name: p.name || 'Agente',
+      classId: p.classId || 'combatente',
+      level: p.level || 1
+    }));
+    window.FerroArcanoNetwork.broadcast('SQUAD_ROSTER', roster);
+  }
+
   function initNetwork() {
     window.FerroArcanoNetwork.init(roomCode, 'gm');
 
@@ -106,6 +116,7 @@
       window.FerroArcanoNetwork.broadcast('ROOM_SYNC', {
         player: payload
       });
+      broadcastSquadRoster();
     });
 
     // Escuta atualizações enviadas pelos jogadores
@@ -118,12 +129,27 @@
       players.set(payload.id, payload);
       savePersistedPlayers();
       renderAll();
+      broadcastSquadRoster();
     });
 
     // Escuta rolagens de dados dos jogadores
     window.FerroArcanoNetwork.on('ROLL_LOG', (payload) => {
       if (!payload) return;
       logEvent(payload.kind || 'damage', payload.message, payload.playerName);
+    });
+
+    // Escuta ações de combate e uso de habilidades/recursos
+    window.FerroArcanoNetwork.on('ACTION_LOG', (payload) => {
+      if (!payload || !payload.text) return;
+      logEvent('skill', payload.text, payload.playerName || 'Agente');
+    });
+
+    // Escuta buffs aplicados entre aliados (ex.: Mediador Arcano)
+    window.FerroArcanoNetwork.on('ALLIED_BUFF_APPLIED', (payload) => {
+      if (!payload) return;
+      const target = players.get(payload.targetPlayerId);
+      const targetName = target ? target.name : 'Aliado';
+      logEvent('skill', `✨ <strong>${escapeHtml(payload.sourcePlayerName)}</strong> aplicou <em>${escapeHtml(payload.abilityName)}</em> em <strong>${escapeHtml(targetName)}</strong>!`, 'Suporte Arcano');
     });
 
     // Status de conexão
@@ -313,8 +339,15 @@
               <span>⚡ Habilidades Ativas (${activePowers.length})</span>
               <span style="font-size:0.68rem; color:var(--ink-dim); text-transform:none;">Tempo Real</span>
             </div>
-            <div class="active-powers-chips">
-              ${activePowers.length ? activePowers.map(a => `<span class="power-chip">✨ ${escapeHtml(a.name || a)}</span>`).join('') : '<span style="font-size:0.72rem; color:var(--ink-dim);">Nenhuma postura/efeito ativado no momento.</span>'}
+            <div class="active-powers-list">
+              ${activePowers.length ? activePowers.map(a => `
+                <div class="active-power-card">
+                  <div class="active-power-title-row">
+                    <strong>✨ ${escapeHtml(typeof a === 'object' ? a.name : a)}</strong>
+                    ${(typeof a === 'object' && a.cost) ? `<span style="font-size:0.65rem; color:var(--brass);">${escapeHtml(a.cost)}</span>` : ''}
+                  </div>
+                  ${(typeof a === 'object' && a.summary) ? `<p class="active-power-desc">${escapeHtml(a.summary)}</p>` : ''}
+                </div>`).join('') : '<span style="font-size:0.72rem; color:var(--ink-dim);">Nenhuma postura/efeito ativado.</span>'}
             </div>
           </div>
 

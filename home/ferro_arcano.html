@@ -12,17 +12,16 @@
   <header class="topbar">
     <a class="brand" href="#inicio" aria-label="Ferro e Arcano, início"><span class="brand-mark">F&A</span><span><strong>Ferro & Arcano</strong><small>Hub do sistema </small></span></a>
     <nav class="main-nav" aria-label="Navegação principal">
-      <a class="nav-link" href="wiki.html">Wiki do sistema</a><a class="nav-link" href="../minigame/ficha/index.html" style="color:var(--brass); font-weight:700;">Ficha Completa 👤</a><a class="nav-link" href="../mestre/index.html" style="color:var(--amber); font-weight:700;">🎲 Mesa do Mestre</a><button class="nav-link" data-open-saved>Minhas fichas</button><a href="#lore">Universo & Lore</a><a href="#corporacoes">Giga Empresas</a><a href="#personagem">Personagem</a><a href="#arsenal">Arsenal</a><a href="#referencia">Referência</a>
+      <a class="nav-link" href="wiki.html">Wiki do sistema</a><a href="#lore">Universo & Lore</a><a href="#corporacoes">Giga Empresas</a><a href="#personagem">Personagem</a><a href="#arsenal">Arsenal</a><a href="#referencia">Referência</a>
     </nav>
     <div style="display:flex; gap:8px;">
-      <a href="../mestre/index.html" style="text-decoration:none;"><button class="button button-quiet" style="border-color:var(--amber); color:var(--amber);">🎲 Mesa do Mestre</button></a>
-      <a href="../minigame/ficha/index.html" style="text-decoration:none;"><button class="button button-accent">Montar ficha <span>↗</span></button></a>
+      <button class="button button-accent" id="btn-sala-modal">🎲 Criar / Entrar Sala <span>↗</span></button>
     </div>
   </header>
 
   <main id="inicio">
     <section class="hero section-shell">
-      <div class="hero-copy"><p class="eyebrow">Livro vivo de regras · documentação oficial</p><h1>Onde o <em>ferro</em> encontra o arcano.</h1><p class="hero-lead">Um ponto de entrada único para aprender o Core, construir personagens e consultar tudo que mantém a mesa em movimento.</p><div class="hero-actions"><a href="../minigame/ficha/index.html" style="text-decoration:none;"><button class="button button-accent">Criar personagem</button></a><a href="../mestre/index.html" style="text-decoration:none;"><button class="button button-quiet" style="border-color:var(--amber); color:var(--amber);">🎲 Mesa do Mestre (Realtime) <span>↗</span></button></a><a class="button button-quiet" href="#sistema">Explorar o sistema <span>↓</span></a></div><div class="hero-meta"><span><b>5</b> classes</span><span><b>10</b> origens</span><span><b>19</b> perícias</span><span><b>20</b> corporações</span><span><b>14</b> níveis</span></div></div>
+      <div class="hero-copy"><p class="eyebrow">Livro vivo de regras · documentação oficial</p><h1>Onde o <em>ferro</em> encontra o arcano.</h1><p class="hero-lead">Um ponto de entrada único para aprender o Core, construir personagens e consultar tudo que mantém a mesa em movimento.</p><div class="hero-actions"><a href="../minigame/ficha/index.html" style="text-decoration:none;"><button class="button button-accent">Criar Ficha <span>↗</span></button></a><button class="button button-quiet" id="btn-sala-modal-hero" style="border-color:var(--amber); color:var(--amber);">🎲 Criar / Entrar Sala</button><a class="button button-quiet" href="#sistema">Explorar o sistema <span>↓</span></a></div><div class="hero-meta"><span><b>7</b> classes</span><span><b>10</b> origens</span><span><b>19</b> perícias</span><span><b>20</b> corporações</span><span><b>14</b> níveis</span></div></div>
       <div class="hero-art" aria-label="Símbolo decorativo do sistema"><div class="sigil sigil-outer"></div><div class="sigil sigil-mid"></div><div class="sigil sigil-inner">✦</div><span class="art-label">F&A / 01</span><span class="art-note">TECNOLOGIA<br>ARCANA</span></div>
     </section>
 
@@ -214,7 +213,7 @@
       </div>
     </section>
 
-    <section class="section-shell split-section" id="personagem"><div class="section-heading"><p class="eyebrow">Construção de personagem</p><h2>Escolha uma função.<br><em>O motor faz o resto.</em></h2><p>O criador preserva as fórmulas do motor original: 10 pontos de atributo, limite 4, PV por Classe, VA e recurso específico.</p><button class="button button-accent" data-open-builder>Começar agora <span>↗</span></button></div><div class="class-list" id="class-list"></div></section>
+    <section class="section-shell split-section" id="personagem"><div class="section-heading"><p class="eyebrow">Construção de personagem</p><h2>Escolha uma função.<br><em>O motor faz o resto.</em></h2><p>O criador preserva as fórmulas do motor original: 10 pontos de atributo, limite 4, PV por Classe, VA e recurso específico.</p><a href="../minigame/ficha/index.html" style="text-decoration:none;"><button class="button button-accent">Criar Ficha Completa <span>↗</span></button></a></div><div class="class-list" id="class-list"></div></section>
 
     <section class="section-shell data-section" id="arsenal">
       <div class="section-heading compact">
@@ -263,9 +262,122 @@
 
   <footer class="section-shell footer"><span>Ferro & Arcano </span><span>Regras consolidadas para a mesa.</span></footer>
 
-  <div class="layer" id="builder-layer" aria-hidden="true"><div class="layer-backdrop" data-close-builder></div><section class="builder-panel" role="dialog" aria-modal="true" aria-labelledby="builder-title"><div class="panel-head"><div><p class="eyebrow">Forja de personagem</p><h2 id="builder-title">Monte sua ficha</h2><p class="panel-status" id="builder-status"></p></div><button class="icon-button" data-close-builder aria-label="Fechar">×</button></div><div class="builder-layout"><div class="builder-form"><div class="form-row"><label>Nome<input id="character-name" placeholder="Ex.: Kael Voss"></label><label>Nível<select id="character-level"></select></label></div><label>Conceito<textarea id="character-concept" rows="2" placeholder="Ex.: ex-soldado que caça máquinas corrompidas..."></textarea></label><div class="builder-block"><div class="block-title">Classe</div><div class="choice-grid" id="class-choices"></div></div><div class="builder-block"><div class="block-title">Origem</div><select id="origin-choice"></select><p class="choice-help" id="origin-help"></p></div><div class="builder-block"><div class="block-title">Afiliação Corporativa</div><select id="corp-choice"></select><p class="choice-help" id="corp-help"></p></div><div class="builder-block"><div class="block-title">Atributos <span id="attribute-budget">10 pontos · limite 4</span></div><div class="attribute-grid" id="attribute-choices"></div></div><div class="builder-block"><div class="block-title">Perícias treinadas <span>1 obrigatória + 3 escolhas</span></div><div class="skill-grid" id="skill-choices"></div><p class="choice-help" id="skill-help"></p></div><div class="builder-block"><div class="block-title">Equipamento inicial</div><div class="form-row"><label>Arma de fogo<select id="weapon-choice"></select></label><label>Corpo a corpo<select id="melee-choice"></select></label></div><label class="check-row"><input type="checkbox" id="shield-choice"> Escudo ou proteção improvisada</label></div></div><aside class="sheet-preview" id="sheet-preview"></aside></div><div class="panel-actions"><button class="button button-quiet" data-save-sheet>Salvar ficha</button><button class="button button-quiet" data-close-builder>Continuar depois</button><button class="button button-accent" id="export-pdf">Exportar ficha em PDF <span>↓</span></button></div></section></div>
+  <!-- Modal: Criar / Entrar Sala -->
+  <div class="layer" id="sala-layer" aria-hidden="true">
+    <div class="layer-backdrop" id="sala-backdrop"></div>
+    <section class="builder-panel" role="dialog" aria-modal="true" aria-labelledby="sala-title" style="max-width:480px; padding:32px;">
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">Sessão de jogo</p>
+          <h2 id="sala-title">🎲 Criar / Entrar Sala</h2>
+        </div>
+        <button class="icon-button" id="sala-close" aria-label="Fechar">×</button>
+      </div>
+
+      <!-- Tabs -->
+      <div style="display:flex; gap:8px; margin:20px 0 24px;">
+        <button class="button button-accent" id="tab-criar" style="flex:1;">➕ Criar Sala</button>
+        <button class="button button-quiet" id="tab-entrar" style="flex:1;">🔑 Entrar na Sala</button>
+      </div>
+
+      <!-- Painel: Criar Sala -->
+      <div id="painel-criar">
+        <p style="font-size:0.88rem; color:var(--muted); margin-bottom:20px; line-height:1.6;">
+          Abra a Mesa do Mestre para gerar o código da sala e aguardar os jogadores conectarem suas fichas.
+        </p>
+        <a href="../mestre/index.html" style="text-decoration:none; display:block;">
+          <button class="button button-accent" style="width:100%; font-size:1rem; padding:14px;">
+            🎲 Abrir Mesa do Mestre <span>↗</span>
+          </button>
+        </a>
+      </div>
+
+      <!-- Painel: Entrar na Sala -->
+      <div id="painel-entrar" style="display:none;">
+        <p style="font-size:0.88rem; color:var(--muted); margin-bottom:16px; line-height:1.6;">
+          Digite o código da sala fornecido pelo Mestre para conectar sua ficha em tempo real.
+        </p>
+        <label style="display:block; margin-bottom:16px;">
+          <span style="font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--brass); display:block; margin-bottom:6px;">Código da Sala</span>
+          <input id="sala-code-input" type="text" placeholder="Ex.: MESA-1234" maxlength="20"
+            style="width:100%; box-sizing:border-box; padding:10px 14px; border-radius:10px; border:1.5px solid rgba(245,158,11,0.4); background:#1a1a1e; color:#f4f0e6; font-size:1rem; outline:none;">
+        </label>
+        <button class="button button-accent" id="btn-entrar-sala" style="width:100%; font-size:1rem; padding:14px;">
+          Entrar na Sala com minha Ficha <span>→</span>
+        </button>
+        <p id="sala-error" style="color:#f87171; font-size:0.8rem; margin-top:10px; display:none;">Por favor, insira um código de sala válido.</p>
+      </div>
+    </section>
+  </div>
+
   <div class="layer" id="wiki-layer" aria-hidden="true"><div class="layer-backdrop" data-close-wiki></div><section class="wiki-panel" role="dialog" aria-modal="true" aria-labelledby="wiki-title"><div class="panel-head"><div><p class="eyebrow">Ferro & Arcano · documentação</p><h2 id="wiki-title">Wiki do sistema</h2></div><button class="icon-button" data-close-wiki aria-label="Fechar">×</button></div><div class="wiki-layout"><aside class="wiki-nav"><input id="wiki-search" type="search" placeholder="Buscar regra, classe ou perícia..."><div id="wiki-tabs"></div></aside><article class="wiki-content" id="wiki-content"></article></div></section></div>
-  <div class="layer" id="saved-layer" aria-hidden="true"><div class="layer-backdrop" data-close-saved></div><section class="saved-panel" role="dialog" aria-modal="true" aria-labelledby="saved-title"><div class="panel-head"><div><p class="eyebrow">Arquivo pessoal</p><h2 id="saved-title">Minhas fichas</h2><p class="panel-status">Revisite e edite suas personagens conforme a campanha avança.</p></div><button class="icon-button" data-close-saved aria-label="Fechar">×</button></div><div class="saved-list" id="saved-list"></div></section></div>
   <script src="landing.js"></script>
+  <script>
+    // --- Modal Criar / Entrar Sala ---
+    const salaLayer  = document.getElementById('sala-layer');
+    const salaClose  = document.getElementById('sala-close');
+    const salaBackdrop = document.getElementById('sala-backdrop');
+    const tabCriar   = document.getElementById('tab-criar');
+    const tabEntrar  = document.getElementById('tab-entrar');
+    const painelCriar  = document.getElementById('painel-criar');
+    const painelEntrar = document.getElementById('painel-entrar');
+    const btnEntrar  = document.getElementById('btn-entrar-sala');
+    const salaInput  = document.getElementById('sala-code-input');
+    const salaError  = document.getElementById('sala-error');
+
+    function openSalaModal() {
+      salaLayer.classList.add('open');
+      salaLayer.removeAttribute('aria-hidden');
+      salaInput.value = '';
+      salaError.style.display = 'none';
+      switchTab('criar');
+    }
+    function closeSalaModal() {
+      salaLayer.classList.remove('open');
+      salaLayer.setAttribute('aria-hidden', 'true');
+    }
+    function switchTab(which) {
+      if (which === 'criar') {
+        tabCriar.className  = 'button button-accent';
+        tabEntrar.className = 'button button-quiet';
+        painelCriar.style.display  = '';
+        painelEntrar.style.display = 'none';
+      } else {
+        tabEntrar.className = 'button button-accent';
+        tabCriar.className  = 'button button-quiet';
+        painelEntrar.style.display = '';
+        painelCriar.style.display  = 'none';
+        salaInput.focus();
+      }
+    }
+
+    // Open triggers
+    ['btn-sala-modal', 'btn-sala-modal-hero'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('click', openSalaModal);
+    });
+
+    // Close triggers
+    salaClose.addEventListener('click', closeSalaModal);
+    salaBackdrop.addEventListener('click', closeSalaModal);
+
+    // Tab switches
+    tabCriar.addEventListener('click', () => switchTab('criar'));
+    tabEntrar.addEventListener('click', () => switchTab('entrar'));
+
+    // Enter sala action
+    btnEntrar.addEventListener('click', () => {
+      const code = salaInput.value.trim().toUpperCase();
+      if (!code) { salaError.style.display = ''; return; }
+      salaError.style.display = 'none';
+      window.location.href = '../minigame/ficha/index.html?room=' + encodeURIComponent(code);
+    });
+    salaInput.addEventListener('keydown', e => { if (e.key === 'Enter') btnEntrar.click(); });
+
+    // Keyboard close
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && salaLayer.classList.contains('open')) closeSalaModal();
+    });
+  </script>
 </body>
 </html>

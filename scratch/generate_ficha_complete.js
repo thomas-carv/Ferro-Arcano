@@ -1,4 +1,12 @@
-<!DOCTYPE html>
+// scratch/generate_ficha_complete.js
+const fs = require('fs');
+const path = require('path');
+
+const targetHtmlPath = path.resolve(__dirname, '../minigame/ficha/index.html');
+
+console.log('Building complete minigame/ficha/index.html...');
+
+const htmlContent = `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -1814,18 +1822,18 @@
       for (let i = 1; i <= 14; i++) {
         const opt = document.createElement('option');
         opt.value = i;
-        opt.textContent = `Nível ${i}`;
+        opt.textContent = \`Nível \${i}\`;
         lvlSelect.appendChild(opt);
       }
 
       // 2. Origens
       const origSelect = document.getElementById('char-origin');
-      origSelect.innerHTML = ORIGENS.map(o => `<option value="${o.id}">${o.name} (${o.benefit})</option>`).join('');
+      origSelect.innerHTML = ORIGENS.map(o => \`<option value="\${o.id}">\${o.name} (\${o.benefit})</option>\`).join('');
 
       // 3. Corporações
       const corpSelect = document.getElementById('char-corp');
       if (corpSelect) {
-        corpSelect.innerHTML = CORPORATIONS.map(c => `<option value="${c.id}">${c.flag} ${c.name} · Inteligência ${c.agency} (${c.country})</option>`).join('');
+        corpSelect.innerHTML = CORPORATIONS.map(c => \`<option value="\${c.id}">\${c.flag} \${c.name} · Inteligência \${c.agency} (\${c.country})</option>\`).join('');
         corpSelect.addEventListener('change', e => {
           state.corpId = e.target.value;
           calcularEAtualizar();
@@ -1834,13 +1842,13 @@
 
       // 4. Colapsos
       const colSelect = document.getElementById('char-colapso');
-      colSelect.innerHTML = COLAPSOS.map(c => `<option value="${c.id}">${c.id > 0 ? c.id + '. ' : ''}${c.name}</option>`).join('');
+      colSelect.innerHTML = COLAPSOS.map(c => \`<option value="\${c.id}">\${c.id > 0 ? c.id + '. ' : ''}\${c.name}</option>\`).join('');
 
       // 5. Avatares Presets
       const avContainer = document.getElementById('avatar-presets');
-      avContainer.innerHTML = AVATAR_PRESETS.map((url) => `
-        <img src="${url}" onclick="selectPresetAvatar('${url}', this)" class="${state.avatarUrl === url ? 'active' : ''}" style="width:42px; height:42px; border-radius:8px; object-fit:cover; cursor:pointer; border:1px solid var(--border-color);">
-      `).join('');
+      avContainer.innerHTML = AVATAR_PRESETS.map((url) => \`
+        <img src="\${url}" onclick="selectPresetAvatar('\${url}', this)" class="\${state.avatarUrl === url ? 'active' : ''}" style="width:42px; height:42px; border-radius:8px; object-fit:cover; cursor:pointer; border:1px solid var(--border-color);">
+      \`).join('');
 
       // 6. Listeners de Formulário
       document.getElementById('char-name').addEventListener('input', e => { state.name = e.target.value; calcularEAtualizar(); });
@@ -1992,15 +2000,15 @@
       if (origin) {
         let manifestText = "";
         if (origin.manifestations && origin.manifestations[state.classId]) {
-          manifestText = `<br><span style="color:#fcd34d;">✦ Manifestação da Classe: ${origin.manifestations[state.classId]}</span>`;
+          manifestText = \`<br><span style="color:#fcd34d;">✦ Manifestação da Classe: \${origin.manifestations[state.classId]}</span>\`;
         }
-        descBox.innerHTML = `<strong>${origin.name} (${origin.benefit}):</strong> ${origin.desc}${manifestText}`;
+        descBox.innerHTML = \`<strong>\${origin.name} (\${origin.benefit}):</strong> \${origin.desc}\${manifestText}\`;
       }
 
       if (origin && origin.skills.length > 1) {
         group.style.display = "flex";
-        label.textContent = `Escolha da Perícia (${origin.name})`;
-        select.innerHTML = origin.skills.map(s => `<option value="${s}">${s}</option>`).join('');
+        label.textContent = \`Escolha da Perícia (\${origin.name})\`;
+        select.innerHTML = origin.skills.map(s => \`<option value="\${s}">\${s}</option>\`).join('');
         if (!origin.skills.includes(state.originSkillChoice)) {
           state.originSkillChoice = origin.skills[0];
         }
@@ -2033,7 +2041,7 @@
 
       const totalAllowedChoices = 3;
       const currentChosenCount = state.trainedSkills.filter(s => s !== cls.mandatorySkill && !originGrantedSkills.includes(s)).length;
-      document.getElementById('skills-budget-label').textContent = `${totalAllowedChoices - currentChosenCount} Escolhas Restantes`;
+      document.getElementById('skills-budget-label').textContent = \`\${totalAllowedChoices - currentChosenCount} Escolhas Restantes\`;
 
       SKILLS_LIST.forEach(sk => {
         const isMandatory = sk.name === cls.mandatorySkill;
@@ -2041,7 +2049,7 @@
         const isSelected = state.trainedSkills.includes(sk.name) || isMandatory || isOrigin;
 
         const label = document.createElement('label');
-        label.className = `skill-check-item ${isMandatory ? 'mandatory' : ''}`;
+        label.className = \`skill-check-item \${isMandatory ? 'mandatory' : ''}\`;
         
         const chk = document.createElement('input');
         chk.type = 'checkbox';
@@ -2063,12 +2071,12 @@
           calcularEAtualizar();
         });
 
-        let tag = `<span style="color:var(--ink-dim); font-size:0.7rem;">(${sk.attr})</span>`;
+        let tag = \`<span style="color:var(--ink-dim); font-size:0.7rem;">(\${sk.attr})</span>\`;
         if (isMandatory) tag = '<strong style="color:var(--brass); font-size:0.68rem;">[CLASSE]</strong>';
         else if (isOrigin) tag = '<strong style="color:#60a5fa; font-size:0.68rem;">[ORIGEM]</strong>';
 
         label.appendChild(chk);
-        label.insertAdjacentHTML('beforeend', `<span>${sk.name} ${tag}</span>`);
+        label.insertAdjacentHTML('beforeend', \`<span>\${sk.name} \${tag}</span>\`);
         container.appendChild(label);
       });
     }
@@ -2097,7 +2105,7 @@
       state.classResource = cls.resourceBase + attrVal;
       calcularEAtualizar();
       syncWithTable();
-      showDiceToast(`✨ <strong>${cls.resourceName}</strong> totalmente recarregado!`);
+      showDiceToast(\`✨ <strong>\${cls.resourceName}</strong> totalmente recarregado!\`);
     }
 
     function encerrarTurno() {
@@ -2109,7 +2117,7 @@
           if (typeof item === 'object' && item.turnsRemaining) {
             item.turnsRemaining--;
             if (item.turnsRemaining <= 0) {
-              showDiceToast(`⏳ O efeito de <strong>${item.name || item.id}</strong> expirou.`);
+              showDiceToast(\`⏳ O efeito de <strong>\${item.name || item.id}</strong> expirou.\`);
               return false;
             }
           }
@@ -2123,7 +2131,7 @@
           if (buff.turnsRemaining) {
             buff.turnsRemaining--;
             if (buff.turnsRemaining <= 0) {
-              showDiceToast(`⏳ O efeito recebido de <strong>${buff.abilityName}</strong> expirou.`);
+              showDiceToast(\`⏳ O efeito recebido de <strong>\${buff.abilityName}</strong> expirou.\`);
               return false;
             }
           }
@@ -2138,7 +2146,7 @@
         window.FerroArcanoNetwork.broadcast('ACTION_LOG', {
           playerId: state.id,
           playerName: state.name || "Agente",
-          text: `${state.name || "Agente"} encerrou o turno (PA resetado para 3/3).`
+          text: \`\${state.name || "Agente"} encerrou o turno (PA resetado para 3/3).\`
         });
       }
 
@@ -2157,18 +2165,18 @@
     function renderActionCatalogModal() {
       const tbody = document.getElementById('action-catalog-tbody');
       if (!tbody) return;
-      tbody.innerHTML = COMBAT_ACTIONS_CATALOG.map(act => `
+      tbody.innerHTML = COMBAT_ACTIONS_CATALOG.map(act => \`
         <tr>
-          <td><strong>${act.name}</strong></td>
-          <td><span class="badge-passive" style="background:rgba(245,158,11,0.15); border-color:var(--brass); color:var(--brass-light);">${act.cost} PA</span></td>
-          <td style="color:var(--ink-dim); font-size:0.75rem;">${act.desc}</td>
+          <td><strong>\${act.name}</strong></td>
+          <td><span class="badge-passive" style="background:rgba(245,158,11,0.15); border-color:var(--brass); color:var(--brass-light);">\${act.cost} PA</span></td>
+          <td style="color:var(--ink-dim); font-size:0.75rem;">\${act.desc}</td>
           <td>
-            <button type="button" onclick="executeCombatAction('${act.id}')" style="padding:4px 8px; font-size:0.72rem; border-radius:6px; background:var(--brass); color:#121214; font-weight:800; border:none; cursor:pointer; white-space:nowrap;">
-              Executar (-${act.cost} PA)
+            <button type="button" onclick="executeCombatAction('\${act.id}')" style="padding:4px 8px; font-size:0.72rem; border-radius:6px; background:var(--brass); color:#121214; font-weight:800; border:none; cursor:pointer; white-space:nowrap;">
+              Executar (-\${act.cost} PA)
             </button>
           </td>
         </tr>
-      `).join('');
+      \`).join('');
     }
 
     window.executeCombatAction = function(actionId) {
@@ -2176,7 +2184,7 @@
       if (!act) return;
 
       if ((state.currentPa || 0) < act.cost) {
-        showDiceToast(`⚠️ Pontos de Ação insuficientes! Você precisa de <strong>${act.cost} PA</strong> para esta ação.`);
+        showDiceToast(\`⚠️ Pontos de Ação insuficientes! Você precisa de <strong>\${act.cost} PA</strong> para esta ação.\`);
         return;
       }
 
@@ -2188,11 +2196,11 @@
         window.FerroArcanoNetwork.broadcast('ACTION_LOG', {
           playerId: state.id,
           playerName: state.name || "Agente",
-          text: `${state.name || "Agente"} executou: ${act.name} (-${act.cost} PA).`
+          text: \`\${state.name || "Agente"} executou: \${act.name} (-\${act.cost} PA).\`
         });
       }
 
-      showDiceToast(`⚡ <strong>${act.name}</strong> executada!<br>-${act.cost} PA (Restam ${state.currentPa} PA).`);
+      showDiceToast(\`⚡ <strong>\${act.name}</strong> executada!<br>-\${act.cost} PA (Restam \${state.currentPa} PA).\`);
       closeActionCatalogModal();
     };
 
@@ -2205,17 +2213,17 @@
       const desc = document.getElementById('choice-modal-desc');
       const container = document.getElementById('choice-card-container');
 
-      title.textContent = `Escolha o Modo: ${ability.name}`;
+      title.textContent = \`Escolha o Modo: \${ability.name}\`;
       desc.textContent = ability.desc || "Selecione um dos efeitos específicos abaixo para ativar:";
       container.innerHTML = "";
 
       (ability.choices || []).forEach(choice => {
         const card = document.createElement('div');
         card.className = "choice-card";
-        card.innerHTML = `
-          <strong>✦ ${choice.name}</strong>
-          <p>${choice.desc || ''}</p>
-        `;
+        card.innerHTML = \`
+          <strong>✦ \${choice.name}</strong>
+          <p>\${choice.desc || ''}</p>
+        \`;
         card.onclick = () => {
           closeChoiceModal();
           callback(choice);
@@ -2236,8 +2244,8 @@
       const desc = document.getElementById('ally-modal-desc');
       const container = document.getElementById('ally-card-container');
 
-      title.textContent = `Destinatário: ${ability.name}`;
-      desc.textContent = `Escolha qual aliado conectado na sala ${state.room_code} receberá ${choice ? choice.name : ability.name}:`;
+      title.textContent = \`Destinatário: \${ability.name}\`;
+      desc.textContent = \`Escolha qual aliado conectado na sala \${state.room_code} receberá \${choice ? choice.name : ability.name}:\`;
       container.innerHTML = "";
 
       const teammates = (state.roomTeammates || []).filter(t => t.id !== state.id);
@@ -2247,10 +2255,10 @@
         teammates.forEach(t => {
           const card = document.createElement('div');
           card.className = "choice-card";
-          card.innerHTML = `
-            <strong>👤 ${t.name || 'Agente'} (${t.classId || 'Aliado'})</strong>
-            <p>Nível ${t.level || 1} · Sala ${state.room_code}</p>
-          `;
+          card.innerHTML = \`
+            <strong>👤 \${t.name || 'Agente'} (\${t.classId || 'Aliado'})</strong>
+            <p>Nível \${t.level || 1} · Sala \${state.room_code}</p>
+          \`;
           card.onclick = () => {
             closeAllyModal();
             callback(t);
@@ -2284,7 +2292,7 @@
       const activeIdx = state.activeAbilities.findIndex(a => (typeof a === 'string' ? a : a.id) === abilityId);
       if (activeIdx >= 0) {
         state.activeAbilities.splice(activeIdx, 1);
-        showDiceToast(`⚡ Habilidade <strong>${powerObj.name}</strong> desativada.`);
+        showDiceToast(\`⚡ Habilidade <strong>\${powerObj.name}</strong> desativada.\`);
         calcularEAtualizar();
         syncWithTable();
         return;
@@ -2335,12 +2343,12 @@
       const cls = CLASSES[state.classId] || CLASSES.atirador;
 
       if ((state.currentPa || 0) < paCost) {
-        showDiceToast(`⚠️ Pontos de Ação insuficientes! Requer <strong>${paCost} PA</strong>.`);
+        showDiceToast(\`⚠️ Pontos de Ação insuficientes! Requer <strong>\${paCost} PA</strong>.\`);
         return;
       }
 
       if (resCost > 0 && (state.classResource || 0) < resCost) {
-        showDiceToast(`⚠️ Recurso de classe insuficiente! Requer <strong>${resCost} ${cls.resourceName}</strong>.`);
+        showDiceToast(\`⚠️ Recurso de classe insuficiente! Requer <strong>\${resCost} \${cls.resourceName}</strong>.\`);
         return;
       }
 
@@ -2351,8 +2359,8 @@
       // 3. Salvar no estado de ativas
       const activeEntry = {
         id: powerObj.id,
-        name: powerObj.name + (chosenEffect ? ` (${chosenEffect.name})` : ''),
-        cost: powerObj.cost || `${paCost} PA`,
+        name: powerObj.name + (chosenEffect ? \` (\${chosenEffect.name})\` : ''),
+        cost: powerObj.cost || \`\${paCost} PA\`,
         summary: chosenEffect ? chosenEffect.desc : powerObj.desc,
         buffs: chosenEffect ? (chosenEffect.buffs || {}) : (powerObj.buffs || {}),
         turnsRemaining: powerObj.durationTurns || 0
@@ -2378,17 +2386,17 @@
 
       // 5. Log para o Mestre
       if (window.FerroArcanoNetwork && state.room_code) {
-        const targetStr = targetAlly ? ` em ${targetAlly.name}` : '';
+        const targetStr = targetAlly ? \` em \${targetAlly.name}\` : '';
         window.FerroArcanoNetwork.broadcast('ACTION_LOG', {
           playerId: state.id,
           playerName: state.name || "Agente",
-          text: `${state.name || "Agente"} ativou ${activeEntry.name}${targetStr} (-${paCost} PA, -${resCost} ${cls.resourceName}).`
+          text: \`\${state.name || "Agente"} ativou \${activeEntry.name}\${targetStr} (-\${paCost} PA, -\${resCost} \${cls.resourceName}).\`
         });
       }
 
       calcularEAtualizar();
       syncWithTable();
-      showDiceToast(`✨ <strong>${activeEntry.name}</strong> ATIVADA!${targetAlly ? `<br>Aplicado em <strong>${targetAlly.name}</strong>.` : ''}`);
+      showDiceToast(\`✨ <strong>\${activeEntry.name}</strong> ATIVADA!\${targetAlly ? \`<br>Aplicado em <strong>\${targetAlly.name}</strong>.\` : ''}\`);
     }
 
     function switchAbilitiesTab(tab) {
@@ -2417,26 +2425,26 @@
         const isActive = state.activeAbilities.some(a => (typeof a === 'string' ? a : a.id) === p.id);
 
         const div = document.createElement('div');
-        div.className = `ability-item ${isPassive ? 'passive-power' : (isActive ? 'active-power' : '')}`;
+        div.className = \`ability-item \${isPassive ? 'passive-power' : (isActive ? 'active-power' : '')}\`;
         
         let actionBtnHtml = '';
         if (isPassive) {
           actionBtnHtml = '<span class="badge-passive">🛡️ PASSIVA PERMANENTE</span>';
         } else {
-          actionBtnHtml = `
-            <button type="button" class="btn-toggle-ability ${isActive ? 'on' : 'off'}" onclick="toggleAbility('${p.id}')">
-              ${isActive ? '✨ ATIVA (LIGADA)' : '⚡ ATIVAR'}
+          actionBtnHtml = \`
+            <button type="button" class="btn-toggle-ability \${isActive ? 'on' : 'off'}" onclick="toggleAbility('\${p.id}')">
+              \${isActive ? '✨ ATIVA (LIGADA)' : '⚡ ATIVAR'}
             </button>
-          `;
+          \`;
         }
 
-        div.innerHTML = `
+        div.innerHTML = \`
           <div class="ability-header-row">
-            <strong>Nível ${idx + 1} · ${p.name} <small style="color:var(--ink-dim); font-weight:normal;">(${p.cost || p.type})</small></strong>
-            ${actionBtnHtml}
+            <strong>Nível \${idx + 1} · \${p.name} <small style="color:var(--ink-dim); font-weight:normal;">(\${p.cost || p.type})</small></strong>
+            \${actionBtnHtml}
           </div>
-          <span>${p.desc}</span>
-        `;
+          <span>\${p.desc}</span>
+        \`;
         classListDiv.appendChild(div);
       });
 
@@ -2451,17 +2459,17 @@
       if (state.level < 10) {
         lockedView.style.display = "block";
         unlockedView.style.display = "none";
-        trailStatus.textContent = `Nível ${state.level} (Trilha no N10)`;
+        trailStatus.textContent = \`Nível \${state.level} (Trilha no N10)\`;
         trailStatus.style.color = "var(--ink-dim)";
         trailLine.style.display = "none";
       } else {
         lockedView.style.display = "none";
         unlockedView.style.display = "flex";
-        trailStatus.textContent = `Nível ${state.level} (Trilha Desbloqueada!)`;
+        trailStatus.textContent = \`Nível \${state.level} (Trilha Desbloqueada!)\`;
         trailStatus.style.color = "var(--brass)";
 
         const classTrails = TRAILS[state.classId] || [];
-        trailSelect.innerHTML = classTrails.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
+        trailSelect.innerHTML = classTrails.map(t => \`<option value="\${t.id}">\${t.name}</option>\`).join('');
 
         if (!state.trailId || !classTrails.find(t => t.id === state.trailId)) {
           state.trailId = classTrails[0] ? classTrails[0].id : "";
@@ -2482,31 +2490,31 @@
             const isActive = state.activeAbilities.some(a => (typeof a === 'string' ? a : a.id) === ab.id);
 
             const div = document.createElement('div');
-            div.className = `ability-item ${isPassive ? 'passive-power' : (isActive ? 'active-power' : '')}`;
+            div.className = \`ability-item \${isPassive ? 'passive-power' : (isActive ? 'active-power' : '')}\`;
             div.style.opacity = isUnlocked ? "1" : "0.45";
 
             let actionBtnHtml = '';
             if (!isUnlocked) {
-              actionBtnHtml = `<small style="color:var(--ink-dim);">🔒 Nv ${ab.level}</small>`;
+              actionBtnHtml = \`<small style="color:var(--ink-dim);">🔒 Nv \${ab.level}</small>\`;
             } else if (isPassive) {
               actionBtnHtml = '<span class="badge-passive">🛡️ PASSIVA PERMANENTE</span>';
             } else {
-              actionBtnHtml = `
-                <button type="button" class="btn-toggle-ability ${isActive ? 'on' : 'off'}" onclick="toggleAbility('${ab.id}')">
-                  ${isActive ? '✨ ATIVA (LIGADA)' : '⚡ ATIVAR'}
+              actionBtnHtml = \`
+                <button type="button" class="btn-toggle-ability \${isActive ? 'on' : 'off'}" onclick="toggleAbility('\${ab.id}')">
+                  \${isActive ? '✨ ATIVA (LIGADA)' : '⚡ ATIVAR'}
                 </button>
-              `;
+              \`;
             }
 
-            div.innerHTML = `
+            div.innerHTML = \`
               <div class="ability-header-row">
-                <strong style="${isUnlocked ? 'color:#fcd34d;' : 'color:var(--ink-dim);'}">
-                  ${isUnlocked ? '✓' : '🔒'} Nível ${ab.level} · ${ab.name} <small style="color:var(--ink-dim); font-weight:normal;">(${ab.cost || ab.type})</small>
+                <strong style="\${isUnlocked ? 'color:#fcd34d;' : 'color:var(--ink-dim);'}">
+                  \${isUnlocked ? '✓' : '🔒'} Nível \${ab.level} · \${ab.name} <small style="color:var(--ink-dim); font-weight:normal;">(\${ab.cost || ab.type})</small>
                 </strong>
-                ${actionBtnHtml}
+                \${actionBtnHtml}
               </div>
-              <span>${ab.desc}</span>
-            `;
+              <span>\${ab.desc}</span>
+            \`;
             trailListDiv.appendChild(div);
           });
         }
@@ -2522,21 +2530,21 @@
       MAGIC_ITEMS.forEach(item => {
         const isEquipped = (state.equippedItems || []).includes(item.id);
         const div = document.createElement('div');
-        div.className = `skill-check-item ${isEquipped ? 'specialized' : ''}`;
+        div.className = \`skill-check-item \${isEquipped ? 'specialized' : ''}\`;
         div.style.flexDirection = "column";
         div.style.alignItems = "flex-start";
         div.style.gap = "4px";
 
-        div.innerHTML = `
+        div.innerHTML = \`
           <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
             <label style="display:flex; align-items:center; gap:6px; cursor:pointer; font-weight:700;">
-              <input type="checkbox" value="${item.id}" ${isEquipped ? 'checked' : ''} onchange="toggleEquippedItem('${item.id}', this.checked)">
-              <span>${item.name}</span>
+              <input type="checkbox" value="\${item.id}" \${isEquipped ? 'checked' : ''} onchange="toggleEquippedItem('\${item.id}', this.checked)">
+              <span>\${item.name}</span>
             </label>
-            <span style="font-size:0.65rem; color:var(--brass); text-transform:uppercase;">${item.type}</span>
+            <span style="font-size:0.65rem; color:var(--brass); text-transform:uppercase;">\${item.type}</span>
           </div>
-          <small style="font-size:0.72rem; color:var(--ink-dim); line-height:1.3;">${item.desc}</small>
-        `;
+          <small style="font-size:0.72rem; color:var(--ink-dim); line-height:1.3;">\${item.desc}</small>
+        \`;
         container.appendChild(div);
       });
     }
@@ -2662,20 +2670,20 @@
         div.style.flexDirection = "column";
         div.style.gap = "8px";
 
-        div.innerHTML = `
+        div.innerHTML = \`
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <select onchange="updateWeaponPreset(${idx}, this.value)" style="flex:1; margin-right:8px;" ${state.is_locked ? 'disabled' : ''}>
-              ${WEAPON_PRESETS.map(p => `<option value="${p.name}" ${p.name === w.name ? 'selected' : ''}>${p.name} (${p.type === 'fogo' ? '🔫' : '⚔️'} ${p.damage})</option>`).join('')}
+            <select onchange="updateWeaponPreset(\${idx}, this.value)" style="flex:1; margin-right:8px;" \${state.is_locked ? 'disabled' : ''}>
+              \${WEAPON_PRESETS.map(p => \`<option value="\${p.name}" \${p.name === w.name ? 'selected' : ''}>\${p.name} (\${p.type === 'fogo' ? '🔫' : '⚔️'} \${p.damage})</option>\`).join('')}
             </select>
-            <button type="button" onclick="removeWeaponRow(${idx})" style="background:transparent; border:none; color:#ef4444; cursor:pointer; font-weight:bold;" ${state.is_locked ? 'disabled' : ''}>✕</button>
+            <button type="button" onclick="removeWeaponRow(\${idx})" style="background:transparent; border:none; color:#ef4444; cursor:pointer; font-weight:bold;" \${state.is_locked ? 'disabled' : ''}>✕</button>
           </div>
           <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:6px; font-size:0.75rem; color:var(--ink-dim);">
-            <span>Dano: <strong style="color:var(--ink);">${w.damage}</strong></span>
-            <span>Crítico: <strong style="color:var(--ink);">${w.crit}</strong></span>
-            <span>Alcance: <strong style="color:var(--ink);">${w.range}</strong></span>
-            <span>${w.type === 'fogo' ? 'Pente: ' + w.ammo : 'Corpo a Corpo'}</span>
+            <span>Dano: <strong style="color:var(--ink);">\${w.damage}</strong></span>
+            <span>Crítico: <strong style="color:var(--ink);">\${w.crit}</strong></span>
+            <span>Alcance: <strong style="color:var(--ink);">\${w.range}</strong></span>
+            <span>\${w.type === 'fogo' ? 'Pente: ' + w.ammo : 'Corpo a Corpo'}</span>
           </div>
-        `;
+        \`;
         container.appendChild(div);
       });
     }
@@ -2714,7 +2722,7 @@
         sum += r;
       }
 
-      showDiceToast(`🎯 <strong>${weaponName}</strong><br>Rolagem de Dano: <strong>${diceStr}</strong> ➔ [${rolls.join(', ')}] = <strong>${sum} de Dano</strong>!<br><small style="color:var(--ink-dim);">Margem Crítica: ${critStr}</small>`);
+      showDiceToast(\`🎯 <strong>\${weaponName}</strong><br>Rolagem de Dano: <strong>\${diceStr}</strong> ➔ [\${rolls.join(', ')}] = <strong>\${sum} de Dano</strong>!<br><small style="color:var(--ink-dim);">Margem Crítica: \${critStr}</small>\`);
     }
 
     // ================= COLAPSO RANDOM =================
@@ -2723,7 +2731,7 @@
       state.colapsoId = roll;
       document.getElementById('char-colapso').value = roll;
       calcularEAtualizar();
-      showDiceToast(`⚠️ <strong>Colapso Arcano Roolado (1d20 = ${roll}):</strong><br>Sequela: <strong>${COLAPSOS[roll].name}</strong> aplicada!`);
+      showDiceToast(\`⚠️ <strong>Colapso Arcano Roolado (1d20 = \${roll}):</strong><br>Sequela: <strong>\${COLAPSOS[roll].name}</strong> aplicada!\`);
     }
 
     // ================= ATUALIZAÇÃO GERAL E CÁLCULOS =================
@@ -2764,25 +2772,25 @@
       document.getElementById('char-class').value = state.classId;
       document.getElementById('char-origin').value = state.originId;
       document.getElementById('char-colapso').value = state.colapsoId || 0;
-      document.getElementById('char-armor').value = `${state.armorVal},${state.armorRd}`;
+      document.getElementById('char-armor').value = \`\${state.armorVal},\${state.armorRd}\`;
       document.getElementById('char-shield').value = state.shieldVal || 0;
       document.getElementById('char-items').value = state.items || "";
 
       // Atualizar Exibição de Atributos
       Object.keys(state.attributes).forEach(k => {
-        document.getElementById(`val-attr-${k}`).textContent = state.attributes[k] || 0;
+        document.getElementById(\`val-attr-\${k}\`).textContent = state.attributes[k] || 0;
       });
 
       const budget = getBudgetPoints(state.level);
       const spent = getSpentPoints();
-      document.getElementById('attribute-budget-label').textContent = `${budget - spent} Pontos Restantes`;
+      document.getElementById('attribute-budget-label').textContent = \`\${budget - spent} Pontos Restantes\`;
 
       // Atualizar Header do Preview
       document.getElementById('p-char-name').textContent = state.name || "Agente Não Identificado";
-      document.getElementById('p-char-class-line').textContent = `${cls.name} · Nível ${state.level}`;
+      document.getElementById('p-char-class-line').textContent = \`\${cls.name} · Nível \${state.level}\`;
       
       const corp = CORPORATIONS.find(c => c.id === state.corpId) || CORPORATIONS[0];
-      document.getElementById('p-char-corp-line').textContent = `${corp.flag} ${corp.name} · Agência ${corp.agency} (${corp.country})`;
+      document.getElementById('p-char-corp-line').textContent = \`\${corp.flag} \${corp.name} · Agência \${corp.agency} (\${corp.country})\`;
 
       // Status de Trava
       const lockBadge = document.getElementById('p-char-lock-badge');
@@ -2808,31 +2816,31 @@
         if (idx < curPa) pip.classList.add('filled');
         else pip.classList.remove('filled');
       });
-      document.getElementById('pa-text-label').textContent = `${curPa}/3 PA`;
+      document.getElementById('pa-text-label').textContent = \`\${curPa}/3 PA\`;
 
       // Recurso de Classe
       document.getElementById('p-resource-label').textContent = cls.resourceName + ':';
-      document.getElementById('p-resource-val').textContent = `${state.classResource !== undefined ? state.classResource : resourceMax} / ${resourceMax}`;
+      document.getElementById('p-resource-val').textContent = \`\${state.classResource !== undefined ? state.classResource : resourceMax} / \${resourceMax}\`;
 
       // Barras de Vitals
-      document.getElementById('p-pv-text').textContent = `${state.currentPv} / ${pvMax} PV`;
-      document.getElementById('p-pv-bar').style.width = `${Math.max(0, Math.min(100, (state.currentPv / pvMax) * 100))}%`;
+      document.getElementById('p-pv-text').textContent = \`\${state.currentPv} / \${pvMax} PV\`;
+      document.getElementById('p-pv-bar').style.width = \`\${Math.max(0, Math.min(100, (state.currentPv / pvMax) * 100))}%\`;
 
       const exPct = exMax > 0 ? (state.currentExaustao / exMax) * 100 : 0;
-      document.getElementById('p-ex-text').textContent = `${state.currentExaustao} / ${exMax} EX`;
-      document.getElementById('p-ex-bar').style.width = `${Math.max(0, Math.min(100, exPct))}%`;
+      document.getElementById('p-ex-text').textContent = \`\${state.currentExaustao} / \${exMax} EX\`;
+      document.getElementById('p-ex-bar').style.width = \`\${Math.max(0, Math.min(100, exPct))}%\`;
 
       // Derivados
       document.getElementById('p-val-def').textContent = defTotal;
       document.getElementById('p-val-rd').textContent = rdFisicaTotal;
       document.getElementById('p-val-rd-magica').textContent = rdMagicaTotal;
       document.getElementById('p-val-esquiva').textContent = (esquivaTotal >= 0 ? '+' : '') + esquivaTotal;
-      document.getElementById('p-val-speed').textContent = `${speedTotal}m`;
+      document.getElementById('p-val-speed').textContent = \`\${speedTotal}m\`;
 
       // Colapso
       const colObj = COLAPSOS.find(c => c.id === state.colapsoId) || COLAPSOS[0];
       const colBox = document.getElementById('colapso-description-box');
-      colBox.innerHTML = `<strong>${colObj.name}:</strong> ${state.colapsoSeverity === 'critica' ? colObj.critica : colObj.simples}`;
+      colBox.innerHTML = \`<strong>\${colObj.name}:</strong> \${state.colapsoSeverity === 'critica' ? colObj.critica : colObj.simples}\`;
 
       // Renderizações secundárias
       renderActivePowersPreview(activeBuffs);
@@ -2856,15 +2864,15 @@
 
       (state.activeAbilities || []).forEach(item => {
         const name = typeof item === 'object' ? item.name : item;
-        const dur = typeof item === 'object' && item.turnsRemaining ? ` (${item.turnsRemaining}r)` : '';
+        const dur = typeof item === 'object' && item.turnsRemaining ? \` (\${item.turnsRemaining}r)\` : '';
         activeList.push({ name: name + dur, id: typeof item === 'object' ? item.id : item });
       });
 
       (state.incomingBuffs || []).forEach(ib => {
-        activeList.push({ name: `🛡️ ${ib.abilityName} (de ${ib.sourcePlayerName})`, incoming: true });
+        activeList.push({ name: \`🛡️ \${ib.abilityName} (de \${ib.sourcePlayerName})\`, incoming: true });
       });
 
-      counter.textContent = `${activeList.length} Ativos`;
+      counter.textContent = \`\${activeList.length} Ativos\`;
 
       if (activeList.length === 0) {
         container.innerHTML = '<span style="font-size:0.72rem; color:var(--ink-dim);">Nenhum efeito/postura ativa no momento.</span>';
@@ -2874,10 +2882,10 @@
       activeList.forEach(act => {
         const chip = document.createElement('span');
         chip.className = "power-chip";
-        chip.innerHTML = `
-          <span>✨ ${act.name}</span>
-          ${!act.incoming ? `<button type="button" onclick="toggleAbility('${act.id}')">✕</button>` : ''}
-        `;
+        chip.innerHTML = \`
+          <span>✨ \${act.name}</span>
+          \${!act.incoming ? \`<button type="button" onclick="toggleAbility('\${act.id}')">✕</button>\` : ''}
+        \`;
         container.appendChild(chip);
       });
     }
@@ -2900,18 +2908,18 @@
         div.style.padding = "6px 0";
         div.style.borderBottom = "1px solid rgba(255,255,255,0.05)";
 
-        div.innerHTML = `
+        div.innerHTML = \`
           <div>
-            <strong style="font-size:0.85rem; color:var(--ink);">${w.name}</strong>
-            <div style="font-size:0.72rem; color:var(--ink-dim);">${w.type === 'fogo' ? '🔫 Alcance ' + w.range : '⚔️ Corpo a Corpo'} · Crítico ${w.crit}</div>
+            <strong style="font-size:0.85rem; color:var(--ink);">\${w.name}</strong>
+            <div style="font-size:0.72rem; color:var(--ink-dim);">\${w.type === 'fogo' ? '🔫 Alcance ' + w.range : '⚔️ Corpo a Corpo'} · Crítico \${w.crit}</div>
           </div>
           <div style="display:flex; align-items:center; gap:8px;">
-            <div class="fixed-va-badge">VA ${va}</div>
-            <button type="button" class="btn-roll-damage" onclick="rollWeaponDamage('${w.name}', '${w.damage}', '${w.crit}')">
-              🎲 ${w.damage}
+            <div class="fixed-va-badge">VA \${va}</div>
+            <button type="button" class="btn-roll-damage" onclick="rollWeaponDamage('\${w.name}', '\${w.damage}', '\${w.crit}')">
+              🎲 \${w.damage}
             </button>
           </div>
-        `;
+        \`;
         container.appendChild(div);
       });
     }
@@ -2926,11 +2934,11 @@
         const bonus = attrVal + (isTrained ? 2 : 0);
 
         const div = document.createElement('div');
-        div.className = `preview-skill-row ${isTrained ? 'trained' : ''}`;
-        div.innerHTML = `
-          <span>${sk.name} <small style="color:var(--ink-dim);">(${sk.attr})</small></span>
-          <strong>${bonus >= 0 ? '+' : ''}${bonus}</strong>
-        `;
+        div.className = \`preview-skill-row \${isTrained ? 'trained' : ''}\`;
+        div.innerHTML = \`
+          <span>\${sk.name} <small style="color:var(--ink-dim);">(\${sk.attr})</small></span>
+          <strong>\${bonus >= 0 ? '+' : ''}\${bonus}</strong>
+        \`;
         container.appendChild(div);
       });
     }
@@ -2971,7 +2979,7 @@
 
       calcularEAtualizar();
       syncWithTable();
-      showDiceToast(`🩹 <strong>Descanso Curto (30 min):</strong><br>+ ${exRecovery} Exaustão · Curou 1d10+CON (${rollHp}+${conVal} = <strong>${totalHeal} PV</strong>).<br>${cls.resourceName} totalmente restaurado!`);
+      showDiceToast(\`🩹 <strong>Descanso Curto (30 min):</strong><br>+ \${exRecovery} Exaustão · Curou 1d10+CON (\${rollHp}+\${conVal} = <strong>\${totalHeal} PV</strong>).<br>\${cls.resourceName} totalmente restaurado!\`);
     }
 
     function actionDescansoCompleto() {
@@ -2996,7 +3004,7 @@
 
       calcularEAtualizar();
       syncWithTable();
-      showDiceToast(`🏕️ <strong>Descanso Completo (8 horas):</strong><br>PV, Exaustão e PA restaurados ao máximo!${colText}`);
+      showDiceToast(\`🏕️ <strong>Descanso Completo (8 horas):</strong><br>PV, Exaustão e PA restaurados ao máximo!\${colText}\`);
     }
 
     // ================= SINCRONIZAÇÃO EM TEMPO REAL =================
@@ -3004,7 +3012,7 @@
       if (state.room_code) {
         window.FerroArcanoNetwork.init(state.room_code, 'player', state.id);
         bindNetworkListeners();
-        document.getElementById('topbar-room-label').textContent = `Conectado (${state.room_code})`;
+        document.getElementById('topbar-room-label').textContent = \`Conectado (\${state.room_code})\`;
       }
     }
 
@@ -3024,7 +3032,7 @@
         if (!payload || payload.playerId !== state.id) return;
         state.is_locked = payload.is_locked;
         calcularEAtualizar();
-        showDiceToast(`🔒 Sua ficha foi <strong>${state.is_locked ? 'TRAVADA' : 'LIBERADA'}</strong> pelo Mestre.`);
+        showDiceToast(\`🔒 Sua ficha foi <strong>\${state.is_locked ? 'TRAVADA' : 'LIBERADA'}</strong> pelo Mestre.\`);
       });
 
       // Ouve lista de aliados transmitida pelo mestre ou presença de outros jogadores
@@ -3075,7 +3083,7 @@
 
         calcularEAtualizar();
         syncWithTable();
-        showDiceToast(`✨ <strong>${payload.sourcePlayerName}</strong> aplicou <strong>${payload.abilityName}</strong> em você!<br>${payload.desc || ''}`);
+        showDiceToast(\`✨ <strong>\${payload.sourcePlayerName}</strong> aplicou <strong>\${payload.abilityName}</strong> em você!<br>\${payload.desc || ''}\`);
       });
 
       // Sincronização inicial respondida pelo mestre
@@ -3200,9 +3208,9 @@
       });
 
       closeRoomModal();
-      document.getElementById('topbar-room-label').textContent = `Conectado (${code})`;
+      document.getElementById('topbar-room-label').textContent = \`Conectado (\${code})\`;
       calcularEAtualizar();
-      showDiceToast(`🎲 <strong>Conectado à Mesa ${code}!</strong><br>Sua ficha agora está sincronizada e pronta para a sessão.`);
+      showDiceToast(\`🎲 <strong>Conectado à Mesa \${code}!</strong><br>Sua ficha agora está sincronizada e pronta para a sessão.\`);
     };
 
     window.desconectarMesa = function() {
@@ -3264,4 +3272,7 @@
     }
   </script>
 </body>
-</html>
+</html>`;
+
+fs.writeFileSync(targetHtmlPath, htmlContent, 'utf8');
+console.log('minigame/ficha/index.html gerado com sucesso! Tamanho:', htmlContent.length);

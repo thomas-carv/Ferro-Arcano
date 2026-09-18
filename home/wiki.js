@@ -234,12 +234,14 @@
       ]
     },
     {
-      id: 'classes', number: '06', title: 'Classes e Habilidades', lead: 'As cinco classes oficiais de Ferro & Arcano, suas identidades táticas e o avanço de habilidades de nível 1 a 10.', classes: [
+      id: 'classes', number: '06', title: 'Classes e Habilidades', lead: 'As sete classes oficiais de Ferro & Arcano, suas identidades táticas e o avanço de habilidades de nível 1 a 10.', classes: [
         ['Atirador', 'Especialista em distância, precisão balística e controle de área.', ['Olho Clínico', 'Mira Estável', 'Disparo Rápido', 'Ajuste de Balística', 'Cadência Operacional', 'Respiro Tático', 'Disparo de Penetração', 'Fogo de Supressão', 'Postura do Caçador', 'Mestria Balística']],
         ['Canalizador', 'Manipulador das energias etéreas e riscos arcanos.', ['Ajuste Fino + Fluxo Contínuo', 'Mente Expandida', 'Emanação Rúnica de Repulsão', 'Barreira de Éter', 'Sintonia Rúnica', 'Recalibração Mental', 'Foco de Concentração Extrema', 'Modulação de Amplitude', 'Mente Inviolável', 'Domínio da Ruptura Arcana']],
         ['Híbrido', 'A fusão tática entre a técnica mecânica e a força arcana.', ['Munição Encantada + Sintonia Tecno-Mágica', 'Adaptabilidade de Sistemas', 'Golpe Arcano-Infuso', 'Sobrecarga do Núcleo', 'Malha de Tecido Rúnico', 'Recarga Sincronizada', 'Emissão de Campo Estático', 'Reciclagem de Energia', 'Injeção de Éter Medicinal', 'Síntese Absoluta do Ferro & Arcano']],
         ['Vanguardista', 'A linha de frente, a barreira física que sustenta a equipe.', ['Inflexibilidade + Blindagem Biológica', 'Postura Imóvel', 'Provocação Tática', 'Pele de Ferro Aprimorada', 'Retaliação de Impacto', 'Interceptação Balística', 'Escudo de Absorção Absoluta', 'Ancoragem Territorial', 'Vigor Inextinguível', 'Baluarte Supremo do Ferro']],
-        ['Ciborgue', 'O ápice da integração máquina-homem, focado em análise, adaptação e destruição.', ['Pontos de Protocolo + Visão de Sistema', 'Corpo Aumentado', 'Ponto Fraco', 'Interface de Combate', 'Protocolo Antimaterial', 'Reparação de Campo', 'Caçador de Máquinas', 'Sobrecarga de Protocolo', 'Arsenal Integrado', 'Arquitetura de Combate']]
+        ['Ciborgue', 'O ápice da integração máquina-homem, focado em análise, adaptação e destruição.', ['Pontos de Protocolo + Visão de Sistema', 'Corpo Aumentado', 'Ponto Fraco', 'Interface de Combate', 'Protocolo Antimaterial', 'Reparação de Campo', 'Caçador de Máquinas', 'Sobrecarga de Protocolo', 'Arsenal Integrado', 'Arquitetura de Combate']],
+        ['Vetor', 'Especialista em controle de movimento e disrupção cinética. Manipula trajetórias, empurra, freia e redireciona forças para dominar o campo de batalha.', ['Impulso Vetorial', 'Roubo de Impulso', 'Âncora Vetorial', 'Passo Vetorial', 'Conservação de Momentum', 'Corte de Movimento', 'Ruptura de Equilíbrio', 'Vetor Residual', 'Campo Vetorial', 'Domínio Vetorial']],
+        ['Mediador Arcano', 'Especialista em suporte e regulação arcana. Não conjura magias ofensivas: mantém aliados estáveis, redistribui Exaustão, amplia conjurações alheias e protege o grupo do colapso.', ['Mediar Fluxo', 'Âncora Arcana', 'Partilha de Exaustão', 'Campo Harmônico', 'Intercessão Arcana', 'Purga Ressonante', 'Extensão de Harmonia', 'Rede de Equilíbrio', 'Margem de Segurança', 'Convergência Arcana']]
       ]
     },
     {
@@ -249,13 +251,17 @@
           '• <strong>Canalizador (Concentração Militar):</strong> 1/rodada, ao conjurar uma magia com sucesso, reduz em 10 a Exaustão gerada (respeitando o mínimo de 0).<br>' +
           '• <strong>Híbrido (Transição de Combate):</strong> 1/rodada, após usar uma habilidade que consuma Cargas do Núcleo, ganha +1 VA no próximo ataque até o fim do turno.<br>' +
           '• <strong>Vanguardista (Formação de Combate):</strong> 1/rodada, quando sofrer um efeito que o moveria ou deixaria Caído, pode gastar 1 PA para reduzir o deslocamento em 3m ou evitar ficar Caído.<br>' +
-          '• <strong>Ciborgue (Formação de Combate):</strong> 1/rodada, quando sofrer um ataque de criatura tecnológica ou inimigo Marcado, recebe +1 Defesa contra o próximo ataque desse alvo até seu próximo turno.'],
+          '• <strong>Ciborgue (Formação de Combate):</strong> 1/rodada, quando sofrer um ataque de criatura tecnológica ou inimigo Marcado, recebe +1 Defesa contra o próximo ataque desse alvo até seu próximo turno.<br>' +
+          '• <strong>Vetor (Disciplina de Avanço):</strong> 1/rodada, após usar deslocamento forçado em um inimigo, recebe +1 VA no próximo ataque até o fim do turno.<br>' +
+          '• <strong>Mediador Arcano (Coordenação de Combate):</strong> 1/rodada, ao usar habilidade de suporte em aliado, concede +1 VA ao aliado beneficiado até o fim do turno dele.'],
         ['Artesão', '<strong>Geral (Conhecimento Técnico):</strong> Concede treinamento em Tecnologia & Sistemas ou Investigação. Caso já possua, recebe especialização.<br><br>' +
           '• <strong>Atirador (Modificação de Armamento):</strong> 1/Descanso Curto (6 PA); instala modificações. Na primeira vez que usar Mirar no turno, a ação não consome PA.<br>' +
           '• <strong>Canalizador (Aprimoramento Arcano):</strong> 1/Descanso Curto (6 PA); eleva em um estágio a raridade de um item arcano por 2 rodadas.<br>' +
           '• <strong>Híbrido (Infusão do Núcleo):</strong> 1/Descanso Curto (6 PA); escolhe uma infusão (Precisão, Potência, Regeneração, etc.) temporária para um equipamento.<br>' +
           '• <strong>Vanguardista (Reforço Estrutural):</strong> 1/Descanso Curto (6 PA); concede +10 PV/+2 RD a uma barreira/escudo ou sobe categoria de cobertura até Pesada.<br>' +
-          '• <strong>Ciborgue (Manutenção de Campo):</strong> 1/Descanso Curto; realiza reparos em si ou equipamento: recupera 2d8 PV, remove Falha de arma, conserta item ou +1 Defesa.'],
+          '• <strong>Ciborgue (Manutenção de Campo):</strong> 1/Descanso Curto; realiza reparos em si ou equipamento: recupera 2d8 PV, remove Falha de arma, conserta item ou +1 Defesa.<br>' +
+          '• <strong>Vetor (Contrapeso Personalizado):</strong> 1/Descanso Curto; calibra equipamento próprio para conceder +1,5m de alcance em habilidades de deslocamento forçado até o próximo descanso.<br>' +
+          '• <strong>Mediador Arcano (Calibração de Foco):</strong> 1/Descanso Curto; prepara um foco arcano que concede +5 de Exaustão recuperada extra na próxima habilidade de suporte usada.'],
         ['Médico', '<strong>Geral (Formação Médica):</strong> Concede treinamento na perícia Medicina de Combate. Caso já possua, recebe especialização.<br><br>' +
           '• <strong>Atirador (Socorro de Combate):</strong> 1/rodada, gasta 1 PA para curar em 1d6 PV um aliado adjacente que tenha sofrido dano nesta rodada.<br>' +
           '• <strong>Canalizador (Medicina Arcana):</strong> Sempre que uma conjuração sua recuperar pontos de vida, o alvo recupera um adicional de +1d6 PV.<br>' +

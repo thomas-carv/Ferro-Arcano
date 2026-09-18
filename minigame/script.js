@@ -75,39 +75,73 @@
   };
 
   const COLAPSOS = [
-    { id: 0, name: "Nenhum" },
-    { id: 1, name: "Visão Fraturada" },
-    { id: 2, name: "Necrose Elemental" },
-    { id: 3, name: "Eco de Ressonância" },
-    { id: 4, name: "Dreno Vital Contínuo" },
-    { id: 5, name: "Fuga de Mana" },
-    { id: 6, name: "Paralisia das Extremidades" },
-    { id: 7, name: "Voz Quebrada" },
-    { id: 8, name: "Aura Crepitante" },
-    { id: 9, name: "Vulnerabilidade Elemental" },
-    { id: 10, name: "Tremores nas Mãos" },
-    { id: 11, name: "Atrofia do Foco" },
-    { id: 12, name: "Alucinações Arcanas" },
-    { id: 13, name: "Insônia Arcana" },
-    { id: 14, name: "Cicatrização Cristalina" },
-    { id: 15, name: "Instabilidade Elemental" },
-    { id: 16, name: "Dissociação Temporal" },
-    { id: 17, name: "Pele de Cinzas" },
-    { id: 18, name: "Espasmos Mágicos" },
-    { id: 19, name: "Distorção Gravitacional" },
-    { id: 20, name: "Colapso Total / Fissura" }
+    { id: 0, name: "Nenhum", simples: "Nenhum", critica: "Nenhum" },
+    { id: 1, name: "Visão Fraturada", simples: "–2 em Percepção/Prontidão e VA de armas de fogo a mais de 12m.", critica: "–4 em Percepção/Prontidão; alcance de visão reduzido a 18 m." },
+    { id: 2, name: "Necrose Elemental", simples: "–1,5 s no tempo inicial do minigame.", critica: "–3 s no tempo inicial do minigame." },
+    { id: 3, name: "Eco de Ressonância", simples: "Ao conjurar, –1 Defesa até o início do próximo turno.", critica: "–2 Defesa até o início do próximo turno." },
+    { id: 4, name: "Dreno Vital Contínuo", simples: "Você sofre 1 de dano não reduzível ao conjurar uma magia.", critica: "Você sofre 2 de dano não reduzível ao conjurar uma magia." },
+    { id: 5, name: "Fuga de Mana", simples: "O custo de Exaustão de todas as suas magias aumenta em +3.", critica: "O custo de Exaustão aumenta em +6." },
+    { id: 6, name: "Chama Interna", simples: "Você sofre 2 de dano de fogo quando conjurar uma magia.", critica: "Você sofre +1d6 dano de fogo e fica com o status Queimado." },
+    { id: 7, name: "Rigidez Muscular", simples: "–2 em Esquiva.", critica: "–3 m de Deslocamento." },
+    { id: 8, name: "Cicatriz de Descarga", simples: "Você sofre +2 de dano elétrico, inclusive de magias próprias.", critica: "Você sofre +1d6 dano elétrico." },
+    { id: 9, name: "Ressonância Eletrônica", simples: "Ao tocar em uma arma, ela apresenta falha.", critica: "Durante conjuração, armas e equipamentos a até 1,5m sofrem interferência por 1 rodada." },
+    { id: 10, name: "Tremores nas Mãos", simples: "O limite de erros do minigame é reduzido em 1.", critica: "O limite de erros é reduzido em 2 (mínimo de 1 erro)." },
+    { id: 11, name: "Atrofia do Foco", simples: "O bônus de FOC no tempo do minigame fornece apenas +1 s por ponto.", critica: "FOC não fornece tempo adicional ao minigame." },
+    { id: 12, name: "Sombra Desincronizada", simples: "Ataques corpo a corpo contra você recebem +2 VA.", critica: "Ataques corpo a corpo contra você causam +1d6 de dano adicional." },
+    { id: 13, name: "Dependência de Mana", simples: "Um Descanso Curto recupera apenas 10 Exaustão.", critica: "Um Descanso Curto recupera apenas 5 Exaustão." },
+    { id: 14, name: "Pele de Vidro", simples: "Você sofre +2 dano físico.", critica: "Você sofre +1d6 dano físico adicional." },
+    { id: 15, name: "Instabilidade Elemental", simples: "Cada falha no minigame causa 1d4 dano em você.", critica: "Cada falha causa 1d8 dano em você e 1d4 dano em criaturas adjacentes." },
+    { id: 16, name: "Audição Espectral", simples: "–2 em Percepção/Prontidão.", critica: "Ruído intenso causa –2 s no tempo inicial da sua próxima conjuração." },
+    { id: 17, name: "Eco de Conjuração", simples: "Sua conjuração deixa rastro perceptível por Sintonia Arcana por 3 rodadas CD 10.", critica: "O rastro permanece por 6 rodadas com CD 5." },
+    { id: 18, name: "Cristalização Nervosa", simples: "Recebe 1d4 de dano gélido adicional.", critica: "Recebe 3d4 de dano gélido adicional de todas as fontes." },
+    { id: 19, name: "Pulso Arcano", simples: "Torna-se prioridade para magias de alvo único em raio de 3m.", critica: "Magias desviadas para você recebem +2 VA." },
+    { id: 20, name: "Marca do Abismo", simples: "Suas próprias magias causam +2 dano por Círculo contra você.", critica: "A margem de Detonação Arcana é reduzida de 10 para 8 Colapsos." }
   ];
 
   let activeCharacter = null;
 
   const SPELLS = {
-    1: [{ name: "Fagulha Ardente", desc: "Projétil elemental simples.", seq: ["fogo"] }],
-    2: [{ name: "Correnteza Aquática", desc: "Arrasta o alvo com duas ondas.", seq: ["agua", "agua"] }],
-    3: [{ name: "Lança de Gelo", desc: "Estilhaço congelante perfurante.", seq: ["agua", "terra", "ar"] }],
-    4: [{ name: "Barreira Elemental", desc: "Escudo que combina quatro elementos.", seq: ["terra", "agua", "fogo", "ar"] }],
-    5: [{ name: "Chamas do Abismo", desc: "Fogo sombrio devorador.", seq: ["sombra", "fogo", "fogo", "arcano", "sombra"] }],
-    6: [{ name: "Tempestade Arcana", desc: "Tempestade de mana pura instável.", seq: ["arcano", "ar", "agua", "fogo", "terra", "arcano"] }],
-    7: [{ name: "Juízo Arcano Final", desc: "Magia ancestral dos 7 elementos.", seq: ["arcano", "luz", "sombra", "fogo", "agua", "terra", "ar"] }]
+    1: [
+      { name: "Fagulha Ardente", desc: "Projétil elemental simples de fogo.", seq: ["fogo"] },
+      { name: "Onda de Gelo", desc: "Pulso frio que toca o alvo.", seq: ["agua"] },
+      { name: "Rajada de Vento", desc: "Corrente de ar que empurra o alvo.", seq: ["ar"] },
+      { name: "Pedra Afiada", desc: "Fragmento de terra lançado com força.", seq: ["terra"] }
+    ],
+    2: [
+      { name: "Correnteza Aquática", desc: "Arrasta o alvo com duas ondas consecutivas.", seq: ["agua", "agua"] },
+      { name: "Brasa Dupla", desc: "Dois projéteis de fogo em sequência.", seq: ["fogo", "fogo"] },
+      { name: "Rajada Gelada", desc: "Vento frio que desacelera o alvo.", seq: ["ar", "agua"] },
+      { name: "Lâmina Terrosa", desc: "Corte de terra comprimida.", seq: ["terra", "ar"] }
+    ],
+    3: [
+      { name: "Lança de Gelo", desc: "Estilhaço congelante perfurante.", seq: ["agua", "terra", "ar"] },
+      { name: "Chama Giratória", desc: "Espiral de fogo que queima em área.", seq: ["fogo", "ar", "fogo"] },
+      { name: "Descarga Elétrica", desc: "Raio arcano que percorre superfícies.", seq: ["ar", "arcano", "ar"] },
+      { name: "Espinhos de Pedra", desc: "Múltiplos fragmentos de terra disparados.", seq: ["terra", "terra", "ar"] }
+    ],
+    4: [
+      { name: "Barreira Elemental", desc: "Escudo sólido que combina quatro elementos.", seq: ["terra", "agua", "fogo", "ar"] },
+      { name: "Tocha do Éter", desc: "Flama arcana de alta temperatura.", seq: ["fogo", "arcano", "fogo", "fogo"] },
+      { name: "Ciclone de Gelo", desc: "Redemoinho gelado que retém o alvo.", seq: ["agua", "ar", "agua", "ar"] },
+      { name: "Pulso de Luz", desc: "Descarga radiante que cega temporariamente.", seq: ["luz", "arcano", "ar", "luz"] }
+    ],
+    5: [
+      { name: "Chamas do Abismo", desc: "Fogo sombrio de origem arcana profunda.", seq: ["sombra", "fogo", "fogo", "arcano", "sombra"] },
+      { name: "Maré do Vácuo", desc: "Onda que suga energia vital do alvo.", seq: ["sombra", "agua", "arcano", "sombra", "agua"] },
+      { name: "Tempestade Elétrica", desc: "Vórtice de ar carregado de energia arcana.", seq: ["ar", "arcano", "ar", "fogo", "ar"] },
+      { name: "Raízes do Abismo", desc: "Tentáculos de terra sombria imobilizam o alvo.", seq: ["terra", "sombra", "terra", "arcano", "terra"] }
+    ],
+    6: [
+      { name: "Tempestade Arcana", desc: "Tempestade de mana pura e instável.", seq: ["arcano", "ar", "agua", "fogo", "terra", "arcano"] },
+      { name: "Extinção de Luz", desc: "Campo de sombra que apaga toda a luz ao redor.", seq: ["sombra", "sombra", "arcano", "ar", "sombra", "sombra"] },
+      { name: "Maré da Criação", desc: "Onda arcana que reconfigura a matéria ao redor.", seq: ["arcano", "luz", "agua", "terra", "arcano", "luz"] },
+      { name: "Furacão de Cinzas", desc: "Redemoinho de fogo e terra calcinada.", seq: ["fogo", "ar", "terra", "fogo", "ar", "arcano"] }
+    ],
+    7: [
+      { name: "Juízo Arcano Final", desc: "Magia ancestral que canaliza todos os sete elementos.", seq: ["arcano", "luz", "sombra", "fogo", "agua", "terra", "ar"] },
+      { name: "Singularidade do Éter", desc: "Colapso arcano que destrói tudo em seu epicentro.", seq: ["sombra", "arcano", "fogo", "arcano", "sombra", "arcano", "luz"] },
+      { name: "Renascimento Elemental", desc: "Magia de reconstituição que restaura aliados e devasta inimigos.", seq: ["luz", "agua", "terra", "luz", "arcano", "luz", "ar"] }
+    ]
   };
 
   /* ================= ESTADO DO JOGO ================= */
@@ -272,7 +306,7 @@
       colapsoClass = "badge-red";
     }
 
-    const hasWand = activeCharacter.items && activeCharacter.items.toLowerCase().includes('varinha');
+    const hasWand = (activeCharacter.equippedItems && activeCharacter.equippedItems.includes('varinha_foco')) || (activeCharacter.items && activeCharacter.items.toLowerCase().includes('varinha'));
     const totalFocText = `+${focBonus.toFixed(1)}s` + (hasWand ? " (+1.5s Varinha)" : "");
 
     const pvPct = Math.max(0, Math.min(100, (activeCharacter.currentPv / activeCharacter.pvMax) * 100));
@@ -555,12 +589,17 @@
         necrosePenalty = 1.5;
       }
 
-      if (activeCharacter.items && activeCharacter.items.toLowerCase().includes('varinha')) {
+      if ((activeCharacter.equippedItems && activeCharacter.equippedItems.includes('varinha_foco')) || (activeCharacter.items && activeCharacter.items.toLowerCase().includes('varinha'))) {
         wandBonus = 1.5;
       }
 
       if (activeCharacter.colapsoId === 10) {
         tremorPenalty = activeCharacter.colapsoSeverity === 'simples' ? 1 : 2;
+      }
+
+      // Anel Rúnico: Ignora 1 erro
+      if (activeCharacter.equippedItems && activeCharacter.equippedItems.includes('anel_runico')) {
+        tremorPenalty -= 1;
       }
     }
 
