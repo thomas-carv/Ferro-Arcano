@@ -192,3 +192,24 @@ test('Multiplayer automático usa PeerJS e mantém o modo local como reserva', (
   assert.match(fichaHtml, /peerjs@1\.5\.5/);
   assert.doesNotMatch(mestreHtml, /Configuração do Supabase/);
 });
+
+test('Código curto de quatro dígitos entra na mesma sala com prefixo FA', () => {
+  const network = read('mestre/supabaseClient.js');
+  const ficha = read('minigame/ficha/index.html');
+  const home = read('home/rooms.js');
+  assert.ok(network.includes("/^\\d{4}$/.test(rawRoomCode) ? `FA-${rawRoomCode}`"));
+  assert.match(ficha, /function normalizeRoomCode\(value\)/);
+  assert.ok(home.includes("/^\\d{4}$/.test(rawCode) ? `FA-${rawCode}`"));
+});
+
+test('Mesa preserva habilidades ativas e o histórico completo da sala', () => {
+  const mestre = read('mestre/mestre.js');
+  const ficha = read('minigame/ficha/index.html');
+  assert.match(mestre, /Object\.assign\(\{\}, existing \|\| \{\}, payload\)/);
+  assert.match(mestre, /const MAX_EVENT_LOGS = 300/);
+  assert.match(mestre, /STORAGE_LOGS_KEY \+ roomCode/);
+  assert.match(mestre, /function loadPersistedLogs\(\)/);
+  assert.match(ficha, /state\.incomingBuffs \|\| \[\]/);
+  assert.match(ficha, /effectType: 'incoming'/);
+  assert.match(ficha, /turnsRemaining: Number\(item\.turnsRemaining\) \|\| 0/);
+});

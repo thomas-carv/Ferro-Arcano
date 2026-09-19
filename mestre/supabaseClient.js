@@ -52,7 +52,8 @@
     }
 
     init(roomCode, role = 'player', characterId = '') {
-      const nextRoomCode = String(roomCode || DEFAULT_ROOM).trim().toUpperCase();
+      const rawRoomCode = String(roomCode || DEFAULT_ROOM).trim().toUpperCase();
+      const nextRoomCode = /^\d{4}$/.test(rawRoomCode) ? `FA-${rawRoomCode}` : rawRoomCode;
       if (this.roomCode && this.roomCode !== nextRoomCode) {
         this.pendingSupabaseMessages = [];
         this.pendingPeerMessages = [];

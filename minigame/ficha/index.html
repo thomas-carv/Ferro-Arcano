@@ -1902,6 +1902,11 @@
     let state = getBlankState();
     let networkListenersBound = false;
 
+    function normalizeRoomCode(value) {
+      const code = String(value || '').trim().toUpperCase();
+      return /^\d{4}$/.test(code) ? `FA-${code}` : code;
+    }
+
     // ================= INICIALIZAÇÃO =================
     window.onload = function() {
       initDOM();
@@ -1928,7 +1933,7 @@
         }
       }
       if (roomParam) {
-        state.room_code = roomParam.trim().toUpperCase();
+        state.room_code = normalizeRoomCode(roomParam);
         state.is_locked = true;
         salvarFicha(false, false);
         if (window.location.hash) {
@@ -3408,7 +3413,9 @@
             id: item.id,
             name: item.name,
             cost: item.cost || '',
-            summary: item.summary || ''
+            summary: item.summary || '',
+            turnsRemaining: Number(item.turnsRemaining) || 0,
+            effectType: 'own'
           };
         }
         const p = cls.powers.find(x => x.id === item);
@@ -3419,6 +3426,17 @@
           if (ab) return { id: ab.id, name: ab.name, cost: ab.cost || '', summary: ab.desc || '' };
         }
         return { id: item, name: item, cost: '', summary: '' };
+      });
+      (state.incomingBuffs || []).forEach((item, index) => {
+        activePowersDetailed.push({
+          id: `incoming-${index}-${item.abilityName || 'effect'}`,
+          name: item.abilityName || 'Efeito recebido',
+          cost: '',
+          summary: item.desc || '',
+          turnsRemaining: Number(item.turnsRemaining) || 0,
+          sourceName: item.sourcePlayerName || 'Aliado',
+          effectType: 'incoming'
+        });
       });
 
       const weaponsSnapshot = (state.weapons || []).map(w => ({
@@ -3476,7 +3494,7 @@
 
     window.conectarMesa = function() {
       const input = document.getElementById('input-room-code');
-      const code = (input.value || '').trim().toUpperCase();
+      const code = normalizeRoomCode(input.value);
       if (!code) return alert("Digite o código da sala!");
 
       bindNetworkListeners();

@@ -553,12 +553,19 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline:2px solid v
 
 /* Log de Eventos */
 .event-log-container {
-  max-height: 420px;
+  max-height: 620px;
+  min-height: 180px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  padding-right: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--brass) rgba(0, 0, 0, 0.2);
 }
+
+.event-log-empty { text-align:center; padding:20px 10px; color:var(--ink-dim); font-size:0.75rem; }
+.active-power-source { margin:4px 0 0; color:#a78bfa; font-size:0.66rem; }
 
 .log-entry {
   font-size: 0.75rem;

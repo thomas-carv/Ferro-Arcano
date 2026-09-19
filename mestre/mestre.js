@@ -4,6 +4,8 @@
   const STORAGE_ROOM_KEY = 'ferro_arcano_active_room';
   const STORAGE_PLAYERS_KEY = 'ferro_arcano_room_players_';
   const STORAGE_COMBAT_KEY = 'ferro_arcano_combat_';
+  const STORAGE_LOGS_KEY = 'ferro_arcano_room_logs_';
+  const MAX_EVENT_LOGS = 300;
 
   // Catálogo de colapsos para rolagem rápida pelo mestre
   const COLAPSOS = [
@@ -64,9 +66,11 @@
     initRoomCode();
     combatRound = Math.max(0, Number(localStorage.getItem(STORAGE_COMBAT_KEY + roomCode)) || 0);
     loadPersistedPlayers();
+    loadPersistedLogs();
     initNetwork();
     setupEventListeners();
     renderAll();
+    renderEventLog();
   };
 
   function initRoomCode() {
@@ -96,6 +100,30 @@
     }
   }
 
+  function loadPersistedLogs() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(STORAGE_LOGS_KEY + roomCode) || '[]');
+      if (!Array.isArray(parsed)) return;
+      eventLogs = parsed.filter(entry => entry && typeof entry.message === 'string').slice(0, MAX_EVENT_LOGS).map(entry => ({
+        kind: ['damage', 'heal', 'skill', 'system', 'player'].includes(entry.kind) ? entry.kind : 'system',
+        message: entry.message.slice(0, 2000),
+        author: String(entry.author || 'Mestre').slice(0, 80),
+        time: String(entry.time || '').slice(0, 40)
+      }));
+    } catch (error) {
+      eventLogs = [];
+      console.warn('Erro ao carregar histórico da sala:', error);
+    }
+  }
+
+  function savePersistedLogs() {
+    try {
+      localStorage.setItem(STORAGE_LOGS_KEY + roomCode, JSON.stringify(eventLogs));
+    } catch (error) {
+      console.warn('Erro ao salvar histórico da sala:', error);
+    }
+  }
+
   function broadcastSquadRoster() {
     const roster = Array.from(players.values()).map(p => ({
       id: p.id,
@@ -117,8 +145,9 @@
     // Escuta entrada de jogadores
     window.FerroArcanoNetwork.on('PLAYER_JOIN', (payload) => {
       if (!isValidPlayer(payload)) return;
-      const isNewPlayer = !players.has(payload.id);
-      players.set(payload.id, payload);
+      const existing = players.get(payload.id);
+      const isNewPlayer = !existing;
+      players.set(payload.id, Object.assign({}, existing || {}, payload));
       savePersistedPlayers();
       renderAll();
       if (isNewPlayer) {
@@ -218,6 +247,8 @@
         localStorage.setItem(STORAGE_COMBAT_KEY + roomCode, '0');
         players.clear();
         savePersistedPlayers();
+        eventLogs = [];
+        savePersistedLogs();
         initRoomCode();
         initNetwork();
         renderAll();
@@ -298,7 +329,7 @@
       const weapons = p.weapons || [];
 
       // Habilidades Ativas
-      const activePowers = p.activeAbilities || [];
+      const activePowers = Array.isArray(p.activeAbilities) ? p.activeAbilities : [];
       const conditions = Array.isArray(p.conditions) ? p.conditions : [];
       const avatarUrl = safeImageUrl(p.avatarUrl);
 
@@ -385,9 +416,10 @@
                 <div class="active-power-card">
                   <div class="active-power-title-row">
                     <strong>✨ ${escapeHtml(typeof a === 'object' ? a.name : a)}</strong>
-                    ${(typeof a === 'object' && a.cost) ? `<span style="font-size:0.65rem; color:var(--brass);">${escapeHtml(a.cost)}</span>` : ''}
+                    ${(typeof a === 'object' && (a.turnsRemaining || a.cost)) ? `<span style="font-size:0.65rem; color:var(--brass);">${a.turnsRemaining ? `${Number(a.turnsRemaining)} rodada${Number(a.turnsRemaining) === 1 ? '' : 's'}` : escapeHtml(a.cost)}</span>` : ''}
                   </div>
                   ${(typeof a === 'object' && a.summary) ? `<p class="active-power-desc">${escapeHtml(a.summary)}</p>` : ''}
+                  ${(typeof a === 'object' && a.sourceName) ? `<p class="active-power-source">Aplicada por ${escapeHtml(a.sourceName)}</p>` : ''}
                 </div>`).join('') : '<span style="font-size:0.72rem; color:var(--ink-dim);">Nenhuma postura/efeito ativado.</span>'}
             </div>
           </div>
@@ -574,22 +606,31 @@
 
   // ================= LOG DE EVENTOS =================
   function logEvent(kind, message, author = 'Mestre') {
-    const time = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const time = new Date().toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
     eventLogs.unshift({ kind, message, author, time });
-    if (eventLogs.length > 50) eventLogs.pop();
+    if (eventLogs.length > MAX_EVENT_LOGS) eventLogs.length = MAX_EVENT_LOGS;
+    savePersistedLogs();
+    renderEventLog();
+  }
 
+  function renderEventLog() {
     const container = document.getElementById('event-log-feed');
-    if (container) {
-      container.innerHTML = eventLogs.map(l => `
+    const counter = document.getElementById('event-log-count');
+    if (counter) counter.textContent = `${eventLogs.length} evento${eventLogs.length === 1 ? '' : 's'} · Ao vivo`;
+    if (!container) return;
+    if (!eventLogs.length) {
+      container.innerHTML = '<div class="event-log-empty">Aguardando ações ou rolagens dos agentes...</div>';
+      return;
+    }
+    container.innerHTML = eventLogs.map(l => `
         <div class="log-entry ${l.kind}">
           <div class="log-entry-meta">
             <span>${escapeHtml(l.author)}</span>
-            <span>${l.time}</span>
+            <span>${escapeHtml(l.time)}</span>
           </div>
           <div>${l.message}</div>
         </div>
       `).join('');
-    }
   }
 
   function showNotification(msg) {

@@ -64,7 +64,8 @@
 
     // Enter sala action
     btnEntrar.addEventListener('click', () => {
-      const code = salaInput.value.trim().toUpperCase();
+      const rawCode = salaInput.value.trim().toUpperCase();
+      const code = /^\d{4}$/.test(rawCode) ? `FA-${rawCode}` : rawCode;
       if (!/^[A-Z0-9][A-Z0-9-]{2,19}$/.test(code)) { salaError.style.display = ''; return; }
       salaError.style.display = 'none';
       window.location.href = '../minigame/ficha/index.html?room=' + encodeURIComponent(code);

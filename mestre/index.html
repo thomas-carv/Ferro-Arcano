@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Mesa Virtual — Painel do Mestre | Ferro & Arcano</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="mestre.css">
+  <link rel="stylesheet" href="mestre.css?v=20260919-3">
   <!-- Conexão direta entre navegadores, sem conta ou configuração externa -->
   <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
 </head>
@@ -115,10 +115,10 @@
         <div class="panel-box">
           <div class="panel-box-header">
             <h3>📜 Log de Combate &amp; Rolagens</h3>
-            <span style="font-size:0.7rem; color:var(--ink-dim);">Ao Vivo</span>
+            <span id="event-log-count" style="font-size:0.7rem; color:var(--ink-dim);">0 eventos · Ao vivo</span>
           </div>
           <div class="event-log-container" id="event-log-feed">
-            <div style="text-align:center; padding:20px 10px; color:var(--ink-dim); font-size:0.75rem;">
+            <div class="event-log-empty">
               Aguardando ações ou rolagens dos agentes...
             </div>
           </div>
@@ -138,6 +138,6 @@
 
   <script src="../shared/rules.js"></script>
   <script src="supabaseClient.js?v=20260919-2"></script>
-  <script src="mestre.js?v=20260919-2"></script>
+  <script src="mestre.js?v=20260919-3"></script>
 </body>
 </html>
