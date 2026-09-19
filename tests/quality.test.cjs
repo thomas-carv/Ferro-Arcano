@@ -134,3 +134,48 @@ test('Wiki possui sumário hierárquico e leitura contínua das regras', () => {
   assert.match(wiki, /function applyOriginFilter/);
   assert.match(wiki, /scrollToTarget\(initialTargetId, 'auto'\)/);
 });
+
+test('Multiplayer espera o canal remoto conectar antes de anunciar a ficha', async () => {
+  const sent = [];
+  let subscriptionCallback;
+  const channel = {
+    on() { return this; },
+    subscribe(callback) { subscriptionCallback = callback; return this; },
+    presenceState() { return {}; },
+    async track() { return 'ok'; },
+    async send(message) { sent.push(message); return 'ok'; }
+  };
+  class BroadcastChannelMock {
+    postMessage() {}
+    close() {}
+  }
+  const context = {
+    window: {
+      supabase: { createClient: () => ({ channel: () => channel, removeChannel() {} }) },
+      dispatchEvent() {}
+    },
+    localStorage: { getItem: () => JSON.stringify({ url: 'https://example.supabase.co', anonKey: 'publishable-key' }), setItem() {} },
+    BroadcastChannel: BroadcastChannelMock,
+    CustomEvent: class {},
+    console: { log() {}, warn() {}, error() {} }
+  };
+  vm.runInNewContext(read('mestre/supabaseClient.js'), context);
+  const network = context.window.FerroArcanoNetwork;
+  network.init('fa-1234', 'player', 'char-1');
+  network.broadcast('PLAYER_JOIN', { id: 'char-1', name: 'Agente' });
+  assert.equal(sent.length, 0);
+  assert.equal(network.pendingSupabaseMessages.length, 1);
+  await subscriptionCallback('SUBSCRIBED');
+  assert.equal(sent.length, 1);
+  assert.equal(sent[0].payload.roomCode, 'FA-1234');
+  assert.equal(network.pendingSupabaseMessages.length, 0);
+});
+
+test('Convite multiplayer transporta a sala e a configuração pública sem expor no request HTTP', () => {
+  const mestre = read('mestre/mestre.js');
+  const ficha = read('minigame/ficha/index.html');
+  assert.match(mestre, /inviteUrl\.hash = invite\.toString\(\)/);
+  assert.match(mestre, /invite\.set\('sb_url', cfg\.url\)/);
+  assert.match(ficha, /inviteParams\.get\('sb_url'\)/);
+  assert.match(ficha, /window\.history\.replaceState\(null, '', cleanUrl\)/);
+});

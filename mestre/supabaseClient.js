@@ -7,7 +7,7 @@
 
   const STORAGE_CONFIG_KEY = 'ferro_arcano_supabase_config';
   const DEFAULT_ROOM = 'FA-7842';
-  const ALLOWED_EVENTS = new Set(['PLAYER_JOIN', 'PLAYER_UPDATE', 'ROLL_LOG', 'ACTION_LOG', 'ALLIED_BUFF_APPLIED', 'SQUAD_ROSTER', 'ROOM_SYNC', 'GM_UPDATE_PLAYER', 'GM_LOCK_TOGGLE', 'ROUND_STARTED']);
+  const ALLOWED_EVENTS = new Set(['PLAYER_JOIN', 'PLAYER_UPDATE', 'ROLL_LOG', 'ACTION_LOG', 'ALLIED_BUFF_APPLIED', 'SQUAD_ROSTER', 'ROOM_SYNC', 'ROOM_SYNC_REQUEST', 'GM_UPDATE_PLAYER', 'GM_LOCK_TOGGLE', 'ROUND_STARTED']);
 
   class FerroArcanoNetworkManager {
     constructor() {
@@ -18,6 +18,8 @@
       this.bc = null;
       this.supabase = null;
       this.supabaseChannel = null;
+      this.supabaseReady = false;
+      this.pendingSupabaseMessages = [];
       this.config = this.loadConfig();
       this.seenMessages = new Set();
     }
@@ -44,7 +46,12 @@
     }
 
     init(roomCode, role = 'player', characterId = '') {
-      this.roomCode = (roomCode || DEFAULT_ROOM).toUpperCase();
+      const nextRoomCode = String(roomCode || DEFAULT_ROOM).trim().toUpperCase();
+      if (this.roomCode && this.roomCode !== nextRoomCode) {
+        this.pendingSupabaseMessages = [];
+        this.seenMessages.clear();
+      }
+      this.roomCode = nextRoomCode;
       this.role = role;
       this.characterId = characterId || ('char_' + Math.random().toString(36).substring(2, 9));
 
@@ -68,6 +75,7 @@
     }
 
     initSupabase(roomCode) {
+      this.supabaseReady = false;
       if (this.supabaseChannel) {
         try {
           if (this.supabase) this.supabase.removeChannel(this.supabaseChannel);
@@ -79,16 +87,37 @@
       if (window.supabase && this.config.url && this.config.anonKey) {
         try {
           this.supabase = window.supabase.createClient(this.config.url, this.config.anonKey);
-          this.supabaseChannel = this.supabase.channel('room_' + roomCode);
+          const channel = this.supabase.channel('room_' + roomCode, {
+            config: {
+              broadcast: { ack: true },
+              presence: { key: `${this.role}:${this.characterId}` }
+            }
+          });
+          this.supabaseChannel = channel;
 
-          this.supabaseChannel
+          channel
             .on('broadcast', { event: 'game_event' }, (payload) => {
               if (payload && payload.payload) {
                 this.handleIncomingMessage(payload.payload, 'supabase');
               }
             })
-            .subscribe((status) => {
+            .on('presence', { event: 'sync' }, () => {
+              if (this.supabaseChannel === channel) {
+                this.notifyListeners('presence_sync', channel.presenceState(), 'supabase');
+              }
+            })
+            .subscribe(async (status) => {
+              if (this.supabaseChannel !== channel) return;
               console.log(`[Supabase Realtime] Status da sala ${roomCode}:`, status);
+              this.supabaseReady = status === 'SUBSCRIBED';
+              if (this.supabaseReady) {
+                try {
+                  await channel.track({ role: this.role, characterId: this.characterId, onlineAt: new Date().toISOString() });
+                } catch (error) {
+                  console.warn('[Supabase Realtime] Não foi possível registrar presença:', error);
+                }
+                await this.flushSupabaseQueue();
+              }
               this.notifyListeners('connection_status', { mode: 'supabase', status });
             });
         } catch (e) {
@@ -97,6 +126,60 @@
       } else {
         this.notifyListeners('connection_status', { mode: 'local_broadcast', status: 'READY' });
       }
+    }
+
+    queueSupabaseMessage(msg) {
+      if (msg.type === 'PLAYER_UPDATE') {
+        const index = this.pendingSupabaseMessages.findIndex(item => item.type === msg.type && item.senderId === msg.senderId);
+        if (index >= 0) this.pendingSupabaseMessages.splice(index, 1);
+      }
+      this.pendingSupabaseMessages.push(msg);
+      if (this.pendingSupabaseMessages.length > 100) this.pendingSupabaseMessages.shift();
+    }
+
+    async sendSupabaseMessage(msg) {
+      if (!this.supabaseChannel || !this.supabaseReady) {
+        this.queueSupabaseMessage(msg);
+        return false;
+      }
+      try {
+        const status = await this.supabaseChannel.send({ type: 'broadcast', event: 'game_event', payload: msg });
+        if (status !== 'ok') {
+          this.queueSupabaseMessage(msg);
+          console.warn('[Supabase Realtime] Evento não confirmado; será reenviado:', status);
+          return false;
+        }
+        return true;
+      } catch (error) {
+        this.queueSupabaseMessage(msg);
+        console.warn('[Supabase Realtime] Erro ao enviar evento; será reenviado:', error);
+        return false;
+      }
+    }
+
+    async flushSupabaseQueue() {
+      if (!this.supabaseReady || !this.supabaseChannel || !this.pendingSupabaseMessages.length) return;
+      const queued = this.pendingSupabaseMessages.splice(0);
+      for (let index = 0; index < queued.length; index += 1) {
+        if (!await this.sendSupabaseMessage(queued[index])) {
+          this.pendingSupabaseMessages.push(...queued.slice(index + 1));
+          break;
+        }
+      }
+    }
+
+    disconnect() {
+      if (this.bc) {
+        try { this.bc.close(); } catch (error) {}
+      }
+      if (this.supabaseChannel && this.supabase) {
+        try { this.supabase.removeChannel(this.supabaseChannel); } catch (error) {}
+      }
+      this.bc = null;
+      this.supabaseChannel = null;
+      this.supabaseReady = false;
+      this.pendingSupabaseMessages = [];
+      this.roomCode = '';
     }
 
     handleIncomingMessage(msg, source = 'broadcast') {
@@ -135,15 +218,7 @@
 
       // 2. Envia via Supabase Realtime se conectado
       if (this.supabaseChannel) {
-        try {
-          this.supabaseChannel.send({
-            type: 'broadcast',
-            event: 'game_event',
-            payload: msg
-          });
-        } catch (e) {
-          console.warn('Erro ao enviar evento Supabase:', e);
-        }
+        this.sendSupabaseMessage(msg);
       }
 
       // 3. Fallback de evento no próprio documento

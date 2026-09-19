@@ -8,7 +8,7 @@
   <!-- Supabase JS Client Oficial (CDN) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../../shared/rules.js"></script>
-  <script src="../../mestre/supabaseClient.js"></script>
+  <script src="../../mestre/supabaseClient.js?v=20260919"></script>
   <style>
     :root {
       --bg-ficha: #09090b;
@@ -1900,6 +1900,7 @@
     }
 
     let state = getBlankState();
+    let networkListenersBound = false;
 
     // ================= INICIALIZAÇÃO =================
     window.onload = function() {
@@ -1912,11 +1913,28 @@
 
     function checkUrlRoomCode() {
       const urlParams = new URLSearchParams(window.location.search);
-      const roomParam = urlParams.get('room');
+      const inviteParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+      const roomParam = urlParams.get('room') || inviteParams.get('room');
+      const inviteUrl = inviteParams.get('sb_url');
+      const inviteKey = inviteParams.get('sb_key');
+      if (inviteUrl && inviteKey && window.FerroArcanoNetwork) {
+        try {
+          const parsedUrl = new URL(inviteUrl);
+          if (parsedUrl.protocol === 'https:') {
+            window.FerroArcanoNetwork.saveConfig(parsedUrl.toString().replace(/\/$/, ''), inviteKey);
+          }
+        } catch (error) {
+          console.warn('Convite online inválido; usando apenas a conexão local.', error);
+        }
+      }
       if (roomParam) {
         state.room_code = roomParam.trim().toUpperCase();
         state.is_locked = true;
-        salvarFicha();
+        salvarFicha(false, false);
+        if (window.location.hash) {
+          const cleanUrl = `${window.location.pathname}?room=${encodeURIComponent(state.room_code)}`;
+          window.history.replaceState(null, '', cleanUrl);
+        }
       }
     }
 
@@ -3218,14 +3236,17 @@
 
     // ================= SINCRONIZAÇÃO EM TEMPO REAL =================
     function initNetworkSync() {
-      if (state.room_code) {
-        window.FerroArcanoNetwork.init(state.room_code, 'player', state.id);
+      if (state.room_code && window.FerroArcanoNetwork) {
         bindNetworkListeners();
+        window.FerroArcanoNetwork.init(state.room_code, 'player', state.id);
         document.getElementById('topbar-room-label').textContent = `Conectado (${state.room_code})`;
+        announceToTable();
       }
     }
 
     function bindNetworkListeners() {
+      if (networkListenersBound || !window.FerroArcanoNetwork) return;
+      networkListenersBound = true;
       // Ouve alterações feitas pelo mestre sobre o jogador
       window.FerroArcanoNetwork.on('GM_UPDATE_PLAYER', (payload) => {
         if (!payload || payload.playerId !== state.id) return;
@@ -3333,6 +3354,28 @@
           }
         }
       });
+
+      // Se o mestre abriu ou reconectou depois do jogador, reapresenta a ficha.
+      window.FerroArcanoNetwork.on('ROOM_SYNC_REQUEST', () => announceToTable());
+      window.FerroArcanoNetwork.on('presence_sync', () => announceToTable());
+      window.FerroArcanoNetwork.on('connection_status', (payload) => {
+        if (payload?.mode === 'supabase' && payload.status === 'SUBSCRIBED') announceToTable();
+      });
+    }
+
+    function announceToTable() {
+      if (!state.room_code || !window.FerroArcanoNetwork) return;
+      window.FerroArcanoNetwork.broadcast('PLAYER_JOIN', {
+        id: state.id,
+        name: state.name || 'Agente',
+        classId: state.classId,
+        level: state.level,
+        corpId: state.corpId,
+        currentPv: state.currentPv,
+        currentExaustao: state.currentExaustao,
+        is_locked: state.is_locked
+      });
+      syncWithTable();
     }
 
     function syncWithTable() {
@@ -3429,24 +3472,12 @@
       const code = (input.value || '').trim().toUpperCase();
       if (!code) return alert("Digite o código da sala!");
 
+      bindNetworkListeners();
       state.room_code = code;
       state.is_locked = true;
-      salvarFicha();
-
       window.FerroArcanoNetwork.init(code, 'player', state.id);
-      bindNetworkListeners();
-
-      syncWithTable();
-      window.FerroArcanoNetwork.broadcast('PLAYER_JOIN', {
-        id: state.id,
-        name: state.name || "Agente",
-        classId: state.classId,
-        level: state.level,
-        corpId: state.corpId,
-        currentPv: state.currentPv,
-        currentExaustao: state.currentExaustao,
-        is_locked: true
-      });
+      salvarFicha(false, false);
+      announceToTable();
 
       closeRoomModal();
       document.getElementById('topbar-room-label').textContent = `Conectado (${code})`;
@@ -3458,7 +3489,8 @@
       if (confirm("Deseja se desconectar da sala do Mestre? A trava da ficha será liberada.")) {
         state.room_code = "";
         state.is_locked = false;
-        salvarFicha();
+        salvarFicha(false, false);
+        window.FerroArcanoNetwork?.disconnect();
         document.getElementById('topbar-room-label').textContent = 'Entrar em Sala';
         calcularEAtualizar();
         showDiceToast("🔌 Desconectado da mesa virtual.");
@@ -3466,9 +3498,9 @@
     };
 
     // ================= SALVAMENTO & TOAST =================
-    function salvarFicha(manual = false) {
+    function salvarFicha(manual = false, sync = true) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      syncWithTable();
+      if (sync) syncWithTable();
       if (manual) {
         showDiceToast("💾 <strong>Ficha Salva com Sucesso!</strong><br>Dados sincronizados com o Minijogo e Mesa Virtual.");
       }

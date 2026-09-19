@@ -27,7 +27,7 @@
           <span>Sala:</span>
           <strong id="display-room-code">FA-7842</strong>
         </div>
-        <button type="button" id="btn-copy-code" title="Copiar código da sala">📋 Copiar Código</button>
+        <button type="button" id="btn-copy-code" title="Copiar link de convite da sala">🔗 Copiar Convite</button>
         <button type="button" id="btn-new-room" class="quiet" title="Criar nova sala">➕ Nova Sala</button>
         <button type="button" id="btn-open-supabase-config" class="quiet" title="Configurar conexão Supabase">⚙️ Supabase</button>
         <span id="connection-status-pill" class="status-pill">⚡ Mesa Local / Broadcast</span>
@@ -152,8 +152,8 @@
         <input type="text" id="supabase-url" placeholder="https://seu-projeto.supabase.co">
       </div>
       <div class="form-group">
-        <label for="supabase-key">Anon Public Key</label>
-        <input type="password" id="supabase-key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+        <label for="supabase-key">Publishable ou anon key (nunca service_role)</label>
+        <input type="password" id="supabase-key" placeholder="sb_publishable_... ou chave anon pública">
       </div>
       <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
         <button type="button" class="primary" id="btn-save-supabase-config">Salvar &amp; Conectar</button>
@@ -162,7 +162,7 @@
   </div>
 
   <script src="../shared/rules.js"></script>
-  <script src="supabaseClient.js"></script>
-  <script src="mestre.js"></script>
+  <script src="supabaseClient.js?v=20260919"></script>
+  <script src="mestre.js?v=20260919"></script>
 </body>
 </html>

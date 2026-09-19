@@ -57,6 +57,7 @@
   let players = new Map(); // id -> playerData
   let eventLogs = [];
   let combatRound = 0;
+  let networkListenersBound = false;
 
   // ================= INICIALIZAÇÃO =================
   window.onload = () => {
@@ -107,14 +108,22 @@
 
   function initNetwork() {
     window.FerroArcanoNetwork.init(roomCode, 'gm');
+    if (networkListenersBound) {
+      requestRoomSync();
+      return;
+    }
+    networkListenersBound = true;
 
     // Escuta entrada de jogadores
     window.FerroArcanoNetwork.on('PLAYER_JOIN', (payload) => {
       if (!isValidPlayer(payload)) return;
+      const isNewPlayer = !players.has(payload.id);
       players.set(payload.id, payload);
       savePersistedPlayers();
       renderAll();
-      logEvent('player', `👤 <strong>${escapeHtml(payload.name || 'Agente')}</strong> ingressou na sala.`);
+      if (isNewPlayer) {
+        logEvent('player', `👤 <strong>${escapeHtml(payload.name || 'Agente')}</strong> ingressou na sala.`);
+      }
       // Envia confirmação de sync ao jogador com o status de trava
       window.FerroArcanoNetwork.broadcast('ROOM_SYNC', {
         player: payload
@@ -164,19 +173,40 @@
         if (payload.mode === 'supabase' && payload.status === 'SUBSCRIBED') {
           statusPill.className = 'status-pill';
           statusPill.innerHTML = '🟢 Supabase Realtime Ativo';
+          requestRoomSync();
         } else {
           statusPill.className = 'status-pill';
           statusPill.innerHTML = '⚡ Mesa Local / Broadcast';
         }
       }
     });
+    window.FerroArcanoNetwork.on('presence_sync', requestRoomSync);
+    requestRoomSync();
+  }
+
+  function requestRoomSync() {
+    window.FerroArcanoNetwork.broadcast('ROOM_SYNC_REQUEST', { requestedAt: Date.now() });
   }
 
   function setupEventListeners() {
-    // Copiar código da sala
-    document.getElementById('btn-copy-code').onclick = () => {
-      navigator.clipboard.writeText(roomCode);
-      showNotification(`Código da sala copiado: ${roomCode}`);
+    // Copia um convite completo. A configuração pública viaja no fragmento e não é enviada ao servidor HTTP.
+    document.getElementById('btn-copy-code').onclick = async () => {
+      const inviteUrl = new URL('../minigame/ficha/index.html', window.location.href);
+      const invite = new URLSearchParams({ room: roomCode });
+      const cfg = window.FerroArcanoNetwork.loadConfig();
+      if (cfg.url && cfg.anonKey) {
+        invite.set('sb_url', cfg.url);
+        invite.set('sb_key', cfg.anonKey);
+      }
+      inviteUrl.hash = invite.toString();
+      try {
+        await navigator.clipboard.writeText(inviteUrl.toString());
+        showNotification(cfg.url && cfg.anonKey
+          ? `Convite online copiado para a sala ${roomCode}.`
+          : `Convite local copiado para a sala ${roomCode}. Configure o Supabase para jogar entre dispositivos.`);
+      } catch (error) {
+        showNotification('Não foi possível copiar o convite. Tente novamente.');
+      }
     };
 
     // Criar nova sala
@@ -264,7 +294,7 @@
         <div style="grid-column: 1 / -1; padding:40px 20px; text-align:center; background:var(--bg-panel); border:1px dashed var(--border-subtle); border-radius:var(--radius); color:var(--ink-dim);">
           <span style="font-size:2.4rem; display:block; margin-bottom:8px;">📡</span>
           <h3 style="color:var(--ink); margin-bottom:4px;">Aguardando Agentes na Sala ${roomCode}</h3>
-          <p style="font-size:0.85rem;">Peça para os jogadores abrirem suas fichas e clicarem no botão <strong>"🎲 Entrar na Mesa"</strong> informando o código <strong>${roomCode}</strong>.</p>
+          <p style="font-size:0.85rem;">Envie o <strong>link de convite</strong> aos jogadores ou peça que informem o código <strong>${roomCode}</strong> em uma ficha já configurada.</p>
         </div>
       `;
       return;
