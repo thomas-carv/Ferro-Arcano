@@ -171,11 +171,24 @@ test('Multiplayer espera o canal remoto conectar antes de anunciar a ficha', asy
   assert.equal(network.pendingSupabaseMessages.length, 0);
 });
 
-test('Convite multiplayer transporta a sala e a configuração pública sem expor no request HTTP', () => {
+test('Convite multiplayer transporta a sala sem exigir configuração do jogador', () => {
   const mestre = read('mestre/mestre.js');
   const ficha = read('minigame/ficha/index.html');
   assert.match(mestre, /inviteUrl\.hash = invite\.toString\(\)/);
-  assert.match(mestre, /invite\.set\('sb_url', cfg\.url\)/);
-  assert.match(ficha, /inviteParams\.get\('sb_url'\)/);
+  assert.doesNotMatch(mestre, /btn-open-supabase-config/);
+  assert.match(ficha, /inviteParams\.get\('room'\)/);
   assert.match(ficha, /window\.history\.replaceState\(null, '', cleanUrl\)/);
+});
+
+test('Multiplayer automático usa PeerJS e mantém o modo local como reserva', () => {
+  const network = read('mestre/supabaseClient.js');
+  const mestreHtml = read('mestre/index.html');
+  const fichaHtml = read('minigame/ficha/index.html');
+  assert.match(network, /initPeer\(this\.roomCode\)/);
+  assert.match(network, /new window\.Peer/);
+  assert.match(network, /connectToGameMaster/);
+  assert.match(network, /relayPeerMessage/);
+  assert.match(mestreHtml, /peerjs@1\.5\.5/);
+  assert.match(fichaHtml, /peerjs@1\.5\.5/);
+  assert.doesNotMatch(mestreHtml, /Configuração do Supabase/);
 });

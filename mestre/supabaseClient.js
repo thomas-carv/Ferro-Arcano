@@ -20,6 +20,12 @@
       this.supabaseChannel = null;
       this.supabaseReady = false;
       this.pendingSupabaseMessages = [];
+      this.peer = null;
+      this.peerConnections = new Map();
+      this.peerConnection = null;
+      this.pendingPeerMessages = [];
+      this.peerReconnectTimer = null;
+      this.peerGeneration = 0;
       this.config = this.loadConfig();
       this.seenMessages = new Set();
     }
@@ -49,6 +55,7 @@
       const nextRoomCode = String(roomCode || DEFAULT_ROOM).trim().toUpperCase();
       if (this.roomCode && this.roomCode !== nextRoomCode) {
         this.pendingSupabaseMessages = [];
+        this.pendingPeerMessages = [];
         this.seenMessages.clear();
       }
       this.roomCode = nextRoomCode;
@@ -71,7 +78,187 @@
       // 2. Supabase Realtime (nuvem multi-dispositivo)
       this.initSupabase(this.roomCode);
 
+      // 3. WebRTC via PeerJS Cloud (Internet, sem cadastro ou configuração)
+      this.initPeer(this.roomCode);
+
       console.log(`[FerroArcanoNetwork] Conectado à sala ${this.roomCode} como ${this.role}`);
+    }
+
+    getPeerRoomId(roomCode) {
+      const origin = window.location?.origin || 'ferro-arcano-local';
+      let hash = 2166136261;
+      for (let index = 0; index < origin.length; index += 1) {
+        hash ^= origin.charCodeAt(index);
+        hash = Math.imul(hash, 16777619);
+      }
+      const scope = (hash >>> 0).toString(36);
+      const room = String(roomCode).toLowerCase().replace(/[^a-z0-9_-]/g, '-');
+      return `ferro-arcano-${scope}-${room}`;
+    }
+
+    initPeer(roomCode) {
+      this.destroyPeer();
+      if (typeof window.Peer !== 'function') {
+        this.notifyListeners('connection_status', { mode: 'peerjs', status: 'ERROR', reason: 'UNAVAILABLE' });
+        return;
+      }
+
+      const generation = ++this.peerGeneration;
+      try {
+        this.peer = this.role === 'gm'
+          ? new window.Peer(this.getPeerRoomId(roomCode), { debug: 1 })
+          : new window.Peer({ debug: 1 });
+
+        this.peer.on('open', () => {
+          if (generation !== this.peerGeneration) return;
+          if (this.role === 'gm') {
+            this.notifyListeners('connection_status', { mode: 'peerjs', status: 'HOSTING' });
+          } else {
+            this.connectToGameMaster(generation);
+          }
+        });
+
+        this.peer.on('connection', connection => {
+          if (generation !== this.peerGeneration || this.role !== 'gm') {
+            connection.close();
+            return;
+          }
+          this.attachPeerConnection(connection, generation);
+        });
+
+        this.peer.on('disconnected', () => {
+          if (generation !== this.peerGeneration || !this.peer || this.peer.destroyed) return;
+          try { this.peer.reconnect(); } catch (error) { this.schedulePeerReconnect(generation); }
+        });
+
+        this.peer.on('error', error => {
+          if (generation !== this.peerGeneration) return;
+          console.warn('[Multiplayer Online] Falha de conexão:', error?.type || error);
+          if (this.role === 'player' && ['peer-unavailable', 'network', 'socket-error', 'socket-closed', 'server-error'].includes(error?.type)) {
+            this.schedulePeerReconnect(generation);
+          } else {
+            this.notifyListeners('connection_status', { mode: 'peerjs', status: 'ERROR', reason: error?.type || 'UNKNOWN' });
+          }
+        });
+      } catch (error) {
+        console.warn('[Multiplayer Online] Não foi possível iniciar:', error);
+        this.notifyListeners('connection_status', { mode: 'peerjs', status: 'ERROR', reason: 'INIT_FAILED' });
+      }
+    }
+
+    connectToGameMaster(generation = this.peerGeneration) {
+      if (generation !== this.peerGeneration || !this.peer || this.peer.destroyed || this.role !== 'player') return;
+      if (this.peerConnection?.open) return;
+      if (this.peerConnection) {
+        try { this.peerConnection.close(); } catch (error) {}
+        this.peerConnection = null;
+      }
+      try {
+        const connection = this.peer.connect(this.getPeerRoomId(this.roomCode), {
+          reliable: true,
+          serialization: 'json',
+          metadata: { role: this.role, characterId: this.characterId }
+        });
+        this.attachPeerConnection(connection, generation);
+      } catch (error) {
+        this.schedulePeerReconnect(generation);
+      }
+    }
+
+    attachPeerConnection(connection, generation) {
+      if (!connection) return;
+      const connectionId = connection.peer || `pending-${Date.now()}`;
+      if (this.role === 'gm') this.peerConnections.set(connectionId, connection);
+      else this.peerConnection = connection;
+
+      connection.on('open', () => {
+        if (generation !== this.peerGeneration) return connection.close();
+        if (this.role === 'gm') this.peerConnections.set(connection.peer, connection);
+        else this.peerConnection = connection;
+        this.flushPeerQueue();
+        this.notifyListeners('connection_status', { mode: 'peerjs', status: 'CONNECTED' });
+      });
+      connection.on('data', message => {
+        if (generation !== this.peerGeneration) return;
+        if (this.role === 'gm') this.relayPeerMessage(message, connection);
+        this.handleIncomingMessage(message, 'peerjs');
+      });
+      connection.on('close', () => {
+        this.peerConnections.delete(connection.peer || connectionId);
+        if (this.role === 'player' && this.peerConnection === connection) {
+          this.peerConnection = null;
+          this.schedulePeerReconnect(generation);
+        }
+      });
+      connection.on('error', () => {
+        if (this.role === 'player') this.schedulePeerReconnect(generation);
+      });
+    }
+
+    relayPeerMessage(message, sourceConnection) {
+      this.peerConnections.forEach(connection => {
+        if (connection !== sourceConnection && connection.open) {
+          try { connection.send(message); } catch (error) {}
+        }
+      });
+    }
+
+    queuePeerMessage(message) {
+      if (message.type === 'PLAYER_UPDATE') {
+        const index = this.pendingPeerMessages.findIndex(item => item.type === message.type && item.senderId === message.senderId);
+        if (index >= 0) this.pendingPeerMessages.splice(index, 1);
+      }
+      this.pendingPeerMessages.push(message);
+      if (this.pendingPeerMessages.length > 100) this.pendingPeerMessages.shift();
+    }
+
+    sendPeerMessage(message) {
+      if (this.role === 'gm') {
+        this.relayPeerMessage(message, null);
+        return;
+      }
+      if (!this.peerConnection?.open) {
+        this.queuePeerMessage(message);
+        return;
+      }
+      try { this.peerConnection.send(message); } catch (error) { this.queuePeerMessage(message); }
+    }
+
+    flushPeerQueue() {
+      if (this.role !== 'player' || !this.peerConnection?.open || !this.pendingPeerMessages.length) return;
+      const queued = this.pendingPeerMessages.splice(0);
+      queued.forEach(message => {
+        try { this.peerConnection.send(message); } catch (error) { this.queuePeerMessage(message); }
+      });
+    }
+
+    schedulePeerReconnect(generation) {
+      if (generation !== this.peerGeneration || this.role !== 'player' || this.peerReconnectTimer) return;
+      this.notifyListeners('connection_status', { mode: 'peerjs', status: 'CONNECTING' });
+      this.peerReconnectTimer = window.setTimeout(() => {
+        this.peerReconnectTimer = null;
+        if (generation !== this.peerGeneration) return;
+        if (!this.peer || this.peer.destroyed) this.initPeer(this.roomCode);
+        else this.connectToGameMaster(generation);
+      }, 2500);
+    }
+
+    destroyPeer() {
+      this.peerGeneration += 1;
+      if (this.peerReconnectTimer) window.clearTimeout(this.peerReconnectTimer);
+      this.peerReconnectTimer = null;
+      this.peerConnections.forEach(connection => {
+        try { connection.close(); } catch (error) {}
+      });
+      this.peerConnections.clear();
+      if (this.peerConnection) {
+        try { this.peerConnection.close(); } catch (error) {}
+      }
+      this.peerConnection = null;
+      if (this.peer) {
+        try { this.peer.destroy(); } catch (error) {}
+      }
+      this.peer = null;
     }
 
     initSupabase(roomCode) {
@@ -169,6 +356,7 @@
     }
 
     disconnect() {
+      this.destroyPeer();
       if (this.bc) {
         try { this.bc.close(); } catch (error) {}
       }
@@ -179,6 +367,7 @@
       this.supabaseChannel = null;
       this.supabaseReady = false;
       this.pendingSupabaseMessages = [];
+      this.pendingPeerMessages = [];
       this.roomCode = '';
     }
 
@@ -221,7 +410,10 @@
         this.sendSupabaseMessage(msg);
       }
 
-      // 3. Fallback de evento no próprio documento
+      // 3. Envia pela conexão direta entre navegadores
+      if (this.peer) this.sendPeerMessage(msg);
+
+      // 4. Fallback de evento no próprio documento
       window.dispatchEvent(new CustomEvent('fa_local_message', { detail: msg }));
       return true;
     }

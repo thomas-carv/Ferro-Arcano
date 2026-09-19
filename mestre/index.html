@@ -5,8 +5,8 @@
   <title>Mesa Virtual — Painel do Mestre | Ferro & Arcano</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="mestre.css">
-  <!-- Supabase JS Client Oficial (CDN) -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Conexão direta entre navegadores, sem conta ou configuração externa -->
+  <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
 </head>
 <body>
 
@@ -29,8 +29,7 @@
         </div>
         <button type="button" id="btn-copy-code" title="Copiar link de convite da sala">🔗 Copiar Convite</button>
         <button type="button" id="btn-new-room" class="quiet" title="Criar nova sala">➕ Nova Sala</button>
-        <button type="button" id="btn-open-supabase-config" class="quiet" title="Configurar conexão Supabase">⚙️ Supabase</button>
-        <span id="connection-status-pill" class="status-pill">⚡ Mesa Local / Broadcast</span>
+        <span id="connection-status-pill" class="status-pill">🟡 Preparando sala online...</span>
         <a href="../home/ferro_arcano.html" target="_blank"><button class="quiet">🏠 Hub</button></a>
         <a href="../minigame/ficha/index.html" target="_blank"><button class="primary">👤 Abrir Ficha</button></a>
       </div>
@@ -137,32 +136,8 @@
 
   </div>
 
-  <!-- MODAL DE CONFIGURAÇÃO SUPABASE -->
-  <div class="modal-backdrop" id="supabase-modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 style="color:var(--brass); font-size:1.1rem;">⚙️ Configuração do Supabase</h3>
-        <button type="button" class="quiet" id="btn-close-supabase-modal" style="padding:4px 8px;">✕</button>
-      </div>
-      <p style="font-size:0.78rem; color:var(--ink-dim); margin-bottom:14px; line-height:1.4;">
-        Para sincronizar mesas entre múltiplos computadores ou dispositivos remotos via Internet, insira a URL do seu projeto e a chave anônima (anon public key). Para jogar localmente no mesmo navegador/máquina, o modo local já funciona automaticamente sem chaves.
-      </p>
-      <div class="form-group">
-        <label for="supabase-url">Project URL (Ex: https://xyzcompany.supabase.co)</label>
-        <input type="text" id="supabase-url" placeholder="https://seu-projeto.supabase.co">
-      </div>
-      <div class="form-group">
-        <label for="supabase-key">Publishable ou anon key (nunca service_role)</label>
-        <input type="password" id="supabase-key" placeholder="sb_publishable_... ou chave anon pública">
-      </div>
-      <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
-        <button type="button" class="primary" id="btn-save-supabase-config">Salvar &amp; Conectar</button>
-      </div>
-    </div>
-  </div>
-
   <script src="../shared/rules.js"></script>
-  <script src="supabaseClient.js?v=20260919"></script>
-  <script src="mestre.js?v=20260919"></script>
+  <script src="supabaseClient.js?v=20260919-2"></script>
+  <script src="mestre.js?v=20260919-2"></script>
 </body>
 </html>

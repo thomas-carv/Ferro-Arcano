@@ -5,10 +5,10 @@
   <title>Ficha de Personagem — Ferro & Arcano</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../styles.css">
-  <!-- Supabase JS Client Oficial (CDN) -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Conexão direta entre navegadores, sem conta ou configuração externa -->
+  <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
   <script src="../../shared/rules.js"></script>
-  <script src="../../mestre/supabaseClient.js?v=20260919"></script>
+  <script src="../../mestre/supabaseClient.js?v=20260919-2"></script>
   <style>
     :root {
       --bg-ficha: #09090b;
@@ -3359,7 +3359,14 @@
       window.FerroArcanoNetwork.on('ROOM_SYNC_REQUEST', () => announceToTable());
       window.FerroArcanoNetwork.on('presence_sync', () => announceToTable());
       window.FerroArcanoNetwork.on('connection_status', (payload) => {
-        if (payload?.mode === 'supabase' && payload.status === 'SUBSCRIBED') announceToTable();
+        if (payload?.mode === 'peerjs' && payload.status === 'CONNECTED') {
+          document.getElementById('topbar-room-label').textContent = `Online (${state.room_code})`;
+          announceToTable();
+        } else if (payload?.mode === 'peerjs' && payload.status === 'CONNECTING') {
+          document.getElementById('topbar-room-label').textContent = `Conectando (${state.room_code})`;
+        } else if (payload?.mode === 'supabase' && payload.status === 'SUBSCRIBED') {
+          announceToTable();
+        }
       });
     }
 

@@ -170,13 +170,18 @@
     window.FerroArcanoNetwork.on('connection_status', (payload) => {
       const statusPill = document.getElementById('connection-status-pill');
       if (statusPill) {
-        if (payload.mode === 'supabase' && payload.status === 'SUBSCRIBED') {
+        if (payload.mode === 'peerjs' && ['HOSTING', 'CONNECTED'].includes(payload.status)) {
           statusPill.className = 'status-pill';
-          statusPill.innerHTML = '🟢 Supabase Realtime Ativo';
+          statusPill.innerHTML = payload.status === 'HOSTING'
+            ? '🟢 Sala Online · Aguardando jogadores'
+            : '🟢 Multiplayer Online';
           requestRoomSync();
+        } else if (payload.mode === 'peerjs' && payload.status === 'ERROR') {
+          statusPill.className = 'status-pill';
+          statusPill.innerHTML = '🟠 Conexão local ativa';
         } else {
           statusPill.className = 'status-pill';
-          statusPill.innerHTML = '⚡ Mesa Local / Broadcast';
+          statusPill.innerHTML = '🟡 Preparando sala online...';
         }
       }
     });
@@ -189,21 +194,14 @@
   }
 
   function setupEventListeners() {
-    // Copia um convite completo. A configuração pública viaja no fragmento e não é enviada ao servidor HTTP.
+    // Copia um convite completo; a sala viaja no fragmento e não exige configuração do jogador.
     document.getElementById('btn-copy-code').onclick = async () => {
       const inviteUrl = new URL('../minigame/ficha/index.html', window.location.href);
       const invite = new URLSearchParams({ room: roomCode });
-      const cfg = window.FerroArcanoNetwork.loadConfig();
-      if (cfg.url && cfg.anonKey) {
-        invite.set('sb_url', cfg.url);
-        invite.set('sb_key', cfg.anonKey);
-      }
       inviteUrl.hash = invite.toString();
       try {
         await navigator.clipboard.writeText(inviteUrl.toString());
-        showNotification(cfg.url && cfg.anonKey
-          ? `Convite online copiado para a sala ${roomCode}.`
-          : `Convite local copiado para a sala ${roomCode}. Configure o Supabase para jogar entre dispositivos.`);
+        showNotification(`Convite online copiado para a sala ${roomCode}.`);
       } catch (error) {
         showNotification('Não foi possível copiar o convite. Tente novamente.');
       }
@@ -225,23 +223,6 @@
         renderAll();
         logEvent('system', `🎲 Sala recriada: <strong>${roomCode}</strong>`);
       }
-    };
-
-    // Modal de Configuração do Supabase
-    const modal = document.getElementById('supabase-modal');
-    document.getElementById('btn-open-supabase-config').onclick = () => {
-      const cfg = window.FerroArcanoNetwork.loadConfig();
-      document.getElementById('supabase-url').value = cfg.url || '';
-      document.getElementById('supabase-key').value = cfg.anonKey || '';
-      modal.classList.add('open');
-    };
-    document.getElementById('btn-close-supabase-modal').onclick = () => modal.classList.remove('open');
-    document.getElementById('btn-save-supabase-config').onclick = () => {
-      const url = document.getElementById('supabase-url').value;
-      const key = document.getElementById('supabase-key').value;
-      window.FerroArcanoNetwork.saveConfig(url, key);
-      modal.classList.remove('open');
-      showNotification('Configurações do Supabase salvas com sucesso!');
     };
 
     // Rolar Dados Rápidos do Mestre
