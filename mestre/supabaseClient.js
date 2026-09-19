@@ -7,6 +7,7 @@
 
   const STORAGE_CONFIG_KEY = 'ferro_arcano_supabase_config';
   const DEFAULT_ROOM = 'FA-7842';
+  const ALLOWED_EVENTS = new Set(['PLAYER_JOIN', 'PLAYER_UPDATE', 'ROLL_LOG', 'ACTION_LOG', 'ALLIED_BUFF_APPLIED', 'SQUAD_ROSTER', 'ROOM_SYNC', 'GM_UPDATE_PLAYER', 'GM_LOCK_TOGGLE', 'ROUND_STARTED']);
 
   class FerroArcanoNetworkManager {
     constructor() {
@@ -18,6 +19,7 @@
       this.supabase = null;
       this.supabaseChannel = null;
       this.config = this.loadConfig();
+      this.seenMessages = new Set();
     }
 
     loadConfig() {
@@ -98,7 +100,12 @@
     }
 
     handleIncomingMessage(msg, source = 'broadcast') {
-      if (!msg || !msg.type) return;
+      if (!msg || typeof msg !== 'object' || !ALLOWED_EVENTS.has(msg.type)) return;
+      if (msg.roomCode !== this.roomCode || !msg.messageId) return;
+      if (!msg.payload || typeof msg.payload !== 'object') return;
+      if (this.seenMessages.has(msg.messageId)) return;
+      this.seenMessages.add(msg.messageId);
+      if (this.seenMessages.size > 500) this.seenMessages.delete(this.seenMessages.values().next().value);
       // Evitar loop de mensagens enviadas por nós mesmos
       if (msg.senderId === this.characterId && msg.senderRole === this.role) return;
 
@@ -106,7 +113,9 @@
     }
 
     broadcast(type, payload = {}) {
+      if (!ALLOWED_EVENTS.has(type) || !payload || typeof payload !== 'object') return false;
       const msg = {
+        messageId: `${this.characterId}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
         roomCode: this.roomCode,
         type,
         senderRole: this.role,
@@ -139,6 +148,7 @@
 
       // 3. Fallback de evento no próprio documento
       window.dispatchEvent(new CustomEvent('fa_local_message', { detail: msg }));
+      return true;
     }
 
     on(type, callback) {

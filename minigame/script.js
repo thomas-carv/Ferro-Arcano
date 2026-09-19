@@ -43,11 +43,13 @@
   const STORAGE_KEY = 'ferro_arcano_character';
 
   const CLASSES = {
-    atirador: { name: "Atirador", basePv: 34, conMultiplier: 3, pvGrowth: 4, resourceName: "Pontos de Precisão" },
-    canalizador: { name: "Canalizador", basePv: 26, conMultiplier: 2, pvGrowth: 3, resourceName: "Canais de Fluxo" },
-    hibrido: { name: "Híbrido", basePv: 30, conMultiplier: 3, pvGrowth: 4, resourceName: "Carga Arcana" },
-    vanguardista: { name: "Vanguardista", basePv: 40, conMultiplier: 4, pvGrowth: 5, resourceName: "Pontos de Postura" },
-    ciborgue: { name: "Ciborgue", basePv: 38, conMultiplier: 4, pvGrowth: 5, resourceName: "Pontos de Protocolo" }
+    atirador: { name: "Atirador", basePv: 28, conMultiplier: 6, pvGrowth: 4, resourceName: "Pontos de Precisão" },
+    canalizador: { name: "Canalizador", basePv: 24, conMultiplier: 5, pvGrowth: 3, resourceName: "Pontos de Sintonia" },
+    hibrido: { name: "Híbrido", basePv: 30, conMultiplier: 7, pvGrowth: 4, resourceName: "Cargas do Núcleo" },
+    vanguardista: { name: "Vanguardista", basePv: 36, conMultiplier: 9, pvGrowth: 5, resourceName: "Inflexibilidade" },
+    ciborgue: { name: "Ciborgue", basePv: 32, conMultiplier: 8, pvGrowth: 4, resourceName: "Pontos de Protocolo" },
+    vetor: { name: "Vetor", basePv: 30, conMultiplier: 7, pvGrowth: 4, resourceName: "Momento" },
+    "mediador-arcano": { name: "Mediador Arcano", basePv: 26, conMultiplier: 6, pvGrowth: 3, resourceName: "Harmonia" }
   };
 
   const CORPORATIONS = {
@@ -174,7 +176,9 @@
     timeTotal: 0,
     lastTime: 0,
     effectiveMaxErrors: 7,
-    circleCost: 10
+    circleCost: 10,
+    ignoredErrorsRemaining: 0,
+    castSupport: null
   };
 
   /* ================= CACHE DE ELEMENTOS DO DOM ================= */
@@ -225,20 +229,18 @@
 
   /* ================= SINCRONIA COM A FICHA DE PERSONAGEM ================= */
   function loadCharacter() {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      activeCharacter = null;
-      return;
-    }
     try {
-      activeCharacter = JSON.parse(raw);
-      const cls = CLASSES[activeCharacter.classId] || CLASSES.canalizador;
-      const conVal = (activeCharacter.attributes && activeCharacter.attributes.CON) || 0;
-      const conhVal = (activeCharacter.attributes && activeCharacter.attributes.CONH) || 0;
-      const lvl = activeCharacter.level || 1;
-
-      activeCharacter.pvMax = cls.basePv + (conVal * cls.conMultiplier) + (lvl - 1) * (cls.pvGrowth + conVal);
-      activeCharacter.exMax = (conVal * 15) + (conhVal * 10);
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) { activeCharacter = null; return; }
+      const saved = JSON.parse(raw);
+      if (!saved || typeof saved !== "object" || Array.isArray(saved)) {
+        activeCharacter = null;
+        return;
+      }
+      activeCharacter = saved;
+      activeCharacter = window.FerroArcanoRules.normalizeCharacter(activeCharacter);
+      activeCharacter.pvMax = window.FerroArcanoRules.pvMax(activeCharacter);
+      activeCharacter.exMax = window.FerroArcanoRules.exMax(activeCharacter);
 
       if (activeCharacter.currentPv === undefined || activeCharacter.currentPv === null) {
         activeCharacter.currentPv = activeCharacter.pvMax;
@@ -385,11 +387,9 @@
     if (!activeCharacter) return;
     activeCharacter.currentPv = activeCharacter.pvMax;
     activeCharacter.currentExaustao = activeCharacter.exMax;
-    let colMsg = "";
-    if (activeCharacter.colapsoId > 0) {
-      activeCharacter.colapsoId = 0;
-      colMsg = "\n✨ O fardo de Colapso Arcano foi dissipado!";
-    }
+    const beforeCollapse = activeCharacter.colapsoPoints || 0;
+    activeCharacter.colapsoPoints = Math.max(0, beforeCollapse - 1);
+    const colMsg = beforeCollapse > 0 ? `\nPontos de Colapso: ${beforeCollapse} → ${activeCharacter.colapsoPoints}. Sequelas permanecem.` : '';
     saveCharacter();
     renderAgentBar();
     alert(`🏕️ Descanso Completo (8 horas):\nPV e Exaustão 100% restaurados!${colMsg}`);
@@ -466,6 +466,7 @@
     (SPELLS[activeCircle] || []).forEach((spell, idx) => {
       const card = document.createElement("div");
       card.className = "spell-card";
+      card.dataset.element = spell.seq[0] || 'arcano';
       card.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:flex-start;">
           <h3>${spell.name}</h3>
@@ -561,8 +562,12 @@
     currentSpell = spell;
     activeCircle = circle; // Update activeCircle to match the test circle
     const diff = DIFFICULTY[circle];
-    const cost = CIRCLE_EXAUSTAO_COST[circle] || 10;
+    const castSupport = activeCharacter ? window.FerroArcanoRules.consumeCastSupport(activeCharacter) : { extraTime: 0, ignoreErrors: 0, exReduction: 0, collapseCap: null, damageHealingDie: null, rangeBonus: 0 };
+    const baseCost = CIRCLE_EXAUSTAO_COST[circle] || 10;
+    const cost = Math.max(0, baseCost - castSupport.exReduction);
     gameState.circleCost = cost;
+    gameState.castSupport = castSupport;
+    gameState.ignoredErrorsRemaining = castSupport.ignoreErrors;
 
     // 1. Debitar Exaustão do Personagem Conectado
     if (activeCharacter) {
@@ -603,7 +608,7 @@
       }
     }
 
-    const totalStartingTime = Math.max(2, diff.time + focBonus - necrosePenalty + wandBonus);
+    const totalStartingTime = Math.max(2, diff.time + focBonus - necrosePenalty + wandBonus + castSupport.extraTime);
     const effectiveMaxErrors = Math.max(1, diff.maxErrors - tremorPenalty);
 
     gameState.running = true;
@@ -637,6 +642,9 @@
     if (focBonus > 0) bonusLabel += ` · FOCO +${focBonus.toFixed(1)}s`;
     if (wandBonus > 0) bonusLabel += ` · Varinha +${wandBonus.toFixed(1)}s`;
     if (necrosePenalty > 0) bonusLabel += ` · Necrose -${necrosePenalty.toFixed(1)}s`;
+    if (castSupport.extraTime > 0) bonusLabel += ` · Suporte +${castSupport.extraTime}s`;
+    if (castSupport.ignoreErrors > 0) bonusLabel += ` · ${castSupport.ignoreErrors} erro(s) protegido(s)`;
+    if (castSupport.exReduction > 0) bonusLabel += ` · -${castSupport.exReduction} EX`;
 
     dom.castSpellName.textContent = spell.name + (isCreationTesting ? " (Criação)" : "");
     dom.castSpellBadge.textContent = `Círculo ${circle} · ${cost} Ex · ${effectiveMaxErrors} erros max · ${totalStartingTime.toFixed(1)}s${bonusLabel}`;
@@ -831,6 +839,11 @@
         finishGame(true, "A magia foi conjurada com maestria!");
       }
     } else {
+      if (gameState.ignoredErrorsRemaining > 0) {
+        gameState.ignoredErrorsRemaining--;
+        dom.errorLabel.textContent = `Erro protegido por suporte · ${gameState.ignoredErrorsRemaining} proteção(ões) restante(s)`;
+        return;
+      }
       gameState.errors++;
 
       // Colapso 15 (Instabilidade Elemental): cada erro causa dano físico direto ao conjurador
@@ -926,6 +939,15 @@
 
     // Calcular Dano/Efeito (A magia ainda é conjurada com os acertos obtidos até o momento)
     const dmg = rollCustomDamage(gameState.hits, activeCircle, finalDiceSide);
+    let supportDieText = '';
+    const supportDie = gameState.castSupport?.damageHealingDie;
+    const supportSides = Number(String(supportDie || '').match(/d(\d+)/i)?.[1]);
+    if (supportSides > 0) {
+      const roll = Math.floor(Math.random() * supportSides) + 1;
+      dmg.total += roll;
+      dmg.text += ` + suporte ${supportDie} (${roll}) = ${dmg.total}`;
+      supportDieText = ` · alcance +${gameState.castSupport.rangeBonus || 0}m`;
+    }
 
     // Checar Sobrecarga Arcano e Colapso
     let sobrecargaWarningHtml = "";
@@ -933,7 +955,9 @@
       const safeLimit = -0.10 * activeCharacter.exMax;
       if (activeCharacter.currentExaustao < safeLimit) {
         const excess = Math.abs(activeCharacter.currentExaustao) - Math.abs(safeLimit);
-        const colPoints = Math.ceil(excess / activeCircle);
+        let colPoints = Math.ceil(excess / activeCircle);
+        if (gameState.castSupport?.collapseCap != null) colPoints = Math.min(colPoints, gameState.castSupport.collapseCap);
+        activeCharacter.colapsoPoints = (activeCharacter.colapsoPoints || 0) + colPoints;
         sobrecargaWarningHtml = `<br><span style="color:var(--danger); font-weight:700;">⚠️ SOBRECARGA CRÍTICA! Limite seguro ultrapassado (${activeCharacter.currentExaustao} Exaustão). +${colPoints} Ponto(s) de Colapso Arcano gerados!</span>`;
       }
       saveCharacter();
@@ -953,7 +977,7 @@
       }
     }
 
-    dom.damageBox.innerHTML = `<strong>${success ? 'Dano Gerado:' : 'Efeito Residual da Magia:'}</strong><br>${dmg.text}`;
+    dom.damageBox.innerHTML = `<strong>${success ? 'Dano Gerado:' : 'Efeito Residual da Magia:'}</strong><br>${dmg.text}${supportDieText}`;
 
     if (dom.charUpdateSummary && activeCharacter) {
       dom.charUpdateSummary.innerHTML = `<strong>Status do Agente:</strong> PV: ${activeCharacter.currentPv}/${activeCharacter.pvMax} · Exaustão: ${activeCharacter.currentExaustao}/${activeCharacter.exMax}${sobrecargaWarningHtml}`;
@@ -975,6 +999,24 @@
     } else if (btnSave) {
       btnSave.remove();
     }
+
+    // Botão "Voltar à Ficha" quando acessado via catálogo de ações
+    const _fromFichaOverlay = new URLSearchParams(window.location.search).get('from') === 'ficha';
+    let btnReturnFicha = document.getElementById("btnReturnFicha");
+    if (_fromFichaOverlay) {
+      if (!btnReturnFicha) {
+        btnReturnFicha = document.createElement("button");
+        btnReturnFicha.id = "btnReturnFicha";
+        btnReturnFicha.style.borderColor = "var(--brass)";
+        btnReturnFicha.style.color = "var(--brass)";
+        btnReturnFicha.textContent = "◀ Voltar à Ficha";
+        btnReturnFicha.onclick = () => { window.location.href = "ficha/index.html"; };
+        btnContainer.appendChild(btnReturnFicha);
+      }
+    } else if (btnReturnFicha) {
+      btnReturnFicha.remove();
+    }
+
 
     dom.overlay.classList.add("open");
   }
@@ -1023,4 +1065,25 @@
   renderCircleTabs();
   renderSpellGrid();
   initRunePicker();
+
+  // Detectar se veio da ficha (from=ficha) para retorno automático
+  const _urlParams = new URLSearchParams(window.location.search);
+  const _fromFicha = _urlParams.get('from') === 'ficha';
+
+  if (_fromFicha) {
+    // Adiciona botão de voltar à ficha na topbar
+    const topbarTools = document.querySelector('.topbar .tools');
+    if (topbarTools) {
+      const btnBack = document.createElement('button');
+      btnBack.innerHTML = '◀ Voltar à Ficha';
+      btnBack.style.borderColor = 'var(--brass)';
+      btnBack.style.color = 'var(--brass)';
+      btnBack.onclick = () => { window.location.href = 'ficha/index.html'; };
+      topbarTools.insertBefore(btnBack, topbarTools.firstChild);
+    }
+
+    // Sobrescreve o btnExit para retornar à ficha quando acessado via catálogo
+    dom.btnExit.textContent = '◀ Voltar à Ficha';
+    dom.btnExit.onclick = () => { window.location.href = 'ficha/index.html'; };
+  }
 })();

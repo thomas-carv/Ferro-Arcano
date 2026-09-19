@@ -94,6 +94,10 @@
           <div class="panel-box-header">
             <h3>⚡ Ações de Esquadrão &amp; Dados</h3>
           </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; padding:10px; border:1px solid var(--border-brass); border-radius:8px; background:rgba(245,158,11,.06);">
+            <div><small style="display:block;color:var(--ink-dim);">COMBATE</small><strong id="combat-round">Fora de combate</strong></div>
+            <button type="button" id="btn-next-round" class="primary">▶ Próxima rodada</button>
+          </div>
           <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:10px;">
             <button type="button" id="btn-gm-d20">🎲 Rolar 1d20</button>
             <button type="button" id="btn-gm-d100">🎲 Rolar 1d100</button>
@@ -157,6 +161,7 @@
     </div>
   </div>
 
+  <script src="../shared/rules.js"></script>
   <script src="supabaseClient.js"></script>
   <script src="mestre.js"></script>
 </body>

@@ -252,64 +252,80 @@
           '• <strong>Híbrido (Transição de Combate):</strong> 1/rodada, após usar uma habilidade que consuma Cargas do Núcleo, ganha +1 VA no próximo ataque até o fim do turno.<br>' +
           '• <strong>Vanguardista (Formação de Combate):</strong> 1/rodada, quando sofrer um efeito que o moveria ou deixaria Caído, pode gastar 1 PA para reduzir o deslocamento em 3m ou evitar ficar Caído.<br>' +
           '• <strong>Ciborgue (Formação de Combate):</strong> 1/rodada, quando sofrer um ataque de criatura tecnológica ou inimigo Marcado, recebe +1 Defesa contra o próximo ataque desse alvo até seu próximo turno.<br>' +
-          '• <strong>Vetor (Disciplina de Avanço):</strong> 1/rodada, após usar deslocamento forçado em um inimigo, recebe +1 VA no próximo ataque até o fim do turno.<br>' +
-          '• <strong>Mediador Arcano (Coordenação de Combate):</strong> 1/rodada, ao usar habilidade de suporte em aliado, concede +1 VA ao aliado beneficiado até o fim do turno dele.'],
+          '• <strong>Vetor (Disciplina de Avanço):</strong> 1/rodada, após mover voluntariamente pelo menos 3 m, recebe +1 Defesa contra o primeiro ataque feito contra você antes do início do seu próximo turno.<br>' +
+          '• <strong>Mediador Arcano (Coordenação de Combate):</strong> 1/rodada, ao usar habilidade de suporte em aliado voluntário, concede +1 VA ao aliado beneficiado no próximo ataque dele.'],
         ['Artesão', '<strong>Geral (Conhecimento Técnico):</strong> Concede treinamento em Tecnologia & Sistemas ou Investigação. Caso já possua, recebe especialização.<br><br>' +
           '• <strong>Atirador (Modificação de Armamento):</strong> 1/Descanso Curto (6 PA); instala modificações. Na primeira vez que usar Mirar no turno, a ação não consome PA.<br>' +
           '• <strong>Canalizador (Aprimoramento Arcano):</strong> 1/Descanso Curto (6 PA); eleva em um estágio a raridade de um item arcano por 2 rodadas.<br>' +
           '• <strong>Híbrido (Infusão do Núcleo):</strong> 1/Descanso Curto (6 PA); escolhe uma infusão (Precisão, Potência, Regeneração, etc.) temporária para um equipamento.<br>' +
           '• <strong>Vanguardista (Reforço Estrutural):</strong> 1/Descanso Curto (6 PA); concede +10 PV/+2 RD a uma barreira/escudo ou sobe categoria de cobertura até Pesada.<br>' +
           '• <strong>Ciborgue (Manutenção de Campo):</strong> 1/Descanso Curto; realiza reparos em si ou equipamento: recupera 2d8 PV, remove Falha de arma, conserta item ou +1 Defesa.<br>' +
-          '• <strong>Vetor (Contrapeso Personalizado):</strong> 1/Descanso Curto; calibra equipamento próprio para conceder +1,5m de alcance em habilidades de deslocamento forçado até o próximo descanso.<br>' +
-          '• <strong>Mediador Arcano (Calibração de Foco):</strong> 1/Descanso Curto; prepara um foco arcano que concede +5 de Exaustão recuperada extra na próxima habilidade de suporte usada.'],
+          '• <strong>Vetor (Contrapeso Personalizado):</strong> Durante Descanso Curto, calibra equipamento próprio. 1/rodada, quando habilidade de Vetor mover você mesmo, aumenta o deslocamento em +1,5 m.<br>' +
+          '• <strong>Mediador Arcano (Calibração de Foco):</strong> 1/Descanso Curto; ajusta foco de aliado. No próximo sucesso de magia dele, o aliado recupera +5 Exaustão adicional.'],
         ['Médico', '<strong>Geral (Formação Médica):</strong> Concede treinamento na perícia Medicina de Combate. Caso já possua, recebe especialização.<br><br>' +
           '• <strong>Atirador (Socorro de Combate):</strong> 1/rodada, gasta 1 PA para curar em 1d6 PV um aliado adjacente que tenha sofrido dano nesta rodada.<br>' +
           '• <strong>Canalizador (Medicina Arcana):</strong> Sempre que uma conjuração sua recuperar pontos de vida, o alvo recupera um adicional de +1d6 PV.<br>' +
           '• <strong>Híbrido (Estimulante Tecno-Arcano):</strong> 1/Descanso Curto (2 PA); cura uma criatura adjacente em 2d6 PV.<br>' +
           '• <strong>Vanguardista (Médico de Linha):</strong> 1/Descanso Curto, quando um aliado adjacente chegar a 0 PV, pode usar 1 Reação para mantê-lo com 1 PV.<br>' +
-          '• <strong>Ciborgue (Tecno-Cura):</strong> Ao completar um Descanso Curto, recebe 3 cargas de Tecno-Cura (máx 3). Gasta 1 PA para usar uma carga em alvo adjacente e recuperar 2d6 PV; se for Ciborgue, restaura também 1 PP.'],
+          '• <strong>Ciborgue (Tecno-Cura):</strong> Ao completar um Descanso Curto, recebe 3 cargas de Tecno-Cura (máx 3). Gasta 1 PA para usar uma carga em alvo adjacente e recuperar 2d6 PV; se for Ciborgue, restaura também 1 PP.<br>' +
+          '• <strong>Vetor (Leitura Biomecânica):</strong> 1/rodada, criatura em movimento sob Condição física fazendo teste de REF contra habilidade de Vetor sua sofre –1 no teste.<br>' +
+          '• <strong>Mediador Arcano (Estabilização Bio-Arcana):</strong> Sempre que uma habilidade sua de Mediador recuperar Exaustão de um aliado, esse aliado também recupera 1d6 PV.'],
         ['Investigador', '<strong>Geral (Olhar Investigativo):</strong> Concede treinamento em Investigação. Caso já possua, recebe especialização.<br><br>' +
           '• <strong>Atirador (Identificação de Alvo):</strong> 1/rodada, contra alvo observado por pelo menos 1 rodada, recebe +1 VA.<br>' +
           '• <strong>Canalizador (Leitura Arcana):</strong> Recebe +2 para identificar magias ou efeitos ativos; sucesso revela se a função é ofensiva, defensiva ou controle.<br>' +
           '• <strong>Híbrido (Análise de Sistemas):</strong> Recebe +2 em Tecnologia & Sistemas para identificar, analisar ou desativar robôs, drones e sistemas eletrônicos.<br>' +
           '• <strong>Vanguardista (Leitura do Campo):</strong> No início do combate, escolhe uma criatura percebida; recebe +2 Defesa contra ela até o fim da primeira rodada.<br>' +
-          '• <strong>Ciborgue (Leitura Estrutural):</strong> Observar criatura tecnológica por 1 turno garante +2 em Tecnologia & Sistemas contra ela. Identifica Fraqueza, Defesa, Mobilidade, Armamento ou Sensores.'],
+          '• <strong>Ciborgue (Leitura Estrutural):</strong> Observar criatura tecnológica por 1 turno garante +2 em Tecnologia & Sistemas contra ela. Identifica Fraqueza, Defesa, Mobilidade, Armamento ou Sensores.<br>' +
+          '• <strong>Vetor (Previsão de Trajetória):</strong> Após observar criatura por pelo menos 1 turno, 1/rodada o primeiro teste de REF dela contra habilidade de Vetor sua sofre –2 REF.<br>' +
+          '• <strong>Mediador Arcano (Leitura de Fluxo):</strong> Recebe +2 em Sintonia Arcana para identificar condições arcanas ativas, sobrecargas ou pontos de colapso em criaturas a até 9 m.'],
         ['Criminoso', '<strong>Geral (Conhecimento das Ruas):</strong> Concede treinamento em Furtividade. Caso já possua, recebe especialização.<br><br>' +
           '• <strong>Atirador (Saque Ilegal):</strong> 1/rodada, sacar ou trocar armas compatíveis com Acesso Rápido custa 0 PA.<br>' +
           '• <strong>Canalizador (Ritual Clandestino):</strong> Ao conjurar sem linha de visão de inimigos, ganha +1 de resultado de acerto no minijogo.<br>' +
           '• <strong>Híbrido (Gambiarra):</strong> 1/rodada ao interagir com modificação ou equipamento, ganha +1 VA ou +1 Defesa até o início de seu próximo turno.<br>' +
           '• <strong>Vanguardista (Intimidação Brutal):</strong> Ao acertar corpo a corpo, 1 PA força o alvo a testar Imposição contra sua Defesa; falha aplica Assustado por 1 rodada.<br>' +
-          '• <strong>Ciborgue (Invasão Improvisada):</strong> 1/rodada, usa Tecnologia & Sistemas em máquinas/fechaduras/eletrônicos. Se o alvo estiver Marcado, recebe +2 no teste.'],
+          '• <strong>Ciborgue (Invasão Improvisada):</strong> 1/rodada, usa Tecnologia & Sistemas em máquinas/fechaduras/eletrônicos. Se o alvo estiver Marcado, recebe +2 no teste.<br>' +
+          '• <strong>Vetor (Rota de Fuga):</strong> 1/rodada, depois de causar deslocamento forçado ou interromper o movimento de criatura hostil, move 1,5 m sem gastar PA e sem provocar OA.<br>' +
+          '• <strong>Mediador Arcano (Canal Invisível):</strong> Suas habilidades de suporte direcionadas a aliados não quebram sua Furtividade, caso esteja furtivo.'],
         ['Pesquisador Arcano', '<strong>Geral (Estudos Arcanos):</strong> Concede treinamento em História Arcana ou Simbologia & Runas. Se já possuir, recebe especialização.<br><br>' +
           '• <strong>Atirador (Munição Rúnica):</strong> 1/Descanso Curto; prepara munição especial rúnica em quantidade igual à capacidade do carregador da arma.<br>' +
           '• <strong>Canalizador (Teoria do Fluxo):</strong> 1/rodada, após minijogo de runas bem-sucedido, permite ignorar 1 erro adicional cometido.<br>' +
           '• <strong>Híbrido (Sincronização Arcana):</strong> Ao gastar Cargas do Núcleo, ganha +2 no próximo teste de Sintonia Arcana realizado até o fim do próximo turno.<br>' +
           '• <strong>Vanguardista (Runas de Proteção):</strong> 1/Descanso Curto; concede +3 RD mágica a um aliado tocado durante 2 rodadas.<br>' +
-          '• <strong>Ciborgue (Interface Tecno-Arcana):</strong> 1/rodada ao analisar máquina arcana, escolhe +2 Tecnologia ou +2 Sintonia. Se identificar corretamente, recupera 1 PP.'],
+          '• <strong>Ciborgue (Interface Tecno-Arcana):</strong> 1/rodada ao analisar máquina arcana, escolhe +2 Tecnologia ou +2 Sintonia. Se identificar corretamente, recupera 1 PP.<br>' +
+          '• <strong>Vetor (Geometria Etérea):</strong> 1/rodada, criatura sob efeito arcano falhando em REF contra Vetor aumenta o deslocamento forçado em +1,5 m.<br>' +
+          '• <strong>Mediador Arcano (Ressonância Teórica):</strong> Ao usar habilidade que reduza ganho de Colapso de aliado, pode gastar 1 PA para conceder +2 no próximo teste de Tolerância Arcana dele.'],
         ['Sobrevivente', '<strong>Geral (Sobrevivência):</strong> Concede treinamento em Fortitude. Caso já possua, recebe especialização.<br><br>' +
           '• <strong>Atirador (Instinto de Sobrevivência):</strong> Enquanto estiver com metade ou menos do seu PV Máximo, recebe +1 VA.<br>' +
           '• <strong>Canalizador (Concentração sob Pressão):</strong> Com metade ou menos do seu PV Máximo, recebe +2 em Fortitude para manter conjurações.<br>' +
           '• <strong>Híbrido (Núcleo de Emergência):</strong> Com metade ou menos do seu PV, gastar Carga concede +1 Defesa até o início do seu próximo turno.<br>' +
           '• <strong>Vanguardista (Não Cair):</strong> 1/rodada, quando sofrer um efeito que o deixaria Caído, gastar 1 PA permite permanecer de pé.<br>' +
-          '• <strong>Ciborgue (Instinto de Preservação):</strong> Com metade ou menos do seu PV Máximo, recebe +1 Defesa e +1 Fortitude contra máquinas/construtos. 1/rodada ao ser atingido por elas, move 1,5m sem OA.'],
+          '• <strong>Ciborgue (Instinto de Preservação):</strong> Com metade ou menos do seu PV Máximo, recebe +1 Defesa e +1 Fortitude contra máquinas/construtos. 1/rodada ao ser atingido por elas, move 1,5m sem OA.<br>' +
+          '• <strong>Vetor (Instinto de Evasão):</strong> Com metade ou menos de PV, 1/rodada, criatura hostil entrando a até 3m voluntariamente, gasta Reação para mover 3m sem OA.<br>' +
+          '• <strong>Mediador Arcano (Reserva de Emergência):</strong> Com metade ou menos dos PV máximos, 1/rodada, usar habilidade de Mediador em si ou aliado adjacente custa 1 Harmonia a menos (mín 0).'],
         ['Mercenário', '<strong>Geral (Treinamento Operacional):</strong> Concede treinamento em Armas de Fogo ou Briga/Corpo a Corpo. Se já possuir, recebe especialização.<br><br>' +
           '• <strong>Atirador (Contrato de Abate):</strong> No primeiro ataque da cena, escolhe um Alvo Prioritário; recebe 1/rodada +1 VA contra ele.<br>' +
           '• <strong>Canalizador (Operação Precisa):</strong> Conjurações de alvo único recebem +1 de resultado de acerto no minijogo.<br>' +
           '• <strong>Híbrido (Equipamento de Missão):</strong> Após Descanso Completo, escolhe um equipamento para receber +1 VA ou +1 Defesa até o próximo Descanso Completo.<br>' +
           '• <strong>Vanguardista (Contrato de Proteção):</strong> No início do combate, escolhe um aliado; enquanto estiver a até 3m dele, concede +1 Defesa e +1 RD física.<br>' +
-          '• <strong>Ciborgue (Contrato de Caça):</strong> Primeiro ataque contra criatura tecnológica na cena a designa como Alvo Contratado. 1/rodada +1 VA contra ela. Se destruí-la, recupera 1 PP.'],
+          '• <strong>Ciborgue (Contrato de Caça):</strong> Primeiro ataque contra criatura tecnológica na cena a designa como Alvo Contratado. 1/rodada +1 VA contra ela. Se destruí-la, recupera 1 PP.<br>' +
+          '• <strong>Vetor (Alvo de Interceptação):</strong> No início do combate, escolhe uma criatura como Alvo Contratado. 1/rodada, primeiro deslocamento forçado causado nele aumenta em +1,5 m.<br>' +
+          '• <strong>Mediador Arcano (Contrato de Suporte):</strong> Início do combate, designa um aliado como Alvo Prioritário. Habilidades de Mediador nele ganham +3 m de alcance.'],
         ['Atleta', '<strong>Geral (Condicionamento):</strong> Concede treinamento na perícia Atletismo. Caso já possua, recebe especialização.<br><br>' +
           '• <strong>Atirador (Movimento e Tiro):</strong> 1/rodada, após disparo, gastar 1 PA permite se mover por 3 metros sem provocar Ataques de Oportunidade.<br>' +
           '• <strong>Canalizador (Concentração Física):</strong> Ao sofrer dano durante conjuração, recebe +2 no próximo teste de Fortitude para manter a magia ativa.<br>' +
           '• <strong>Híbrido (Mobilidade Integrada):</strong> 1/rodada, após usar habilidade que gaste Carga, permite mover-se 3m gastando 0 PA.<br>' +
           '• <strong>Vanguardista (Investida):</strong> Se mover pelo menos 6 metros em linha reta em direção a um inimigo antes de atacar corpo a corpo, recebe +2 VA.<br>' +
-          '• <strong>Ciborgue (Servomotores Adaptados):</strong> Concede bônus passivo de +2 Atletismo e +1,5m de deslocamento. 1/rodada, após ataque corpo a corpo, move 3m sem gastar PA.'],
+          '• <strong>Ciborgue (Servomotores Adaptados):</strong> Concede bônus passivo de +2 Atletismo e +1,5m de deslocamento. 1/rodada, após ataque corpo a corpo, move 3m sem gastar PA.<br>' +
+          '• <strong>Vetor (Arranque Cinético):</strong> Após mover-se voluntariamente pelo menos 6 m no turno, a próxima habilidade de Vetor até o fim do turno ganha +3 m de alcance.<br>' +
+          '• <strong>Mediador Arcano (Respiração Sincronizada):</strong> 1/rodada, se tiver se movido pelo menos 3 m no turno, sua próxima habilidade de Mediador custa 1 PA a menos (mín 1 PA).'],
         ['Operador', '<strong>Geral (Operações Táticas):</strong> Concede treinamento em Tecnologia & Sistemas ou Percepção / Prontidão. Se já treinado, recebe especialização.<br><br>' +
           '• <strong>Atirador (Aquisição de Alvo):</strong> Usando visores ou miras, recebe +1 VA no primeiro ataque realizado após a aquisição do alvo.<br>' +
           '• <strong>Canalizador (Interface Arcana):</strong> Ao usar focos integrados ou equipamentos de controle de éter, recebe +1 de resultado no minijogo.<br>' +
           '• <strong>Híbrido (Integração de Sistemas):</strong> Tecnologia & Sistemas pode ser usada para operar, hackear ou consertar no lugar de outras perícias (+2 no teste).<br>' +
           '• <strong>Vanguardista (Plataforma Defensiva):</strong> 1/rodada enquanto estiver adjacente a uma barreira ou cobertura, recebe +1 Defesa.<br>' +
-          '• <strong>Ciborgue (Protocolo Tático):</strong> 1/rodada após analisar máquina, escolhe entre +1 VA, +1 Defesa ou +2 Tecnologia até seu próximo turno. Se Marcado, escolhe dois benefícios.']
+          '• <strong>Ciborgue (Protocolo Tático):</strong> 1/rodada após analisar máquina, escolhe entre +1 VA, +1 Defesa ou +2 Tecnologia até seu próximo turno. Se Marcado, escolhe dois benefícios.<br>' +
+          '• <strong>Vetor (Mapeamento Vetorial):</strong> Ao usar sensor, visor ou sistema de mira, primeira habilidade de Vetor usada contra o alvo na rodada ganha +3 m de alcance.<br>' +
+          '• <strong>Mediador Arcano (Coordenação de Sincronia):</strong> 1/rodada, ao conceder tempo ou reduzir Exaustão de um aliado, aquele aliado pode mover-se 1,5 m livre sem provocar OA.']
       ]
     }
   ]
@@ -561,16 +577,109 @@
     ]
   };
 
-  const esc = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]))
-  const match = (chapter, query) => !query || JSON.stringify(chapter).toLowerCase().includes(query) || (chapter.classes && JSON.stringify(classTrails).toLowerCase().includes(query))
+  // As duas novas classes usam o catálogo oficial consolidado em new-classes.js
+  if (Array.isArray(window.FerroArcanoNewClasses)) {
+    for (const entry of window.FerroArcanoNewClasses) {
+      classMechanics[entry.name] = entry.powers;
+      classTrails[entry.name] = entry.trails;
+      const chapter = chapters.find(chapter => chapter.id === 'classes');
+      const item = chapter && chapter.classes.find(item => item[0] === entry.name);
+      if (item) {
+        item[2] = entry.powers.map(power => power.name);
+        item[1] = entry.card[3];
+      }
+    }
+  }
 
-  function renderNav() { nav.innerHTML = chapters.map(chapter => `<a class="chapter-link" href="#${chapter.id}">${chapter.number} · ${chapter.title}<span>→</span></a>`).join('') }
+  const esc = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]))
+  const normalize = value => String(value).replace(/<[^>]*>/g, ' ').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+  const includes = (value, query) => normalize(JSON.stringify(value)).includes(query)
+  function filterChapter(chapter, query) {
+    if (!query || includes([chapter.title, chapter.lead], query)) return chapter
+    if (chapter.classes) {
+      const classes = chapter.classes.filter(item => includes([item, classMechanics[item[0]], classTrails[item[0]], (window.FerroArcanoNewClasses || []).find(entry => entry.name === item[0])?.intro], query))
+      return classes.length ? { ...chapter, classes } : null
+    }
+    const blocks = (chapter.blocks || []).filter(block => includes(block, query))
+    return blocks.length ? { ...chapter, blocks } : null
+  }
+  const classId = name => 'classe-' + normalize(name).replace(/[^a-z0-9]+/g, '-')
+  const sectionId = (chapterId, title, index) => `${chapterId}-${String(index + 1).padStart(2, '0')}-${normalize(title).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`
+  const initialTargetId = location.hash.slice(1)
+  let activeChapterId = chapters.find(chapter => chapter.id === initialTargetId || chapterSections(chapter).some(section => section.id === initialTargetId))?.id || chapters[0].id
+  let activeOriginClass = 'all'
+  let chapterObserver = null
+  let subsectionObserver = null
+
+  function chapterSections(chapter) {
+    if (chapter.classes) return chapter.classes.map(item => ({ id: classId(item[0]), title: item[0] }))
+    return (chapter.blocks || []).map((block, index) => ({ id: sectionId(chapter.id, block[0], index), title: block[0] }))
+  }
+
+  function renderNav() {
+    nav.innerHTML = chapters.map(chapter => {
+      const active = chapter.id === activeChapterId
+      const subsections = chapterSections(chapter)
+      return `<div class="nav-group${active ? ' active' : ''}" data-chapter="${chapter.id}">
+        <a class="chapter-link${active ? ' active' : ''}" href="#${chapter.id}" aria-expanded="${active}"><span class="chapter-link-label"><b>${chapter.number}</b>${chapter.title}</span><span class="chapter-chevron">${active ? '−' : '+'}</span></a>
+        <div class="chapter-subnav"${active ? '' : ' hidden'}>${subsections.map((section, index) => `<a class="sub-link" href="#${section.id}"><span>${String(index + 1).padStart(2, '0')}</span>${section.title}</a>`).join('')}</div>
+      </div>`
+    }).join('')
+  }
+
+  function parseOrigin(block) {
+    const body = block[1]
+    const general = body.match(/<strong>Geral \((.*?)\):<\/strong>\s*([\s\S]*?)(?:<br><br>|$)/)
+    const manifestations = []
+    const pattern = /•\s*<strong>(.*?) \((.*?)\):<\/strong>\s*([\s\S]*?)(?=<br>|$)/g
+    let match
+    while ((match = pattern.exec(body))) {
+      manifestations.push({ className: match[1], name: match[2], description: match[3].trim() })
+    }
+    return {
+      name: block[0],
+      generalName: general?.[1] || 'Benefício geral',
+      generalDescription: general?.[2]?.trim() || '',
+      manifestations
+    }
+  }
+
+  function renderOrigins(chapter) {
+    const origins = chapter.blocks.map(parseOrigin)
+    const classNames = [...new Set(origins.flatMap(origin => origin.manifestations.map(item => item.className)))]
+    const filters = ['all', ...classNames].map(className => {
+      const label = className === 'all' ? 'Todas as Classes' : className
+      return `<button type="button" class="origin-filter${activeOriginClass === className ? ' active' : ''}" data-origin-class="${esc(className)}" aria-pressed="${activeOriginClass === className}">${esc(label)}</button>`
+    }).join('')
+
+    const entries = origins.map((origin, index) => `<article class="origin-entry" id="${sectionId(chapter.id, origin.name, index)}">
+      <header class="origin-heading"><span class="section-index">${chapter.number}.${String(index + 1).padStart(2, '0')}</span><div><p>Origem</p><h4>${origin.name}</h4></div></header>
+      <div class="origin-general"><span>Benefício geral</span><div><h5>${origin.generalName}</h5><p>${origin.generalDescription}</p></div></div>
+      <div class="manifestation-list" aria-label="Manifestações de ${origin.name}">
+        ${origin.manifestations.map(item => `<section class="manifestation-row" data-manifestation-class="${esc(item.className)}">
+          <div class="manifestation-class">${esc(item.className)}</div>
+          <div><h5>${esc(item.name)}</h5><p>${item.description}</p></div>
+        </section>`).join('')}
+      </div>
+    </article>`).join('')
+
+    return `<section class="wiki-chapter origins-chapter" id="${chapter.id}">
+      <div class="chapter-heading"><span class="chapter-number">${chapter.number}</span><h3>${chapter.title}</h3></div>
+      <p class="chapter-lead">${chapter.lead}</p>
+      <aside class="origin-primer"><span>Como funciona</span><p>Escolha uma Origem durante a criação. Você recebe o <strong>benefício geral</strong> dela e também a <strong>Manifestação correspondente à sua Classe</strong>. A Manifestação adapta a mesma história ao papel tático da personagem.</p></aside>
+      <div class="origin-filter-panel"><div><span>Filtrar manifestações</span><strong id="origin-filter-status">Exibindo todas as Classes</strong></div><div class="origin-filters" role="group" aria-label="Filtrar manifestações por Classe">${filters}</div></div>
+      <div class="origin-directory" aria-label="Índice de Origens">${origins.map((origin, index) => `<a href="#${sectionId(chapter.id, origin.name, index)}"><span>${String(index + 1).padStart(2, '0')}</span>${origin.name}</a>`).join('')}</div>
+      <div class="origin-flow">${entries}</div>
+    </section>`
+  }
 
   function renderChapter(chapter) {
-    const blocks = chapter.blocks ? `<div class="rule-grid">${chapter.blocks.map(block => { const detail = addDetail(block[0], block[1]); return `<button class="rule-card" data-detail="${detail}"><h4>${block[0]}</h4><p>${block[1]}</p></button>` }).join('')}</div>` : ''
+    if (chapter.id === 'origins') return renderOrigins(chapter)
+    const blocks = chapter.blocks ? `<div class="rule-flow">${chapter.blocks.map((block, index) => `<article class="rule-section" id="${sectionId(chapter.id, block[0], index)}"><span class="section-index">${chapter.number}.${String(index + 1).padStart(2, '0')}</span><div class="rule-copy"><h4>${block[0]}</h4><div>${block[1]}</div></div></article>`).join('')}</div>` : ''
 
     const classEntries = chapter.classes ? chapter.classes.map(item => {
       const mechanics = classMechanics[item[0]] || [];
+      const newClass = (window.FerroArcanoNewClasses || []).find(entry => entry.name === item[0]);
       const trails = classTrails[item[0]] || [];
 
       const trailsHtml = trails.length ? `
@@ -601,9 +710,10 @@
         </div>
       ` : '';
 
-      return `<article class="class-entry">
+      return `<article class="class-entry" id="${classId(item[0])}">
         <h4>${item[0]}</h4>
         <p class="class-meta">${item[1]}</p>
+        ${newClass ? `<div class="class-reference">${newClass.intro.map(([title, body], index) => `<details${index === 0 ? " open" : ""}><summary>${title}</summary><p>${body}</p></details>`).join("")}</div>` : ""}
         <div class="power-list">${item[2].map((power, index) => {
         const mechanic = mechanics[index];
         let body = 'Poder de Classe.';
@@ -618,7 +728,7 @@
         return `<button class="power" data-detail="${detail}">
             <span class="power-level">${index + 1}</span>
             <span class="power-name">${power}</span>
-            <span class="power-desc">${body}</span>
+            <span class="power-desc">${body}</span><span class="power-hint">Ler regra completa ↗</span>
           </button>`
       }).join('')}</div>
         ${trailsHtml}
@@ -628,12 +738,138 @@
     return `<section class="wiki-chapter" id="${chapter.id}"><div class="chapter-heading"><span class="chapter-number">${chapter.number}</span><h3>${chapter.title}</h3></div><p class="chapter-lead">${chapter.lead}</p>${blocks}${classEntries}</section>`
   }
 
-  function render() { details.length = 0; const query = search.value.trim().toLowerCase(); const visible = chapters.filter(chapter => match(chapter, query)); content.innerHTML = visible.length ? visible.map(renderChapter).join('') : '<p class="search-empty">Nenhuma regra encontrada.</p>'; renderNav(); }
-  function openDetail(index) { const detail = details[index]; if (!detail) return; document.querySelector('#detail-kicker').textContent = detail.kicker; document.querySelector('#detail-title').textContent = detail.title; document.querySelector('#detail-body').innerHTML = `<p>${detail.body}</p>`; document.querySelector('#detail-layer').classList.add('open'); document.querySelector('#detail-layer').setAttribute('aria-hidden', 'false') }
-  function closeDetail() { document.querySelector('#detail-layer').classList.remove('open'); document.querySelector('#detail-layer').setAttribute('aria-hidden', 'true') }
+  const detailDialog = window.FerroArcanoUI.dialog(document.querySelector('#detail-layer'), closeDetail)
+  function render() {
+    details.length = 0
+    const query = normalize(search.value.trim())
+    const visible = chapters.map(chapter => filterChapter(chapter, query)).filter(Boolean)
+    content.innerHTML = visible.length ? visible.map(renderChapter).join('') : '<p class="search-empty">Nenhuma regra encontrada. Tente um nome de habilidade, classe ou recurso.</p>'
+    document.querySelector('#search-status').textContent = query ? `${visible.length} capítulo(s) com resultados` : 'Todos os capítulos · busque também sem acentos'
+    renderNav()
+    applyOriginFilter()
+    bindSectionTracking()
+  }
+
+  function applyOriginFilter() {
+    const rows = content.querySelectorAll('[data-manifestation-class]')
+    rows.forEach(row => { row.hidden = activeOriginClass !== 'all' && row.dataset.manifestationClass !== activeOriginClass })
+    content.querySelectorAll('.origin-filter').forEach(button => {
+      const active = button.dataset.originClass === activeOriginClass
+      button.classList.toggle('active', active)
+      button.setAttribute('aria-pressed', String(active))
+    })
+    const status = content.querySelector('#origin-filter-status')
+    if (status) status.textContent = activeOriginClass === 'all' ? 'Exibindo todas as Classes' : `Exibindo apenas ${activeOriginClass}`
+  }
+
+  function scrollToTarget(targetId, behavior = 'smooth') {
+    const targetChapter = chapters.find(chapter => chapter.id === targetId || chapterSections(chapter).some(section => section.id === targetId))
+    if (targetChapter) setActiveChapter(targetChapter.id)
+    const target = document.getElementById(targetId)
+    if (!target) return
+    target.scrollIntoView({ behavior, block: 'start' })
+  }
+
+  function setActiveChapter(chapterId) {
+    if (!chapterId || chapterId === activeChapterId) return
+    activeChapterId = chapterId
+    nav.querySelectorAll('.nav-group').forEach(group => {
+      const active = group.dataset.chapter === chapterId
+      group.classList.toggle('active', active)
+      const link = group.querySelector('.chapter-link')
+      link.classList.toggle('active', active)
+      link.setAttribute('aria-expanded', String(active))
+      group.querySelector('.chapter-chevron').textContent = active ? '−' : '+'
+      group.querySelector('.chapter-subnav').hidden = !active
+    })
+  }
+  function collapseActiveChapter(group) {
+    group.classList.remove('active')
+    const link = group.querySelector('.chapter-link')
+    link.classList.remove('active')
+    link.setAttribute('aria-expanded', 'false')
+    group.querySelector('.chapter-chevron').textContent = '+'
+    group.querySelector('.chapter-subnav').hidden = true
+  }
+  function expandActiveChapter(group) {
+    group.classList.add('active')
+    const link = group.querySelector('.chapter-link')
+    link.classList.add('active')
+    link.setAttribute('aria-expanded', 'true')
+    group.querySelector('.chapter-chevron').textContent = '−'
+    group.querySelector('.chapter-subnav').hidden = false
+  }
+  function bindSectionTracking() {
+    chapterObserver?.disconnect()
+    subsectionObserver?.disconnect()
+    chapterObserver = new IntersectionObserver(() => {
+      const marker = Math.min(window.innerHeight * .22, 160)
+      const sections = [...content.querySelectorAll('.wiki-chapter')]
+      const current = sections.find(section => {
+        const rect = section.getBoundingClientRect()
+        return rect.top <= marker && rect.bottom > marker
+      }) || sections.sort((a, b) => Math.abs(a.getBoundingClientRect().top - marker) - Math.abs(b.getBoundingClientRect().top - marker))[0]
+      if (current) setActiveChapter(current.id)
+    }, { rootMargin: '-18% 0px -68% 0px', threshold: [0, .15, .5] })
+    content.querySelectorAll('.wiki-chapter').forEach(section => chapterObserver.observe(section))
+    subsectionObserver = new IntersectionObserver(entries => {
+      const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+      if (!visible) return
+      nav.querySelectorAll('.sub-link').forEach(link => link.classList.toggle('current', link.getAttribute('href') === `#${visible.target.id}`))
+    }, { rootMargin: '-20% 0px -68% 0px', threshold: [0, .2] })
+    content.querySelectorAll('.rule-section, .class-entry').forEach(section => subsectionObserver.observe(section))
+  }
+  function openDetail(index) {
+    const detail = details[index]
+    if (!detail) return
+    document.querySelector('#detail-kicker').textContent = detail.kicker
+    document.querySelector('#detail-title').textContent = detail.title
+    document.querySelector('#detail-body').innerHTML = `<p>${detail.body}</p>`
+    detailDialog.open()
+  }
+  function closeDetail() { detailDialog.close() }
+  nav.addEventListener('click', event => {
+    const anchor = event.target.closest('a[href^="#"]')
+    if (!anchor) return
+    event.preventDefault()
+    const targetId = decodeURIComponent(anchor.getAttribute('href').slice(1))
+    const group = event.target.closest('.nav-group')
+    const chapterLink = event.target.closest('.chapter-link')
+    if (group && chapterLink) {
+      if (group.dataset.chapter === activeChapterId && group.classList.contains('active')) collapseActiveChapter(group)
+      else if (group.dataset.chapter === activeChapterId) expandActiveChapter(group)
+      else setActiveChapter(group.dataset.chapter)
+    }
+    if (search.value) { search.value = ''; render() }
+    history.pushState(null, '', `#${targetId}`)
+    if (!chapterLink || group.dataset.chapter !== activeChapterId || group.classList.contains('active')) requestAnimationFrame(() => scrollToTarget(targetId))
+  })
+  document.querySelector('#clear-search').addEventListener('click', () => { search.value = ''; render(); search.focus() })
   render()
+  if (initialTargetId) {
+    requestAnimationFrame(() => requestAnimationFrame(() => scrollToTarget(initialTargetId, 'auto')))
+    window.setTimeout(() => scrollToTarget(initialTargetId, 'auto'), 180)
+  }
   search.addEventListener('input', render)
-  content.addEventListener('click', event => { const trigger = event.target.closest('[data-detail]'); if (trigger) openDetail(Number(trigger.dataset.detail)) })
+  content.addEventListener('click', event => {
+    const filter = event.target.closest('[data-origin-class]')
+    if (filter) {
+      activeOriginClass = filter.dataset.originClass
+      applyOriginFilter()
+      return
+    }
+    const originLink = event.target.closest('.origin-directory a')
+    if (originLink) {
+      event.preventDefault()
+      const targetId = decodeURIComponent(originLink.getAttribute('href').slice(1))
+      history.pushState(null, '', `#${targetId}`)
+      scrollToTarget(targetId)
+      return
+    }
+    const trigger = event.target.closest('[data-detail]')
+    if (trigger) openDetail(Number(trigger.dataset.detail))
+  })
+  window.addEventListener('hashchange', () => scrollToTarget(location.hash.slice(1), 'auto'))
   document.querySelectorAll('[data-close-detail]').forEach(element => element.addEventListener('click', closeDetail))
   document.addEventListener('keydown', event => { if (event.key === 'Escape') closeDetail() })
 })()

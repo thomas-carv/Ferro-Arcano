@@ -165,3 +165,62 @@ textarea { resize: vertical; }
 @media (max-width: 800px) { .section-shell { width: min(calc(100% - 32px), var(--max)); } .topbar { padding: 0 16px; } .main-nav { display: none; } .hero { grid-template-columns: 1fr; min-height: auto; padding: 75px 0; } .hero-art { justify-self: center; } .intro-grid, .split-section { grid-template-columns: 1fr; gap: 28px; } .module-grid, .reference-grid { grid-template-columns: 1fr; } .module { min-height: 215px; } .class-list { grid-template-columns: 1fr; } .builder-panel, .wiki-panel, .saved-panel { inset: 0; border-radius: 0; } .builder-layout { grid-template-columns: 1fr; padding: 20px; } .wiki-layout { grid-template-columns: 1fr; } .wiki-nav { border-right: 0; border-bottom: 1px solid var(--line); } .wiki-content { padding: 24px 20px; } .wiki-cards { grid-template-columns: 1fr; } .sheet-preview { position: static; } .panel-head, .panel-actions { padding: 18px 20px; } .choice-grid, .skill-grid { grid-template-columns: 1fr 1fr; } .saved-card { align-items: flex-start; flex-direction: column; } .hero-meta { flex-wrap: wrap; gap: 12px; } .footer { display: block; } .footer span { display: block; margin-bottom: 8px; } }
 @media (max-width: 480px) { h1 { font-size: 51px; } .hero-actions { flex-direction: column; } .hero-actions .button { width: 100%; text-align: center; } .attribute-grid { grid-template-columns: repeat(3, 1fr); } .form-row { grid-template-columns: 1fr; } .choice-grid, .skill-grid { grid-template-columns: 1fr; } .brand small { display: none; } }
 @media print { body > *:not(.print-sheet) { display: none !important; } .print-sheet { display: block !important; min-height: 100vh; padding: 40px; background: #fff; color: #18181b; font: 14px Arial, sans-serif; } .print-sheet h1 { margin: 8px 0; color: #18181b; font: 700 32px Arial; letter-spacing: 0; } .print-sheet h2 { margin-top: 28px; padding-bottom: 6px; border-bottom: 2px solid #b27a35; } .print-sheet .print-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; } .print-sheet .print-box { padding: 14px; border: 1px solid #bbb; } .print-sheet .print-box b { display: block; color: #777; font-size: 11px; text-transform: uppercase; } .print-sheet .print-box strong { font-size: 24px; } .print-sheet .print-muted { color: #666; } }
+
+:focus-visible { outline: 2px solid #fbbf24; outline-offset: 4px; }
+.skip-link { position: fixed; top: -80px; left: 16px; z-index: 100; padding: 12px 18px; background: #fbbf24; color: #18181b; border-radius: 8px; }
+.skip-link:focus { top: 12px; }
+.menu-toggle { display: none; }
+.class-card { min-width: 0; }
+.class-card a { display: inline-block; margin-top: 12px; color: #fcd34d; font-size: 12px; font-weight: 600; }
+.class-card:hover { border-color: #a16207; }
+.saved-character-summary { padding: 12px; margin-bottom: 16px; border: 1px solid var(--line); border-radius: 10px; color: var(--muted); font-size: 13px; }
+#sala-layer .builder-panel { inset: 50% auto auto 50%; transform: translate(-50%, -50%); width: min(480px, calc(100% - 32px)); max-height: 90dvh; animation: none; }
+#sala-layer .panel-head { padding: 0; }
+@media (max-width: 1100px) {
+  .topbar { gap: 12px; flex-wrap: wrap; height: auto; min-height: 68px; padding-block: 12px; }
+  .menu-toggle { display: inline-flex; margin-left: auto; }
+  .main-nav { display: none; order: 4; width: 100%; flex-wrap: wrap; gap: 8px; }
+  .main-nav.is-open { display: flex; }
+  .main-nav a { padding: 9px 12px; background: #18181b; border-radius: 8px; color: #d4d4d8; }
+  #btn-sala-modal { font-size: 11px; padding: 8px 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+/* Identidade Ferro & Arcano: metal industrial, energia etérea e leitura tática. */
+::selection { background: rgba(251, 191, 36, .28); color: #fff; }
+html { scrollbar-color: #713f12 #09090b; }
+body {
+  background-color: #070709;
+  background-image:
+    radial-gradient(circle at 78% 8%, rgba(37, 99, 235, .08), transparent 24rem),
+    radial-gradient(circle at 14% 3%, rgba(245, 158, 11, .09), transparent 28rem),
+    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+  background-size: auto, auto, 48px 48px, 48px 48px;
+}
+.topbar::after { content:""; position:absolute; left:0; right:0; bottom:-1px; height:1px; background:linear-gradient(90deg, transparent, rgba(245,158,11,.55) 20%, rgba(59,130,246,.25) 75%, transparent); }
+.brand-mark { position:relative; border-radius:8px; background:linear-gradient(145deg, rgba(245,158,11,.18), rgba(59,130,246,.04)); box-shadow:inset 0 0 18px rgba(245,158,11,.07), 0 0 22px rgba(245,158,11,.04); }
+.brand-mark::after { content:""; position:absolute; inset:5px; border:1px solid rgba(251,191,36,.18); transform:rotate(45deg); }
+.eyebrow, .module-index, .sheet-kicker { font-weight:800; }
+.hero { position:relative; }
+.hero::before { content:"PROTOCOLO // BRASA-01"; position:absolute; left:-2px; bottom:20px; color:#3f3f46; font:700 9px/1 monospace; letter-spacing:.18em; }
+.hero-art { overflow:hidden; background:radial-gradient(circle, rgba(29,78,216,.13), rgba(120,53,15,.22) 34%, #111114 65%, #08080a); box-shadow:inset 0 0 65px rgba(0,0,0,.8), 0 24px 80px rgba(0,0,0,.35); }
+.hero-art::before, .hero-art::after { content:""; position:absolute; border:1px solid rgba(59,130,246,.18); border-radius:50%; }
+.hero-art::before { width:82%; height:82%; }
+.hero-art::after { width:106%; height:106%; border-style:dashed; animation:fa-orbit 36s linear infinite; }
+.sigil { box-shadow:0 0 24px rgba(245,158,11,.06); }
+.sigil-inner { z-index:1; }
+.module, .class-card, .reference-grid article, .table-wrap { position:relative; overflow:hidden; }
+.module::before, .class-card::before, .reference-grid article::before { content:""; position:absolute; left:0; top:0; width:42px; height:2px; background:var(--amber); opacity:.72; }
+.module, .class-card { transition:border-color .2s, transform .2s, background-color .2s, box-shadow .2s; }
+.module:hover, .class-card:hover { box-shadow:0 18px 45px rgba(0,0,0,.25), inset 0 1px rgba(255,255,255,.025); }
+.class-card:nth-child(2)::before, .class-card:nth-child(6)::before { background:#60a5fa; }
+.class-card:nth-child(3)::before, .class-card:nth-child(7)::before { background:#a78bfa; }
+.class-card:nth-child(4)::before { background:#f87171; }
+.class-card:nth-child(5)::before { background:#4ade80; }
+th { position:sticky; top:0; z-index:1; background:#141417; }
+.button:active { transform:translateY(1px); }
+@keyframes fa-orbit { to { transform:rotate(360deg); } }

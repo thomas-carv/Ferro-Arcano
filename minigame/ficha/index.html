@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="../styles.css">
   <!-- Supabase JS Client Oficial (CDN) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../../shared/rules.js"></script>
   <script src="../../mestre/supabaseClient.js"></script>
   <style>
     :root {
@@ -692,6 +693,48 @@
       from { transform: translateY(20px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
+    body.session-mode #editor-column { display:none; }
+    body.session-mode .ficha-container { grid-template-columns:minmax(0, 920px); justify-content:center; }
+    body.session-mode #preview-column { position:static; max-height:none; }
+    .condition-list { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+    .condition-chip { display:inline-flex; gap:6px; align-items:center; padding:6px 9px; border:1px solid rgba(239,68,68,.35); border-radius:999px; background:rgba(239,68,68,.08); color:#fecaca; font-size:.72rem; }
+    .condition-chip button { border:0; background:none; color:inherit; cursor:pointer; }
+    .automation-note { padding:7px 9px; border-radius:7px; background:rgba(59,130,246,.08); color:#bfdbfe; font-size:.72rem; line-height:1.45; }
+
+    /* Ficha operacional: cor de classe, superfícies metálicas e leitura de combate. */
+    ::selection { background:rgba(251,191,36,.28); color:#fff; }
+    html { scrollbar-color:#713f12 #09090b; }
+    body { --class-accent:#fbbf24; --class-glow:rgba(251,191,36,.16); background-color:#070709; background-image:radial-gradient(circle at 82% 3%, var(--class-glow), transparent 28rem), radial-gradient(circle at 12% 0%, rgba(245,158,11,.09), transparent 25rem), linear-gradient(rgba(255,255,255,.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px); background-size:auto,auto,44px 44px,44px 44px; }
+    body[data-class="canalizador"] { --class-accent:#a78bfa; --class-glow:rgba(167,139,250,.15); }
+    body[data-class="hibrido"] { --class-accent:#22d3ee; --class-glow:rgba(34,211,238,.13); }
+    body[data-class="vanguardista"] { --class-accent:#fb7185; --class-glow:rgba(251,113,133,.13); }
+    body[data-class="ciborgue"] { --class-accent:#4ade80; --class-glow:rgba(74,222,128,.12); }
+    body[data-class="vetor"] { --class-accent:#60a5fa; --class-glow:rgba(96,165,250,.15); }
+    body[data-class="mediador-arcano"] { --class-accent:#f0abfc; --class-glow:rgba(240,171,252,.14); }
+    .topbar { position:sticky; top:0; z-index:25; max-width:1360px; padding:12px 14px; border:1px solid rgba(63,63,70,.72); border-radius:12px; background:rgba(9,9,11,.88); backdrop-filter:blur(18px); box-shadow:0 14px 40px rgba(0,0,0,.26); }
+    .topbar::after { content:"FICHA // OPERACIONAL"; position:absolute; left:62px; bottom:5px; color:#52525b; font:700 8px/1 monospace; letter-spacing:.15em; }
+    .brand-symbol { border-color:var(--class-accent); color:var(--class-accent); background:var(--class-glow); box-shadow:inset 0 0 18px var(--class-glow); }
+    .panel-card, .preview-panel, .modal-box { backdrop-filter:blur(13px); box-shadow:inset 0 1px rgba(255,255,255,.025), 0 24px 65px rgba(0,0,0,.32); }
+    .panel-card { position:relative; overflow:hidden; }
+    .panel-card::before { content:""; position:absolute; left:0; top:0; bottom:0; width:2px; background:linear-gradient(var(--class-accent), transparent 42%); opacity:.85; }
+    .panel-header h2 { color:var(--class-accent); }
+    .preview-panel { border-color:color-mix(in srgb, var(--class-accent) 28%, var(--border-color)); }
+    .preview-avatar { border-color:var(--class-accent); box-shadow:0 0 0 3px var(--class-glow); }
+    .preview-header { position:relative; }
+    .preview-header::after { content:"DOSSIÊ // AGENTE"; position:absolute; right:0; top:0; color:#52525b; font:700 8px/1 monospace; letter-spacing:.14em; }
+    .attr-control, .skill-check-item, .ability-item, .vital-bar-card, .stats-grid > div { box-shadow:inset 0 1px rgba(255,255,255,.02); transition:border-color .18s, background .18s, transform .18s; }
+    .attr-control:hover, .skill-check-item:hover, .ability-item:hover { border-color:color-mix(in srgb, var(--class-accent) 48%, var(--border-color)); }
+    .ability-item.active-power { border-left:2px solid var(--class-accent); }
+    .automation-note { border-left:2px solid #60a5fa; }
+    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline:2px solid var(--class-accent); outline-offset:3px; }
+    @media (max-width:760px) {
+      body { padding:10px 10px 30px; }
+      .topbar { position:relative; padding:10px; }
+      .topbar > div:last-child { width:100%; display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .topbar > div:last-child button, .topbar > div:last-child a { justify-content:center; }
+      .preview-panel, .panel-card { border-radius:12px; padding:14px; }
+      .preview-header::after, .topbar::after { display:none; }
+    }
   </style>
 </head>
 <body>
@@ -711,6 +754,7 @@
         🎲 <span id="topbar-room-label">Entrar em Sala</span>
       </button>
       <button type="button" onclick="salvarFicha(true)" class="btn-clean" style="border:1px solid #3b82f6; color:#60a5fa; padding:6px 12px; border-radius:6px; background:rgba(59,130,246,0.1); cursor:pointer;">💾 Salvar</button>
+      <button type="button" id="btn-session-mode" class="btn-clean" style="border:1px solid #3f3f46; color:var(--ink); padding:6px 12px; border-radius:6px; cursor:pointer;">⚔️ Modo Sessão</button>
       <button type="button" onclick="exportarFichaImpressao()" class="btn-clean" style="border:1px solid #27272a; color:var(--ink-dim); padding:6px 12px; border-radius:6px; cursor:pointer;">🖨️ Imprimir</button>
       <button type="button" onclick="limparFicha()" style="color:var(--danger); border:1px solid rgba(248,113,113,0.2); background:transparent; padding:6px 10px; border-radius:6px; cursor:pointer;" id="btn-reset-sheet">♻️ Nova Ficha</button>
     </div>
@@ -891,18 +935,19 @@
         <div class="form-group">
           <label>Armadura / Proteção Balística</label>
           <select id="char-armor">
-            <option value="0,0">Sem Proteção (+0 Def, 0 RD)</option>
-            <option value="1,1">Colete Leve (+1 Def, 1 RD Física)</option>
-            <option value="2,2">Armadura Tática (+2 Def, 2 RD Física)</option>
-            <option value="3,3">Exoesqueleto Blindado (+3 Def, 3 RD Física)</option>
+            <option value="0,0">Roupa Tática (+0 Def, 0 RD)</option>
+            <option value="1,2">Colete Leve (+1 Def, +2 RD Física)</option>
+            <option value="2,4">Colete Médio (+2 Def, +4 RD Física)</option>
+            <option value="4,6">Colete Pesado (+4 Def, +6 RD Física)</option>
+            <option value="6,8">Armadura Rígida (+6 Def, +8 RD Física)</option>
           </select>
         </div>
         <div class="form-group">
           <label>Escudo / Barreira Tática</label>
           <select id="char-shield">
             <option value="0">Nenhum Escudo (+0 Def)</option>
-            <option value="1">Broquel Tático (+1 Def)</option>
-            <option value="2">Escudo Balístico Pesado (+2 Def)</option>
+            <option value="1">Escudo Leve (+1 Def)</option>
+            <option value="2">Escudo Pesado (+2 Def)</option>
           </select>
         </div>
       </div>
@@ -955,7 +1000,19 @@
           <p id="p-char-class-line" style="margin:2px 0 0; font-size:0.85rem; color:var(--brass); font-weight:600;">Classe Nv 1</p>
           <p id="p-char-trail-line" style="margin:0; font-size:0.75rem; color:#fcd34d; display:none;">Trilha: <span id="p-char-trail-name"></span></p>
           <small id="p-char-corp-line" style="color:var(--ink-dim); font-size:0.75rem;"></small>
+          <small id="p-combat-round" style="display:block; color:#93c5fd; margin-top:4px;">Fora de combate</small>
         </div>
+      </div>
+
+      <div style="background:rgba(0,0,0,0.25); border:1px solid var(--border-color); border-radius:10px; padding:12px;">
+        <div style="display:flex; justify-content:space-between; gap:8px; align-items:center; flex-wrap:wrap;">
+          <strong style="font-size:.75rem; color:var(--brass); text-transform:uppercase;">Condições</strong>
+          <div style="display:flex; gap:6px;">
+            <select id="condition-choice" aria-label="Condição a aplicar"></select>
+            <button type="button" id="btn-add-condition">Aplicar</button>
+          </div>
+        </div>
+        <div id="condition-list" class="condition-list"></div>
       </div>
 
       <!-- BARRA DE ECONOMIA DE AÇÕES (PA) E RECURSOS -->
@@ -1565,62 +1622,112 @@
     const ORIGENS = [
       { id: 'soldado', name: "Soldado", benefit: "Treinamento Militar", skills: ["Fortitude", "Imposição"], desc: "Treinamento Militar formal e disciplina tática.",
         manifestations: {
+          atirador: "Disciplina de Combate: 1/rodada, recebe +1 VA no primeiro ataque realizado no turno.",
+          canalizador: "Concentração Militar: 1/rodada, ao conjurar com sucesso, reduz em 10 a Exaustão gerada (mínimo 0).",
+          hibrido: "Transição de Combate: 1/rodada, após usar Cargas, ganha +1 VA no próximo ataque até o fim do turno.",
+          vanguardista: "Formação de Combate: 1/rodada, pode gastar 1 PA para reduzir deslocamento forçado em 3m ou evitar Caído.",
+          ciborgue: "Formação de Combate: 1/rodada, ao sofrer ataque de máquina ou alvo Marcado, recebe +1 Defesa.",
           vetor: "Disciplina de Avanço: Após mover 3m voluntários, ganha +1 Defesa contra o 1º ataque sofrido.",
-          "mediador-arcano": "Coordenação de Combate: Ao usar habilidade de Mediador em aliado, ele ganha +1 VA no próximo ataque."
+          "mediador-arcano": "Coordenação de Combate: Ao usar habilidade em aliado, ele ganha +1 VA no próximo ataque."
         }
       },
       { id: 'artesao', name: "Artesão", benefit: "Conhecimento Técnico", skills: ["Tecnologia & Sistemas", "Investigação"], desc: "Capacidade de modificar e aprimorar equipamentos.",
         manifestations: {
+          atirador: "Modificação de Armamento: 1/Descanso Curto (6 PA); na primeira vez que usar Mirar no turno, custa 0 PA.",
+          canalizador: "Aprimoramento Arcano: 1/Descanso Curto (6 PA); eleva em um estágio a raridade de item arcano por 2 rodadas.",
+          hibrido: "Infusão do Núcleo: 1/Descanso Curto (6 PA); aplica infusão temporária de precisão, potência ou regeneração.",
+          vanguardista: "Reforço Estrutural: 1/Descanso Curto (6 PA); concede +10 PV/+2 RD a barreira/escudo.",
+          ciborgue: "Manutenção de Campo: 1/Descanso Curto; recupera 2d8 PV, remove Falha de arma ou ganha +1 Defesa.",
           vetor: "Contrapeso Personalizado: 1 peça de roupa dá +1,5m quando habilidade mover você mesmo.",
-          "mediador-arcano": "Calibração de Foco: 1 equipamento faz o portador recuperar +5 Exaustão extra quando curado por você."
+          "mediador-arcano": "Calibração de Foco: 1 equipamento faz o portador recuperar +5 Exaustão extra em magia bem-sucedida."
         }
       },
       { id: 'medico', name: "Médico", benefit: "Formação Médica", skills: ["Medicina de Combate"], desc: "Sustentação biológica e socorro em combate.",
         manifestations: {
+          atirador: "Socorro de Combate: 1/rodada, gasta 1 PA para curar 1d6 PV em aliado adjacente que sofreu dano.",
+          canalizador: "Medicina Arcana: Sempre que conjuração sua curar PV, o alvo recupera +1d6 PV adicionais.",
+          hibrido: "Estimulante Tecno-Arcano: 1/Descanso Curto (2 PA); cura criatura adjacente em 2d6 PV.",
+          vanguardista: "Médico de Linha: 1/Descanso Curto, quando aliado adjacente chegar a 0 PV, gasta Reação para mantê-lo com 1 PV.",
+          ciborgue: "Tecno-Cura: Recebe 3 cargas por Descanso Curto; gasta 1 PA para curar 2d6 PV em si ou adjacente (+1 PP para Ciborgue).",
           vetor: "Leitura Biomecânica: Alvo com condição física sofre -1 em REF contra suas habilidades.",
           "mediador-arcano": "Estabilização Bio-Arcana: Ao fazer aliado recuperar Exaustão, ele também recupera 1d6 PV."
         }
       },
       { id: 'investigador', name: "Investigador", benefit: "Olhar Investigativo", skills: ["Investigação"], desc: "Análise analítica de pistas, fraquezas e terreno.",
         manifestations: {
+          atirador: "Identificação de Alvo: 1/rodada, contra alvo observado por pelo menos 1 rodada, recebe +1 VA.",
+          canalizador: "Leitura Arcana: Recebe +2 para identificar magias ou efeitos ativos (ofensivo, defensivo ou controle).",
+          hibrido: "Análise de Sistemas: Recebe +2 em Tecnologia & Sistemas contra robôs, drones e circuitos eletrônicos.",
+          vanguardista: "Leitura do Campo: No início do combate, escolhe uma criatura; recebe +2 Defesa contra ela na 1ª rodada.",
+          ciborgue: "Leitura Estrutural: Observar máquina por 1 turno concede +2 Tecnologia e identifica fraquezas e armas.",
           vetor: "Previsão de Trajetória: Alvo observado por 1 turno sofre -2 REF contra você.",
           "mediador-arcano": "Leitura de Fluxo: +2 em testes para identificar Exaustão, Colapso e magias ativas em alvos."
         }
       },
       { id: 'criminoso', name: "Criminoso", benefit: "Conhecimento das Ruas", skills: ["Furtividade"], desc: "Infiltração, saques rápidos e manobras furtivas.",
         manifestations: {
+          atirador: "Saque Ilegal: 1/rodada, sacar ou trocar armas compatíveis com Acesso Rápido custa 0 PA.",
+          canalizador: "Ritual Clandestino: Conjurar sem linha de visão de inimigos concede +1 de acerto no minijogo.",
+          hibrido: "Gambiarra: 1/rodada ao interagir com modificação, ganha +1 VA ou +1 Defesa até seu próximo turno.",
+          vanguardista: "Intimidação Brutal: Ao acertar corpo a corpo, 1 PA força Imposição contra Defesa (falha = Assustado).",
+          ciborgue: "Invasão Improvisada: 1/rodada em máquinas/fechaduras; se o alvo estiver Marcado, recebe +2 no teste.",
           vetor: "Rota de Fuga: Ao deslocar ou interromper hostil, move-se 1,5m sem gastar PA e sem AdO.",
-          "mediador-arcano": "Canal Invisível: Habilidade de Mediador que não cause dano não encerra Furtividade."
+          "mediador-arcano": "Canal Invisível: Habilidade de suporte que não cause dano não encerra Furtividade."
         }
       },
       { id: 'pesquisador-arcano', name: "Pesquisador Arcano", benefit: "Estudos Arcanos", skills: ["História Arcana", "Simbologia & Runas"], desc: "Estudos teóricos das matrizes e das runas ancestrais.",
         manifestations: {
+          atirador: "Munição Rúnica: 1/Descanso Curto; prepara munição rúnica especial igual à capacidade do carregador.",
+          canalizador: "Teoria do Fluxo: 1/rodada, após minijogo bem-sucedido, permite ignorar 1 erro adicional cometido.",
+          hibrido: "Sincronização Arcana: Gastar Cargas concede +2 no próximo teste de Sintonia Arcana até o próximo turno.",
+          vanguardista: "Runas de Proteção: 1/Descanso Curto; concede +3 RD Mágica a um aliado tocado por 2 rodadas.",
+          ciborgue: "Interface Tecno-Arcana: 1/rodada ao analisar máquina arcana, escolhe +2 Tecnologia ou +2 Sintonia.",
           vetor: "Geometria Etérea: Criatura sob magia que falhar em REF sofre +1,5m de deslocamento forçado.",
           "mediador-arcano": "Ressonância Teórica: Reduz o custo de Harmonia em 1 (mínimo 1) contra alvo sob efeito arcano."
         }
       },
       { id: 'sobrevivente', name: "Sobrevivente", benefit: "Sobrevivência", skills: ["Fortitude"], desc: "Instinto apurado e resistência extrema sob pressão.",
         manifestations: {
+          atirador: "Instinto de Sobrevivência: Com metade ou menos do PV Máximo, recebe +1 VA permanente.",
+          canalizador: "Concentração sob Pressão: Com metade ou menos do PV, recebe +2 em Fortitude para manter magias.",
+          hibrido: "Núcleo de Emergência: Com metade ou menos do PV, gastar Carga concede +1 Defesa até seu próximo turno.",
+          vanguardista: "Não Cair: 1/rodada, quando sofrer efeito que deixaria Caído, gastar 1 PA permite ficar de pé.",
+          ciborgue: "Instinto de Preservação: Com metade ou menos do PV, recebe +1 Defesa e +1 Fortitude contra máquinas.",
           vetor: "Instinto de Evasão: Com 50% ou menos PV, gasta Reação para mover 3m sem AdO se inimigo entrar a 3m.",
           "mediador-arcano": "Reserva de Emergência: Com 50% ou menos PV, primeira habilidade por rodada custa -1 Harmonia."
         }
       },
       { id: 'mercenario', name: "Mercenário", benefit: "Treinamento Operacional", skills: ["Armas de Fogo", "Briga/Corpo a Corpo"], desc: "Pragmatismo contratual e versatilidade em combate.",
         manifestations: {
+          atirador: "Contrato de Abate: No primeiro ataque da cena, escolhe um Alvo Prioritário; 1/rodada +1 VA contra ele.",
+          canalizador: "Operação Precisa: Conjurações de alvo único recebem +1 de resultado de acerto no minijogo.",
+          hibrido: "Equipamento de Missão: Após Descanso Completo, escolhe um item para receber +1 VA ou +1 Defesa até o próximo.",
+          vanguardista: "Contrato de Proteção: Início do combate, escolhe aliado; a até 3m dele concede +1 Defesa e +1 RD física.",
+          ciborgue: "Contrato de Caça: Primeiro ataque contra máquina a designa como Alvo Contratado (1/rodada +1 VA).",
           vetor: "Alvo de Interceptação: Deslocamento forçado causado em Alvo Contratado aumenta em +1,5m.",
           "mediador-arcano": "Contrato de Suporte: Alcance de habilidades com seu aliado contratado aumenta em +3m."
         }
       },
       { id: 'atleta', name: "Atleta", benefit: "Condicionamento", skills: ["Atletismo"], desc: "Mobilidade acrobática, vigor e deslocamento aumentado.",
         manifestations: {
+          atirador: "Movimento e Tiro: 1/rodada, após disparo, gastar 1 PA permite mover-se 3m sem provocar AdO.",
+          canalizador: "Concentração Física: Ao sofrer dano durante conjuração, recebe +2 em Fortitude para sustentar a magia.",
+          hibrido: "Mobilidade Integrada: 1/rodada, após habilidade que gaste Carga, move-se 3m gastando 0 PA.",
+          vanguardista: "Investida: Se mover pelo menos 6m em linha reta antes de atacar corpo a corpo, recebe +2 VA.",
+          ciborgue: "Servomotores Adaptados: Concede +2 Atletismo e +1,5m de deslocamento; pós ataque C.C. move 3m livre.",
           vetor: "Arranque Cinético: Ao mover 6m no turno, próxima habilidade ganha +3m de alcance.",
           "mediador-arcano": "Respiração Sincronizada: Ao mover 3m no turno, próxima habilidade ganha +3m de alcance."
         }
       },
       { id: 'operador', name: "Operador", benefit: "Operações Táticas", skills: ["Tecnologia & Sistemas", "Percepção/Prontidão"], desc: "Uso de miras, sensores e operações táticas coordenadas.",
         manifestations: {
+          atirador: "Aquisição de Alvo: Com visores ou miras, recebe +1 VA no primeiro ataque após adquirir o alvo.",
+          canalizador: "Interface Arcana: Ao usar focos integrados de éter, recebe +1 de resultado no minijogo.",
+          hibrido: "Integração de Sistemas: Tecnologia & Sistemas pode ser usada para operar ou hackear no lugar de outras perícias.",
+          vanguardista: "Plataforma Defensiva: 1/rodada adjacente a barreira ou cobertura, recebe +1 Defesa.",
+          ciborgue: "Protocolo Tático: 1/rodada ao analisar máquina, escolhe entre +1 VA, +1 Defesa ou +2 Tecnologia.",
           vetor: "Mapeamento Vetorial: Com sensor/visor ativo, primeira habilidade por rodada ganha +3m alcance.",
-          "mediador-arcano": "Coordenação de Sincronia: Aliado beneficiado pode realizar 3m de movimento sem PA."
+          "mediador-arcano": "Coordenação de Sincronia: Aliado beneficiado pode realizar 1,5m de movimento sem gastar PA."
         }
       }
     ];
@@ -1700,10 +1807,10 @@
       { name: "Revólver", type: "fogo", damage: "1d6", crit: "17×2", range: "12m", ammo: 6, recoil: 1, failure: 3, vaBonus: 0 },
       { name: "Submetralhadora", type: "fogo", damage: "1d6", crit: "19×2", range: "12m", ammo: 30, recoil: 2, failure: 15, vaBonus: 0 },
       { name: "Espingarda", type: "fogo", damage: "2d6", crit: "16×2", range: "6m", ammo: 6, recoil: 2, failure: 3, vaBonus: 0 },
-      { name: "Fuzil de Assalto", type: "fogo", damage: "1d10", crit: "18×2", range: "18m", ammo: 20, recoil: 2, failure: 10, vaBonus: 0 },
+      { name: "Fuzil", type: "fogo", damage: "1d10", crit: "18×2", range: "18m", ammo: 20, recoil: 2, failure: 10, vaBonus: 0 },
       { name: "Fuzil de Atirador", type: "fogo", damage: "1d12", crit: "17×2", range: "24m", ammo: 10, recoil: 2, failure: 5, vaBonus: 0 },
-      { name: "Sniper de Precisão", type: "fogo", damage: "1d20", crit: "16×2", range: "36m", ammo: 5, recoil: 3, failure: 2, vaBonus: 0 },
-      { name: "Metralhadora Pesada", type: "fogo", damage: "1d8", crit: "19×2", range: "18m", ammo: 40, recoil: 4, failure: 20, vaBonus: 0 },
+      { name: "Sniper", type: "fogo", damage: "1d20", crit: "16×2", range: "36m", ammo: 5, recoil: 3, failure: 2, vaBonus: 0 },
+      { name: "Metralhadora", type: "fogo", damage: "1d8", crit: "19×2", range: "18m", ammo: 40, recoil: 4, failure: 20, vaBonus: 0 },
       { name: "Escopeta Devastadora", type: "fogo", damage: "3d6", crit: "16×2", range: "6m", ammo: 4, recoil: 3, failure: 2, vaBonus: 0 },
       { name: "Faca Tática", type: "melee", damage: "1d4", crit: "17×2", range: "C.C.", ammo: 0, recoil: 0, failure: 0, vaBonus: 0 },
       { name: "Canivete", type: "melee", damage: "1d4", crit: "18×2", range: "C.C.", ammo: 0, recoil: 0, failure: 0, vaBonus: 0 },
@@ -1714,7 +1821,8 @@
       { name: "Machado de Combate", type: "melee", damage: "1d10", crit: "18×2", range: "C.C.", ammo: 0, recoil: 0, failure: 0, vaBonus: 0 },
       { name: "Espada Curta", type: "melee", damage: "1d8", crit: "17×2", range: "C.C.", ammo: 0, recoil: 0, failure: 0, vaBonus: 0 },
       { name: "Espada Longa", type: "melee", damage: "1d10", crit: "18×2", range: "C.C.", ammo: 0, recoil: 0, failure: 0, vaBonus: 0 },
-      { name: "Katana de Precisão", type: "melee", damage: "1d10", crit: "17×2", range: "C.C.", ammo: 0, recoil: 0, failure: 0, vaBonus: 1 }
+      { name: "Katana", type: "melee", damage: "1d10", crit: "17×2", range: "C.C.", ammo: 0, recoil: 0, failure: 0, vaBonus: 1, prop: "Precisão (+1 VA no 1º golpe)" },
+      { name: "Desarmado", type: "melee", damage: "1d4", crit: "20×2", range: "C.C.", ammo: 0, recoil: 0, failure: 0, vaBonus: 0 }
     ];
 
     const MAGIC_ITEMS = [
@@ -1754,6 +1862,7 @@
     function getBlankState() {
       return {
         id: "char_" + Math.random().toString(36).substring(2, 9),
+        schemaVersion: window.FerroArcanoRules.VERSION,
         name: "",
         level: 1,
         concept: "",
@@ -1762,10 +1871,12 @@
         originSkillChoice: "Fortitude",
         corpId: "bravia",
         trailId: "",
+        trailCommitted: false,
         avatarUrl: "",
         attributes: { CON: 0, CONH: 0, FOC: 0, FOR: 0, REF: 0 },
         trainedSkills: ["Armas de Fogo"],
         colapsoId: 0,
+        colapsoPoints: 0,
         colapsoSeverity: "simples",
         armorVal: 0,
         armorRd: 0,
@@ -1774,6 +1885,8 @@
         equippedItems: [],
         activeAbilities: [], // IDs de habilidades ativas ou objetos { id, choice, durationTurns }
         incomingBuffs: [],   // Buffs recebidos de aliados: { sourceName, abilityName, buffs, turnsRemaining }
+        conditions: [],
+        combat: { round: 0, turn: 0, reactionAvailable: true, exRecoveredThisRound: 0, paGrantedThisRound: 0, resourceRecoveredThisRound: 0, pendingPa: 0 },
         weapons: [],
         currentPv: 28,
         currentExaustao: 0,
@@ -1846,10 +1959,18 @@
       document.getElementById('char-name').addEventListener('input', e => { state.name = e.target.value; calcularEAtualizar(); });
       document.getElementById('char-level').addEventListener('change', e => { state.level = parseInt(e.target.value); resetAttributesOnLevelChange(); calcularEAtualizar(); });
       document.getElementById('char-concept').addEventListener('input', e => { state.concept = e.target.value; calcularEAtualizar(); });
-      document.getElementById('char-class').addEventListener('change', e => { state.classId = e.target.value; state.trailId = ""; state.activeAbilities = []; validateAndSetMandatorySkill(); resetClassResourceOnClassChange(); calcularEAtualizar(); });
+      document.getElementById('char-class').addEventListener('change', e => { state.classId = e.target.value; state.trailId = ""; state.trailCommitted = false; state.activeAbilities = []; validateAndSetMandatorySkill(); resetClassResourceOnClassChange(); calcularEAtualizar(); });
       document.getElementById('char-origin').addEventListener('change', e => { state.originId = e.target.value; updateOriginSkillChoiceGroup(); calcularEAtualizar(); });
       document.getElementById('char-origin-skill-choice').addEventListener('change', e => { state.originSkillChoice = e.target.value; calcularEAtualizar(); });
-      document.getElementById('char-trail').addEventListener('change', e => { state.trailId = e.target.value; calcularEAtualizar(); });
+      document.getElementById('char-trail').addEventListener('change', e => {
+        const chosen = e.target.value;
+        if (!chosen) return;
+        const trail = (TRAILS[state.classId] || []).find(item => item.id === chosen);
+        if (!confirm(`Confirmar ${trail ? trail.name : chosen} como Trilha permanente?`)) { e.target.value = state.trailId || ''; return; }
+        state.trailId = chosen;
+        state.trailCommitted = true;
+        calcularEAtualizar();
+      });
       document.getElementById('char-avatar-url').addEventListener('input', e => { state.avatarUrl = e.target.value; updateAvatarPreview(); salvarFicha(); });
       document.getElementById('char-colapso').addEventListener('change', e => { state.colapsoId = parseInt(e.target.value); calcularEAtualizar(); });
       document.querySelectorAll('input[name="colapso-severity"]').forEach(rad => {
@@ -1889,6 +2010,19 @@
 
       // Modal da Mesa Virtual
       document.getElementById('btn-open-room-modal').addEventListener('click', openRoomModal);
+      document.getElementById('btn-session-mode').addEventListener('click', event => {
+        document.body.classList.toggle('session-mode');
+        const enabled = document.body.classList.contains('session-mode');
+        event.currentTarget.textContent = enabled ? '🛠️ Editar Ficha' : '⚔️ Modo Sessão';
+        localStorage.setItem('ferro_arcano_session_mode', enabled ? '1' : '0');
+      });
+      if (localStorage.getItem('ferro_arcano_session_mode') === '1') document.getElementById('btn-session-mode').click();
+      const conditionChoice = document.getElementById('condition-choice');
+      conditionChoice.innerHTML = Object.entries(window.FerroArcanoRules.CONDITIONS).map(([id, condition]) => `<option value="${id}">${condition.name}</option>`).join('');
+      document.getElementById('btn-add-condition').addEventListener('click', () => {
+        window.FerroArcanoRules.addCondition(state, { id: conditionChoice.value, source: 'Mesa', turnsRemaining: 1, appliedRound: state.combat?.round || 0 });
+        calcularEAtualizar();
+      });
 
       // Renderizar catálogo de ações no modal
       renderActionCatalogModal();
@@ -2101,35 +2235,7 @@
     }
 
     function encerrarTurno() {
-      state.currentPa = state.maxPa || 3;
-
-      // Decrementar duração de habilidades ativas que possuem durationTurns
-      if (state.activeAbilities && state.activeAbilities.length) {
-        state.activeAbilities = state.activeAbilities.filter(item => {
-          if (typeof item === 'object' && item.turnsRemaining) {
-            item.turnsRemaining--;
-            if (item.turnsRemaining <= 0) {
-              showDiceToast(`⏳ O efeito de <strong>${item.name || item.id}</strong> expirou.`);
-              return false;
-            }
-          }
-          return true;
-        });
-      }
-
-      // Decrementar buffs recebidos de aliados
-      if (state.incomingBuffs && state.incomingBuffs.length) {
-        state.incomingBuffs = state.incomingBuffs.filter(buff => {
-          if (buff.turnsRemaining) {
-            buff.turnsRemaining--;
-            if (buff.turnsRemaining <= 0) {
-              showDiceToast(`⏳ O efeito recebido de <strong>${buff.abilityName}</strong> expirou.`);
-              return false;
-            }
-          }
-          return true;
-        });
-      }
+      state.currentPa = 0;
 
       calcularEAtualizar();
       syncWithTable();
@@ -2138,11 +2244,11 @@
         window.FerroArcanoNetwork.broadcast('ACTION_LOG', {
           playerId: state.id,
           playerName: state.name || "Agente",
-          text: `${state.name || "Agente"} encerrou o turno (PA resetado para 3/3).`
+          text: `${state.name || "Agente"} encerrou o turno e aguarda a próxima rodada.`
         });
       }
 
-      showDiceToast("⏳ <strong>Turno Encerrado!</strong><br>PA resetado para 3/3 e durações de efeitos de 1 rodada atualizadas.");
+      showDiceToast("⏳ <strong>Turno encerrado.</strong><br>Os PA serão restaurados quando o Mestre iniciar a próxima rodada.");
     }
 
     // ================= CATÁLOGO DE AÇÕES =================
@@ -2181,6 +2287,41 @@
       }
 
       state.currentPa -= act.cost;
+
+      // Aplicar postura/buff imediato se aplicável
+      if (actionId === 'mirar') {
+        if (!state.activeAbilities) state.activeAbilities = [];
+        state.activeAbilities = state.activeAbilities.filter(a => (typeof a === 'object' ? a.id : a) !== 'action_mirar');
+        state.activeAbilities.push({
+          id: 'action_mirar',
+          name: 'Mirar (+2 VA)',
+          cost: '1 PA',
+          summary: '+2 VA no próximo ataque à distância até o início do próximo turno.',
+          buffs: { va: 2 },
+          turnsRemaining: 1
+        });
+      } else if (actionId === 'defesa_total') {
+        if (!state.activeAbilities) state.activeAbilities = [];
+        state.activeAbilities = state.activeAbilities.filter(a => (typeof a === 'object' ? a.id : a) !== 'action_defesa_total');
+        state.activeAbilities.push({
+          id: 'action_defesa_total',
+          name: 'Defesa Total (+2 Def, +2 Esq)',
+          cost: '2 PA',
+          summary: '+2 Defesa e +2 Esquiva ativas até o início do seu próximo turno.',
+          buffs: { defense: 2, esquiva: 2 },
+          turnsRemaining: 1
+        });
+      } else if (actionId === 'conjurar') {
+        // Salva estado atualizado e redireciona ao minijogo
+        calcularEAtualizar();
+        syncWithTable();
+        localStorage.setItem('ferroArcanoState', JSON.stringify(state));
+        closeActionCatalogModal();
+        window.location.href = '../index.html?from=ficha';
+        return;
+      }
+
+
       calcularEAtualizar();
       syncWithTable();
 
@@ -2245,12 +2386,14 @@
         container.innerHTML = '<div style="padding:12px; color:var(--ink-dim); text-align:center;">Nenhum outro jogador conectado à sala no momento.</div>';
       } else {
         teammates.forEach(t => {
-          const card = document.createElement('div');
+          const card = document.createElement('button');
+          card.type = 'button';
           card.className = "choice-card";
-          card.innerHTML = `
-            <strong>👤 ${t.name || 'Agente'} (${t.classId || 'Aliado'})</strong>
-            <p>Nível ${t.level || 1} · Sala ${state.room_code}</p>
-          `;
+          const heading = document.createElement('strong');
+          heading.textContent = `👤 ${t.name || 'Agente'} (${t.classId || 'Aliado'})`;
+          const summary = document.createElement('p');
+          summary.textContent = `Nível ${t.level || 1} · Sala ${state.room_code}`;
+          card.append(heading, summary);
           card.onclick = () => {
             closeAllyModal();
             callback(t);
@@ -2333,6 +2476,7 @@
       const paCost = powerObj.paCost || 0;
       const resCost = powerObj.resourceCost || 0;
       const cls = CLASSES[state.classId] || CLASSES.atirador;
+      const usesReaction = /rea[cç][aã]o/i.test(powerObj.cost || '');
 
       if ((state.currentPa || 0) < paCost) {
         showDiceToast(`⚠️ Pontos de Ação insuficientes! Requer <strong>${paCost} PA</strong>.`);
@@ -2343,10 +2487,20 @@
         showDiceToast(`⚠️ Recurso de classe insuficiente! Requer <strong>${resCost} ${cls.resourceName}</strong>.`);
         return;
       }
+      if (usesReaction && state.combat && !state.combat.reactionAvailable) {
+        showDiceToast('⚠️ Sua reação desta rodada já foi utilizada.');
+        return;
+      }
 
       // 2. Deduzir custos
       if (paCost > 0) state.currentPa -= paCost;
       if (resCost > 0) state.classResource -= resCost;
+      if (usesReaction) state.combat.reactionAvailable = false;
+
+      const transmittedBuffs = Object.assign({}, chosenEffect ? (chosenEffect.buffs || {}) : (powerObj.buffs || {}));
+      if (powerObj.id === 'med_tr_ponte_acao') transmittedBuffs.paNextTurn = 1;
+      if (powerObj.id === 'med_tr_reativacao_harmonica') transmittedBuffs.classResourceRecovery = 1;
+      if (powerObj.id === 'med_purga_ressonancia') transmittedBuffs.removeArcaneCondition = 1;
 
       // 3. Salvar no estado de ativas
       const activeEntry = {
@@ -2354,8 +2508,8 @@
         name: powerObj.name + (chosenEffect ? ` (${chosenEffect.name})` : ''),
         cost: powerObj.cost || `${paCost} PA`,
         summary: chosenEffect ? chosenEffect.desc : powerObj.desc,
-        buffs: chosenEffect ? (chosenEffect.buffs || {}) : (powerObj.buffs || {}),
-        turnsRemaining: powerObj.durationTurns || 0
+        buffs: targetAlly ? {} : chosenEffect ? (chosenEffect.buffs || {}) : (powerObj.buffs || {}),
+        turnsRemaining: (chosenEffect && chosenEffect.durationTurns) || powerObj.durationTurns || 0
       };
 
       state.activeAbilities.push(activeEntry);
@@ -2369,8 +2523,8 @@
             targetPlayerId: targetAlly.id,
             abilityId: powerObj.id,
             abilityName: activeEntry.name,
-            buffs: activeEntry.buffs,
-            durationTurns: powerObj.durationTurns || 1,
+            buffs: transmittedBuffs,
+            durationTurns: (chosenEffect && chosenEffect.durationTurns) || powerObj.durationTurns || 1,
             desc: activeEntry.summary
           });
         }
@@ -2388,7 +2542,7 @@
 
       calcularEAtualizar();
       syncWithTable();
-      showDiceToast(`✨ <strong>${activeEntry.name}</strong> ATIVADA!${targetAlly ? `<br>Aplicado em <strong>${targetAlly.name}</strong>.` : ''}`);
+      showDiceToast(`✨ <strong>${escapeText(activeEntry.name)}</strong> ATIVADA!${targetAlly ? `<br>Aplicado em <strong>${escapeText(targetAlly.name)}</strong>.` : ''}`);
     }
 
     function switchAbilitiesTab(tab) {
@@ -2436,6 +2590,7 @@
             ${actionBtnHtml}
           </div>
           <span>${p.desc}</span>
+          <div class="automation-note">${abilityResolutionLabel(p)}</div>
         `;
         classListDiv.appendChild(div);
       });
@@ -2461,11 +2616,8 @@
         trailStatus.style.color = "var(--brass)";
 
         const classTrails = TRAILS[state.classId] || [];
-        trailSelect.innerHTML = classTrails.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
-
-        if (!state.trailId || !classTrails.find(t => t.id === state.trailId)) {
-          state.trailId = classTrails[0] ? classTrails[0].id : "";
-        }
+        trailSelect.innerHTML = '<option value="">Escolha e confirme sua Trilha…</option>' + classTrails.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
+        trailSelect.disabled = Boolean(state.trailCommitted && state.trailId);
         trailSelect.value = state.trailId;
 
         const currentTrail = classTrails.find(t => t.id === state.trailId);
@@ -2506,11 +2658,20 @@
                 ${actionBtnHtml}
               </div>
               <span>${ab.desc}</span>
+              <div class="automation-note">${abilityResolutionLabel(ab)}</div>
             `;
             trailListDiv.appendChild(div);
           });
         }
       }
+    }
+
+    function abilityResolutionLabel(ability) {
+      const automaticSignals = ['buffs', 'paCost', 'resourceCost', 'durationTurns'].some(key => ability[key] != null);
+      const requiresTable = Boolean(ability.choices?.length || /área|criatura|alvo|linha|cone|teleporte|empurr|troca|transfer/i.test(ability.desc || ''));
+      if (automaticSignals && !requiresTable) return '⚙️ Automático: custos e modificadores são aplicados pela ficha.';
+      if (automaticSignals && requiresTable) return '◐ Assistido: a ficha aplica custos; alvo, alcance e resultado narrativo são resolvidos pela mesa.';
+      return '🎭 Mesa: efeito narrativo ou posicional, confirmado pelo Mestre.';
     }
 
     // ================= ITENS MÁGICOS =================
@@ -2559,7 +2720,7 @@
       // 1. Passivas permanentes da classe
       const unlockedCount = Math.min(state.level, 10);
       cls.powers.slice(0, unlockedCount).forEach(p => {
-        if (p.type === 'passiva' && p.buffs) {
+        if (p.type === 'passiva' && p.buffs && !isContextualModifier(p)) {
           Object.keys(p.buffs).forEach(k => {
             if (typeof p.buffs[k] === 'number') buffs[k] = (buffs[k] || 0) + p.buffs[k];
           });
@@ -2572,7 +2733,7 @@
         const tr = trails.find(t => t.id === state.trailId);
         if (tr) {
           tr.abilities.forEach(ab => {
-            if (state.level >= ab.level && ab.type === 'passiva' && ab.buffs) {
+            if (state.level >= ab.level && ab.type === 'passiva' && ab.buffs && !isContextualModifier(ab)) {
               Object.keys(ab.buffs).forEach(k => {
                 if (typeof ab.buffs[k] === 'number') buffs[k] = (buffs[k] || 0) + ab.buffs[k];
               });
@@ -2624,6 +2785,10 @@
       return buffs;
     }
 
+    function isContextualModifier(ability) {
+      return /\b(se|quando|enquanto|contra|alvo|aliado|próxim[oa]|primeir[oa]|distância|até \d|dentro de)\b/i.test(ability?.desc || '');
+    }
+
     // ================= ARMAS E VA FIXO =================
     function addWeaponRow(preset = null) {
       if (!state.weapons) state.weapons = [];
@@ -2662,6 +2827,10 @@
         div.style.flexDirection = "column";
         div.style.gap = "8px";
 
+        const extraInfo = w.type === 'fogo'
+          ? `<span style="color:#fca5a5;">Falha: <strong>${w.failure}</strong></span><span>Recuo: <strong>${w.recoil}</strong></span><span>Pente: <strong>${w.ammo}</strong></span>`
+          : (w.prop ? `<span style="color:var(--brass);">Prop: <strong>${w.prop}</strong></span>` : `<span style="color:var(--ink-dim);">Corpo a Corpo</span>`);
+
         div.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <select onchange="updateWeaponPreset(${idx}, this.value)" style="flex:1; margin-right:8px;" ${state.is_locked ? 'disabled' : ''}>
@@ -2673,7 +2842,7 @@
             <span>Dano: <strong style="color:var(--ink);">${w.damage}</strong></span>
             <span>Crítico: <strong style="color:var(--ink);">${w.crit}</strong></span>
             <span>Alcance: <strong style="color:var(--ink);">${w.range}</strong></span>
-            <span>${w.type === 'fogo' ? 'Pente: ' + w.ammo : 'Corpo a Corpo'}</span>
+            ${extraInfo}
           </div>
         `;
         container.appendChild(div);
@@ -2695,7 +2864,12 @@
       let baseAttr = w.type === 'fogo' ? foc : forVal;
       let va = 10 + baseAttr + (w.vaBonus || 0) + (buffs.va || 0);
 
-      // Colapso #1
+      // Bônus de perícia treinada em combate corpo a corpo (+2 se treinado em Briga/Corpo a Corpo)
+      if (w.type === 'melee' && (state.trainedSkills || []).some(s => s.toLowerCase().includes('briga'))) {
+        va += 2;
+      }
+
+      // Colapso #1: Visão Fraturada (-2 no VA de armas de fogo a mais de 12m)
       if (state.colapsoId === 1 && w.type === 'fogo') {
         va -= 2;
       }
@@ -2728,6 +2902,7 @@
 
     // ================= ATUALIZAÇÃO GERAL E CÁLCULOS =================
     function calcularEAtualizar() {
+      document.body.dataset.class = state.classId || 'atirador';
       const cls = CLASSES[state.classId] || CLASSES.atirador;
       const conVal = state.attributes.CON || 0;
       const conhVal = state.attributes.CONH || 0;
@@ -2783,6 +2958,8 @@
       
       const corp = CORPORATIONS.find(c => c.id === state.corpId) || CORPORATIONS[0];
       document.getElementById('p-char-corp-line').textContent = `${corp.flag} ${corp.name} · Agência ${corp.agency} (${corp.country})`;
+      document.getElementById('p-combat-round').textContent = state.combat?.round ? `Rodada ${state.combat.round} · ${state.combat.reactionAvailable ? 'Reação disponível' : 'Reação utilizada'}` : 'Fora de combate';
+      renderConditions();
 
       // Status de Trava
       const lockBadge = document.getElementById('p-char-lock-badge');
@@ -2874,10 +3051,45 @@
       activeList.forEach(act => {
         const chip = document.createElement('span');
         chip.className = "power-chip";
-        chip.innerHTML = `
-          <span>✨ ${act.name}</span>
-          ${!act.incoming ? `<button type="button" onclick="toggleAbility('${act.id}')">✕</button>` : ''}
-        `;
+        const label = document.createElement('span');
+        label.textContent = `✨ ${act.name}`;
+        chip.appendChild(label);
+        if (!act.incoming) {
+          const remove = document.createElement('button');
+          remove.type = 'button';
+          remove.textContent = '✕';
+          remove.setAttribute('aria-label', `Desativar ${act.name}`);
+          remove.addEventListener('click', () => window.toggleAbility(act.id));
+          chip.appendChild(remove);
+        }
+        container.appendChild(chip);
+      });
+    }
+
+    function renderConditions() {
+      const container = document.getElementById('condition-list');
+      container.innerHTML = '';
+      const entries = state.conditions || [];
+      if (!entries.length) {
+        const empty = document.createElement('span');
+        empty.style.cssText = 'font-size:.72rem;color:var(--ink-dim)';
+        empty.textContent = 'Nenhuma condição ativa.';
+        container.appendChild(empty);
+        return;
+      }
+      entries.forEach(condition => {
+        const rule = window.FerroArcanoRules.CONDITIONS[condition.id];
+        const chip = document.createElement('span');
+        chip.className = 'condition-chip';
+        chip.title = `${rule.summary} Fonte: ${condition.source}.`;
+        const label = document.createElement('span');
+        label.textContent = `${rule.name}${condition.turnsRemaining == null ? '' : ` · ${condition.turnsRemaining}r`}`;
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.setAttribute('aria-label', `Remover ${rule.name}`);
+        remove.textContent = '✕';
+        remove.addEventListener('click', () => { state.conditions = state.conditions.filter(item => item !== condition); calcularEAtualizar(); });
+        chip.append(label, remove);
         container.appendChild(chip);
       });
     }
@@ -2900,10 +3112,16 @@
         div.style.padding = "6px 0";
         div.style.borderBottom = "1px solid rgba(255,255,255,0.05)";
 
+        const subtitle = w.type === 'fogo'
+          ? `🔫 Alcance ${w.range} · Crítico ${w.crit} · <span style="color:#fca5a5;">Falha ${w.failure} · Recuo ${w.recoil}</span>`
+          : (w.prop
+            ? `⚔️ Corpo a Corpo · Crítico ${w.crit} · <span style="color:var(--brass);">${w.prop}</span>`
+            : `⚔️ Corpo a Corpo · Crítico ${w.crit}`);
+
         div.innerHTML = `
           <div>
             <strong style="font-size:0.85rem; color:var(--ink);">${w.name}</strong>
-            <div style="font-size:0.72rem; color:var(--ink-dim);">${w.type === 'fogo' ? '🔫 Alcance ' + w.range : '⚔️ Corpo a Corpo'} · Crítico ${w.crit}</div>
+            <div style="font-size:0.72rem; color:var(--ink-dim);">${subtitle}</div>
           </div>
           <div style="display:flex; align-items:center; gap:8px;">
             <div class="fixed-va-badge">VA ${va}</div>
@@ -2914,6 +3132,7 @@
         `;
         container.appendChild(div);
       });
+
     }
 
     function renderPreviewSkillsList() {
@@ -2988,11 +3207,9 @@
       const attrVal = cls.resourceAttr ? (state.attributes[cls.resourceAttr] || 0) : 0;
       state.classResource = cls.resourceBase + attrVal;
 
-      let colText = "";
-      if (state.colapsoId > 0) {
-        state.colapsoId = 0;
-        colText = "<br>✨ O fardo de Colapso Arcano foi dissipado!";
-      }
+      const beforeCollapse = state.colapsoPoints || 0;
+      state.colapsoPoints = Math.max(0, beforeCollapse - 1);
+      const colText = beforeCollapse > 0 ? `<br>✨ Pontos de Colapso: ${beforeCollapse} → ${state.colapsoPoints}. Sequelas permanecem.` : '';
 
       calcularEAtualizar();
       syncWithTable();
@@ -3015,6 +3232,7 @@
         if (payload.currentPv !== undefined) state.currentPv = payload.currentPv;
         if (payload.currentExaustao !== undefined) state.currentExaustao = payload.currentExaustao;
         if (payload.colapsoId !== undefined) state.colapsoId = payload.colapsoId;
+        if (payload.colapsoPoints !== undefined) state.colapsoPoints = payload.colapsoPoints;
         calcularEAtualizar();
         showDiceToast("🎲 <strong>Mestre atualizou seu personagem:</strong> Alterações aplicadas em tempo real.");
       });
@@ -3032,6 +3250,21 @@
         if (Array.isArray(payload)) {
           state.roomTeammates = payload;
         }
+      });
+
+      window.FerroArcanoNetwork.on('ROUND_STARTED', (payload) => {
+        const nextRound = Math.max(1, Number(payload?.round) || 1);
+        state = window.FerroArcanoRules.startRound(state, nextRound);
+        const tickEffects = items => (items || []).filter(item => {
+          if (!item || typeof item !== 'object' || item.turnsRemaining == null || item.turnsRemaining <= 0) return true;
+          item.turnsRemaining -= 1;
+          return item.turnsRemaining > 0;
+        });
+        state.activeAbilities = tickEffects(state.activeAbilities);
+        state.incomingBuffs = tickEffects(state.incomingBuffs);
+        calcularEAtualizar();
+        syncWithTable();
+        showDiceToast(`▶ <strong>Rodada ${nextRound} iniciada.</strong><br>PA e reação restaurados; durações foram atualizadas.`);
       });
 
       window.FerroArcanoNetwork.on('PLAYER_JOIN', (payload) => {
@@ -3065,17 +3298,30 @@
           desc: payload.desc || ""
         });
 
-        // Efeito imediato de cura de exaustão
+        const counters = state.combat || (state.combat = {});
+        // Recuperações imediatas têm limites por rodada para evitar acúmulo indevido.
         if (payload.buffs && payload.buffs.exRecovery) {
-          const conVal = state.attributes.CON || 0;
-          const conhVal = state.attributes.CONH || 0;
-          const exMax = (conVal * 15) + (conhVal * 10);
-          state.currentExaustao = Math.min(exMax, state.currentExaustao + payload.buffs.exRecovery);
+          const available = Math.max(0, 20 - (counters.exRecoveredThisRound || 0));
+          const recovered = Math.min(available, Math.max(0, payload.buffs.exRecovery));
+          state.currentExaustao = Math.min(window.FerroArcanoRules.exMax(state), state.currentExaustao + recovered);
+          counters.exRecoveredThisRound = (counters.exRecoveredThisRound || 0) + recovered;
+        }
+        if (payload.buffs?.paNextTurn) counters.pendingPa = Math.min(1, (counters.pendingPa || 0) + payload.buffs.paNextTurn);
+        if (payload.buffs?.classResourceRecovery) {
+          const recovered = Math.min(1 - (counters.resourceRecoveredThisRound || 0), payload.buffs.classResourceRecovery);
+          if (recovered > 0) {
+            state.classResource = Math.min(window.FerroArcanoRules.resourceMax(state), state.classResource + recovered);
+            counters.resourceRecoveredThisRound = (counters.resourceRecoveredThisRound || 0) + recovered;
+          }
+        }
+        if (payload.buffs?.removeArcaneCondition) {
+          const index = (state.conditions || []).findIndex(condition => window.FerroArcanoRules.CONDITIONS[condition.id]?.category === 'arcane');
+          if (index >= 0) state.conditions.splice(index, 1);
         }
 
         calcularEAtualizar();
         syncWithTable();
-        showDiceToast(`✨ <strong>${payload.sourcePlayerName}</strong> aplicou <strong>${payload.abilityName}</strong> em você!<br>${payload.desc || ''}`);
+        showDiceToast(`✨ <strong>${escapeText(payload.sourcePlayerName || 'Aliado')}</strong> aplicou <strong>${escapeText(payload.abilityName || 'Habilidade')}</strong> em você!<br>${escapeText(payload.desc || '')}`);
       });
 
       // Sincronização inicial respondida pelo mestre
@@ -3155,6 +3401,9 @@
         resourceName: cls.resourceName,
         colapsoId: state.colapsoId,
         colapsoSeverity: state.colapsoSeverity,
+        colapsoPoints: state.colapsoPoints || 0,
+        combat: state.combat,
+        conditions: state.conditions,
         activeAbilities: activePowersDetailed,
         weapons: weaponsSnapshot,
         is_locked: state.is_locked
@@ -3230,7 +3479,7 @@
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
-          state = Object.assign({}, getBlankState(), parsed);
+          state = window.FerroArcanoRules.normalizeCharacter(parsed, getBlankState());
           if (!state.activeAbilities) state.activeAbilities = [];
           if (!state.incomingBuffs) state.incomingBuffs = [];
           if (!state.equippedItems) state.equippedItems = [];
@@ -3249,6 +3498,12 @@
         calcularEAtualizar();
         showDiceToast("♻️ <strong>Nova Ficha Criada!</strong><br>Todos os campos foram resetados para o estado inicial em branco.");
       }
+    }
+
+    function escapeText(value) {
+      const text = document.createElement('span');
+      text.textContent = String(value ?? '');
+      return text.innerHTML;
     }
 
     function showDiceToast(html) {

@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Wiki de regras de Ferro & Arcano.">
   <title>Ferro & Arcano | Wiki de regras</title>
-  <link rel="stylesheet" href="landing.css">
-  <link rel="stylesheet" href="wiki.css">
+  <link rel="stylesheet" href="landing.css?v=20260918">
+  <link rel="stylesheet" href="wiki.css?v=20260919">
 </head>
 <body>
+  <a class="skip-link" href="#wiki-content">Pular para as regras</a>
   <div class="grain"></div>
   <header class="topbar">
     <a class="brand" href="ferro_arcano.html"><span class="brand-mark">F&A</span><span><strong>Ferro & Arcano</strong><small>Wiki de regras ·</small></span></a>
@@ -18,9 +19,11 @@
     <aside class="book-sidebar">
       <div class="book-label">Livro de regras</div>
       <h1>Ferro<br><em>& Arcano</em></h1>
-      <p class="book-version">Edição consolidada<br · núcleo</p>
+      <p class="book-version">Edição consolidada<br>Regras de mesa</p>
       <label class="wiki-search-label" for="wiki-search">Busca rápida</label>
       <input id="wiki-search" type="search" placeholder="Ex.: Reação, PP, Bastião...">
+      <button type="button" class="button button-quiet" id="clear-search">Limpar busca</button>
+      <p id="search-status" role="status" class="search-status"></p>
       <nav id="book-nav" aria-label="Capítulos da wiki"></nav>
       <div class="book-note">Regra específica supera regra geral quando declarar explicitamente a exceção.</div>
     </aside>
@@ -30,6 +33,8 @@
     </section>
   </main>
   <div class="detail-layer" id="detail-layer" aria-hidden="true"><div class="detail-backdrop" data-close-detail></div><section class="detail-card" role="dialog" aria-modal="true" aria-labelledby="detail-title"><button class="icon-button" data-close-detail aria-label="Fechar">×</button><p class="eyebrow" id="detail-kicker">Regra detalhada</p><h2 id="detail-title"></h2><div id="detail-body"></div></section></div>
-  <script src="wiki.js"></script>
+  <script src="../shared/ui.js?v=20260918"></script>
+  <script src="new-classes.js?v=20260918"></script>
+  <script src="wiki.js?v=20260919"></script>
 </body>
 </html>

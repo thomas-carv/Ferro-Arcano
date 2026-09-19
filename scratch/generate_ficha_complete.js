@@ -1,10 +1,40 @@
-// scratch/generate_ficha_complete.js
+// ================================================================
+// ARQUIVO: scratch/generate_ficha_complete.js
+// ================================================================
+//
+// O QUE ESTE ARQUIVO FAZ:
+//   Este é o "gerador" da Ficha de Personagem do RPG Ferro & Arcano.
+//   Ele junta todos os dados do jogo (classes, armas, habilidades, etc.)
+//   e cria o arquivo final: minigame/ficha/index.html
+//
+// COMO USAR:
+//   1. Faça as alterações que quiser nas SEÇÕES abaixo
+//   2. Abra o terminal na pasta do projeto
+//   3. Execute: node scratch/generate_ficha_complete.js
+//   4. O arquivo minigame/ficha/index.html será atualizado automaticamente
+//
+// ⚠️ IMPORTANTE:
+//   Nunca edite o arquivo minigame/ficha/index.html diretamente!
+//   Ele é gerado automaticamente. Sempre edite ESTE arquivo e rode o comando acima.
+//
+// SEÇÕES DESTE ARQUIVO:
+//   SEÇÃO A (linha ~1190): DADOS DAS CLASSES     → onde você muda PV, PA, recursos
+//   SEÇÃO B (linha ~1711): PERÍCIAS              → lista de perícias do jogo
+//   SEÇÃO C (linha ~1733): COLAPSO ARCANO        → tabela de sequelas
+//   SEÇÃO D (linha ~1757): ARMAS E EQUIPAMENTOS  → adicione/remova armas aqui
+//   SEÇÃO E (linha ~1789): AÇÕES DE COMBATE      → lista de ações do catálogo
+//   SEÇÃO F (linha ~1852): LÓGICA DA FICHA       → não mexa aqui normalmente
+//
+// ================================================================
+
 const fs = require('fs');
 const path = require('path');
 
+// Caminho onde o arquivo HTML final será salvo
 const targetHtmlPath = path.resolve(__dirname, '../minigame/ficha/index.html');
 
 console.log('Building complete minigame/ficha/index.html...');
+
 
 const htmlContent = `<!DOCTYPE html>
 <html lang="pt-BR">
@@ -899,18 +929,19 @@ const htmlContent = `<!DOCTYPE html>
         <div class="form-group">
           <label>Armadura / Proteção Balística</label>
           <select id="char-armor">
-            <option value="0,0">Sem Proteção (+0 Def, 0 RD)</option>
-            <option value="1,1">Colete Leve (+1 Def, 1 RD Física)</option>
-            <option value="2,2">Armadura Tática (+2 Def, 2 RD Física)</option>
-            <option value="3,3">Exoesqueleto Blindado (+3 Def, 3 RD Física)</option>
+            <option value="0,0">Roupa Tática (+0 Def, 0 RD)</option>
+            <option value="1,2">Colete Leve (+1 Def, +2 RD Física)</option>
+            <option value="2,4">Colete Médio (+2 Def, +4 RD Física)</option>
+            <option value="4,6">Colete Pesado (+4 Def, +6 RD Física)</option>
+            <option value="6,8">Armadura Rígida (+6 Def, +8 RD Física)</option>
           </select>
         </div>
         <div class="form-group">
           <label>Escudo / Barreira Tática</label>
           <select id="char-shield">
             <option value="0">Nenhum Escudo (+0 Def)</option>
-            <option value="1">Broquel Tático (+1 Def)</option>
-            <option value="2">Escudo Balístico Pesado (+2 Def)</option>
+            <option value="1">Escudo Leve (+1 Def)</option>
+            <option value="2">Escudo Pesado (+2 Def)</option>
           </select>
         </div>
       </div>
@@ -1573,62 +1604,112 @@ const htmlContent = `<!DOCTYPE html>
     const ORIGENS = [
       { id: 'soldado', name: "Soldado", benefit: "Treinamento Militar", skills: ["Fortitude", "Imposição"], desc: "Treinamento Militar formal e disciplina tática.",
         manifestations: {
+          atirador: "Disciplina de Combate: 1/rodada, recebe +1 VA no primeiro ataque realizado no turno.",
+          canalizador: "Concentração Militar: 1/rodada, ao conjurar com sucesso, reduz em 10 a Exaustão gerada (mínimo 0).",
+          hibrido: "Transição de Combate: 1/rodada, após usar Cargas, ganha +1 VA no próximo ataque até o fim do turno.",
+          vanguardista: "Formação de Combate: 1/rodada, pode gastar 1 PA para reduzir deslocamento forçado em 3m ou evitar Caído.",
+          ciborgue: "Formação de Combate: 1/rodada, ao sofrer ataque de máquina ou alvo Marcado, recebe +1 Defesa.",
           vetor: "Disciplina de Avanço: Após mover 3m voluntários, ganha +1 Defesa contra o 1º ataque sofrido.",
-          "mediador-arcano": "Coordenação de Combate: Ao usar habilidade de Mediador em aliado, ele ganha +1 VA no próximo ataque."
+          "mediador-arcano": "Coordenação de Combate: Ao usar habilidade em aliado, ele ganha +1 VA no próximo ataque."
         }
       },
       { id: 'artesao', name: "Artesão", benefit: "Conhecimento Técnico", skills: ["Tecnologia & Sistemas", "Investigação"], desc: "Capacidade de modificar e aprimorar equipamentos.",
         manifestations: {
+          atirador: "Modificação de Armamento: 1/Descanso Curto (6 PA); na primeira vez que usar Mirar no turno, custa 0 PA.",
+          canalizador: "Aprimoramento Arcano: 1/Descanso Curto (6 PA); eleva em um estágio a raridade de item arcano por 2 rodadas.",
+          hibrido: "Infusão do Núcleo: 1/Descanso Curto (6 PA); aplica infusão temporária de precisão, potência ou regeneração.",
+          vanguardista: "Reforço Estrutural: 1/Descanso Curto (6 PA); concede +10 PV/+2 RD a barreira/escudo.",
+          ciborgue: "Manutenção de Campo: 1/Descanso Curto; recupera 2d8 PV, remove Falha de arma ou ganha +1 Defesa.",
           vetor: "Contrapeso Personalizado: 1 peça de roupa dá +1,5m quando habilidade mover você mesmo.",
-          "mediador-arcano": "Calibração de Foco: 1 equipamento faz o portador recuperar +5 Exaustão extra quando curado por você."
+          "mediador-arcano": "Calibração de Foco: 1 equipamento faz o portador recuperar +5 Exaustão extra em magia bem-sucedida."
         }
       },
       { id: 'medico', name: "Médico", benefit: "Formação Médica", skills: ["Medicina de Combate"], desc: "Sustentação biológica e socorro em combate.",
         manifestations: {
+          atirador: "Socorro de Combate: 1/rodada, gasta 1 PA para curar 1d6 PV em aliado adjacente que sofreu dano.",
+          canalizador: "Medicina Arcana: Sempre que conjuração sua curar PV, o alvo recupera +1d6 PV adicionais.",
+          hibrido: "Estimulante Tecno-Arcano: 1/Descanso Curto (2 PA); cura criatura adjacente em 2d6 PV.",
+          vanguardista: "Médico de Linha: 1/Descanso Curto, quando aliado adjacente chegar a 0 PV, gasta Reação para mantê-lo com 1 PV.",
+          ciborgue: "Tecno-Cura: Recebe 3 cargas por Descanso Curto; gasta 1 PA para curar 2d6 PV em si ou adjacente (+1 PP para Ciborgue).",
           vetor: "Leitura Biomecânica: Alvo com condição física sofre -1 em REF contra suas habilidades.",
           "mediador-arcano": "Estabilização Bio-Arcana: Ao fazer aliado recuperar Exaustão, ele também recupera 1d6 PV."
         }
       },
       { id: 'investigador', name: "Investigador", benefit: "Olhar Investigativo", skills: ["Investigação"], desc: "Análise analítica de pistas, fraquezas e terreno.",
         manifestations: {
+          atirador: "Identificação de Alvo: 1/rodada, contra alvo observado por pelo menos 1 rodada, recebe +1 VA.",
+          canalizador: "Leitura Arcana: Recebe +2 para identificar magias ou efeitos ativos (ofensivo, defensivo ou controle).",
+          hibrido: "Análise de Sistemas: Recebe +2 em Tecnologia & Sistemas contra robôs, drones e circuitos eletrônicos.",
+          vanguardista: "Leitura do Campo: No início do combate, escolhe uma criatura; recebe +2 Defesa contra ela na 1ª rodada.",
+          ciborgue: "Leitura Estrutural: Observar máquina por 1 turno concede +2 Tecnologia e identifica fraquezas e armas.",
           vetor: "Previsão de Trajetória: Alvo observado por 1 turno sofre -2 REF contra você.",
           "mediador-arcano": "Leitura de Fluxo: +2 em testes para identificar Exaustão, Colapso e magias ativas em alvos."
         }
       },
       { id: 'criminoso', name: "Criminoso", benefit: "Conhecimento das Ruas", skills: ["Furtividade"], desc: "Infiltração, saques rápidos e manobras furtivas.",
         manifestations: {
+          atirador: "Saque Ilegal: 1/rodada, sacar ou trocar armas compatíveis com Acesso Rápido custa 0 PA.",
+          canalizador: "Ritual Clandestino: Conjurar sem linha de visão de inimigos concede +1 de acerto no minijogo.",
+          hibrido: "Gambiarra: 1/rodada ao interagir com modificação, ganha +1 VA ou +1 Defesa até seu próximo turno.",
+          vanguardista: "Intimidação Brutal: Ao acertar corpo a corpo, 1 PA força Imposição contra Defesa (falha = Assustado).",
+          ciborgue: "Invasão Improvisada: 1/rodada em máquinas/fechaduras; se o alvo estiver Marcado, recebe +2 no teste.",
           vetor: "Rota de Fuga: Ao deslocar ou interromper hostil, move-se 1,5m sem gastar PA e sem AdO.",
-          "mediador-arcano": "Canal Invisível: Habilidade de Mediador que não cause dano não encerra Furtividade."
+          "mediador-arcano": "Canal Invisível: Habilidade de suporte que não cause dano não encerra Furtividade."
         }
       },
       { id: 'pesquisador-arcano', name: "Pesquisador Arcano", benefit: "Estudos Arcanos", skills: ["História Arcana", "Simbologia & Runas"], desc: "Estudos teóricos das matrizes e das runas ancestrais.",
         manifestations: {
+          atirador: "Munição Rúnica: 1/Descanso Curto; prepara munição rúnica especial igual à capacidade do carregador.",
+          canalizador: "Teoria do Fluxo: 1/rodada, após minijogo bem-sucedido, permite ignorar 1 erro adicional cometido.",
+          hibrido: "Sincronização Arcana: Gastar Cargas concede +2 no próximo teste de Sintonia Arcana até o próximo turno.",
+          vanguardista: "Runas de Proteção: 1/Descanso Curto; concede +3 RD Mágica a um aliado tocado por 2 rodadas.",
+          ciborgue: "Interface Tecno-Arcana: 1/rodada ao analisar máquina arcana, escolhe +2 Tecnologia ou +2 Sintonia.",
           vetor: "Geometria Etérea: Criatura sob magia que falhar em REF sofre +1,5m de deslocamento forçado.",
           "mediador-arcano": "Ressonância Teórica: Reduz o custo de Harmonia em 1 (mínimo 1) contra alvo sob efeito arcano."
         }
       },
       { id: 'sobrevivente', name: "Sobrevivente", benefit: "Sobrevivência", skills: ["Fortitude"], desc: "Instinto apurado e resistência extrema sob pressão.",
         manifestations: {
+          atirador: "Instinto de Sobrevivência: Com metade ou menos do PV Máximo, recebe +1 VA permanente.",
+          canalizador: "Concentração sob Pressão: Com metade ou menos do PV, recebe +2 em Fortitude para manter magias.",
+          hibrido: "Núcleo de Emergência: Com metade ou menos do PV, gastar Carga concede +1 Defesa até seu próximo turno.",
+          vanguardista: "Não Cair: 1/rodada, quando sofrer efeito que deixaria Caído, gastar 1 PA permite ficar de pé.",
+          ciborgue: "Instinto de Preservação: Com metade ou menos do PV, recebe +1 Defesa e +1 Fortitude contra máquinas.",
           vetor: "Instinto de Evasão: Com 50% ou menos PV, gasta Reação para mover 3m sem AdO se inimigo entrar a 3m.",
           "mediador-arcano": "Reserva de Emergência: Com 50% ou menos PV, primeira habilidade por rodada custa -1 Harmonia."
         }
       },
       { id: 'mercenario', name: "Mercenário", benefit: "Treinamento Operacional", skills: ["Armas de Fogo", "Briga/Corpo a Corpo"], desc: "Pragmatismo contratual e versatilidade em combate.",
         manifestations: {
+          atirador: "Contrato de Abate: No primeiro ataque da cena, escolhe um Alvo Prioritário; 1/rodada +1 VA contra ele.",
+          canalizador: "Operação Precisa: Conjurações de alvo único recebem +1 de resultado de acerto no minijogo.",
+          hibrido: "Equipamento de Missão: Após Descanso Completo, escolhe um item para receber +1 VA ou +1 Defesa até o próximo.",
+          vanguardista: "Contrato de Proteção: Início do combate, escolhe aliado; a até 3m dele concede +1 Defesa e +1 RD física.",
+          ciborgue: "Contrato de Caça: Primeiro ataque contra máquina a designa como Alvo Contratado (1/rodada +1 VA).",
           vetor: "Alvo de Interceptação: Deslocamento forçado causado em Alvo Contratado aumenta em +1,5m.",
           "mediador-arcano": "Contrato de Suporte: Alcance de habilidades com seu aliado contratado aumenta em +3m."
         }
       },
       { id: 'atleta', name: "Atleta", benefit: "Condicionamento", skills: ["Atletismo"], desc: "Mobilidade acrobática, vigor e deslocamento aumentado.",
         manifestations: {
+          atirador: "Movimento e Tiro: 1/rodada, após disparo, gastar 1 PA permite mover-se 3m sem provocar AdO.",
+          canalizador: "Concentração Física: Ao sofrer dano durante conjuração, recebe +2 em Fortitude para sustentar a magia.",
+          hibrido: "Mobilidade Integrada: 1/rodada, após habilidade que gaste Carga, move-se 3m gastando 0 PA.",
+          vanguardista: "Investida: Se mover pelo menos 6m em linha reta antes de atacar corpo a corpo, recebe +2 VA.",
+          ciborgue: "Servomotores Adaptados: Concede +2 Atletismo e +1,5m de deslocamento; pós ataque C.C. move 3m livre.",
           vetor: "Arranque Cinético: Ao mover 6m no turno, próxima habilidade ganha +3m de alcance.",
           "mediador-arcano": "Respiração Sincronizada: Ao mover 3m no turno, próxima habilidade ganha +3m de alcance."
         }
       },
       { id: 'operador', name: "Operador", benefit: "Operações Táticas", skills: ["Tecnologia & Sistemas", "Percepção/Prontidão"], desc: "Uso de miras, sensores e operações táticas coordenadas.",
         manifestations: {
+          atirador: "Aquisição de Alvo: Com visores ou miras, recebe +1 VA no primeiro ataque após adquirir o alvo.",
+          canalizador: "Interface Arcana: Ao usar focos integrados de éter, recebe +1 de resultado no minijogo.",
+          hibrido: "Integração de Sistemas: Tecnologia & Sistemas pode ser usada para operar ou hackear no lugar de outras perícias.",
+          vanguardista: "Plataforma Defensiva: 1/rodada adjacente a barreira ou cobertura, recebe +1 Defesa.",
+          ciborgue: "Protocolo Tático: 1/rodada ao analisar máquina, escolhe entre +1 VA, +1 Defesa ou +2 Tecnologia.",
           vetor: "Mapeamento Vetorial: Com sensor/visor ativo, primeira habilidade por rodada ganha +3m alcance.",
-          "mediador-arcano": "Coordenação de Sincronia: Aliado beneficiado pode realizar 3m de movimento sem PA."
+          "mediador-arcano": "Coordenação de Sincronia: Aliado beneficiado pode realizar 1,5m de movimento sem gastar PA."
         }
       }
     ];
@@ -1708,10 +1789,10 @@ const htmlContent = `<!DOCTYPE html>
       { name: "Revólver", type: "fogo", damage: "1d6", crit: "17×2", range: "12m", ammo: 6, recoil: 1, failure: 3, vaBonus: 0 },
       { name: "Submetralhadora", type: "fogo", damage: "1d6", crit: "19×2", range: "12m", ammo: 30, recoil: 2, failure: 15, vaBonus: 0 },
       { name: "Espingarda", type: "fogo", damage: "2d6", crit: "16×2", range: "6m", ammo: 6, recoil: 2, failure: 3, vaBonus: 0 },
-      { name: "Fuzil de Assalto", type: "fogo", damage: "1d10", crit: "18×2", range: "18m", ammo: 20, recoil: 2, failure: 10, vaBonus: 0 },
+      { name: "Fuzil", type: "fogo", damage: "1d10", crit: "18×2", range: "18m", ammo: 20, recoil: 2, failure: 10, vaBonus: 0 },
       { name: "Fuzil de Atirador", type: "fogo", damage: "1d12", crit: "17×2", range: "24m", ammo: 10, recoil: 2, failure: 5, vaBonus: 0 },
-      { name: "Sniper de Precisão", type: "fogo", damage: "1d20", crit: "16×2", range: "36m", ammo: 5, recoil: 3, failure: 2, vaBonus: 0 },
-      { name: "Metralhadora Pesada", type: "fogo", damage: "1d8", crit: "19×2", range: "18m", ammo: 40, recoil: 4, failure: 20, vaBonus: 0 },
+      { name: "Sniper", type: "fogo", damage: "1d20", crit: "16×2", range: "36m", ammo: 5, recoil: 3, failure: 2, vaBonus: 0 },
+      { name: "Metralhadora", type: "fogo", damage: "1d8", crit: "19×2", range: "18m", ammo: 40, recoil: 4, failure: 20, vaBonus: 0 },
       { name: "Escopeta Devastadora", type: "fogo", damage: "3d6", crit: "16×2", range: "6m", ammo: 4, recoil: 3, failure: 2, vaBonus: 0 },
       { name: "Faca Tática", type: "melee", damage: "1d4", crit: "17×2", range: "C.C.", ammo: 0, recoil: 0, failure: 0, vaBonus: 0 },
       { name: "Canivete", type: "melee", damage: "1d4", crit: "18×2", range: "C.C.", ammo: 0, recoil: 0, failure: 0, vaBonus: 0 },
@@ -1722,7 +1803,8 @@ const htmlContent = `<!DOCTYPE html>
       { name: "Machado de Combate", type: "melee", damage: "1d10", crit: "18×2", range: "C.C.", ammo: 0, recoil: 0, failure: 0, vaBonus: 0 },
       { name: "Espada Curta", type: "melee", damage: "1d8", crit: "17×2", range: "C.C.", ammo: 0, recoil: 0, failure: 0, vaBonus: 0 },
       { name: "Espada Longa", type: "melee", damage: "1d10", crit: "18×2", range: "C.C.", ammo: 0, recoil: 0, failure: 0, vaBonus: 0 },
-      { name: "Katana de Precisão", type: "melee", damage: "1d10", crit: "17×2", range: "C.C.", ammo: 0, recoil: 0, failure: 0, vaBonus: 1 }
+      { name: "Katana", type: "melee", damage: "1d10", crit: "17×2", range: "C.C.", ammo: 0, recoil: 0, failure: 0, vaBonus: 1, prop: "Precisão (+1 VA no 1º golpe)" },
+      { name: "Desarmado", type: "melee", damage: "1d4", crit: "20×2", range: "C.C.", ammo: 0, recoil: 0, failure: 0, vaBonus: 0 }
     ];
 
     const MAGIC_ITEMS = [
@@ -2189,6 +2271,41 @@ const htmlContent = `<!DOCTYPE html>
       }
 
       state.currentPa -= act.cost;
+
+      // Aplicar postura/buff imediato se aplicável
+      if (actionId === 'mirar') {
+        if (!state.activeAbilities) state.activeAbilities = [];
+        state.activeAbilities = state.activeAbilities.filter(a => (typeof a === 'object' ? a.id : a) !== 'action_mirar');
+        state.activeAbilities.push({
+          id: 'action_mirar',
+          name: 'Mirar (+2 VA)',
+          cost: '1 PA',
+          summary: '+2 VA no próximo ataque à distância até o início do próximo turno.',
+          buffs: { va: 2 },
+          turnsRemaining: 1
+        });
+      } else if (actionId === 'defesa_total') {
+        if (!state.activeAbilities) state.activeAbilities = [];
+        state.activeAbilities = state.activeAbilities.filter(a => (typeof a === 'object' ? a.id : a) !== 'action_defesa_total');
+        state.activeAbilities.push({
+          id: 'action_defesa_total',
+          name: 'Defesa Total (+2 Def, +2 Esq)',
+          cost: '2 PA',
+          summary: '+2 Defesa e +2 Esquiva ativas até o início do seu próximo turno.',
+          buffs: { defense: 2, esquiva: 2 },
+          turnsRemaining: 1
+        });
+      } else if (actionId === 'conjurar') {
+        // Salva estado atualizado e redireciona ao minijogo
+        calcularEAtualizar();
+        syncWithTable();
+        localStorage.setItem('ferroArcanoState', JSON.stringify(state));
+        closeActionCatalogModal();
+        window.location.href = '../index.html?from=ficha';
+        return;
+      }
+
+
       calcularEAtualizar();
       syncWithTable();
 
@@ -2670,6 +2787,10 @@ const htmlContent = `<!DOCTYPE html>
         div.style.flexDirection = "column";
         div.style.gap = "8px";
 
+        const extraInfo = w.type === 'fogo'
+          ? \`<span style="color:#fca5a5;">Falha: <strong>\${w.failure}</strong></span><span>Recuo: <strong>\${w.recoil}</strong></span><span>Pente: <strong>\${w.ammo}</strong></span>\`
+          : (w.prop ? \`<span style="color:var(--brass);">Prop: <strong>\${w.prop}</strong></span>\` : \`<span style="color:var(--ink-dim);">Corpo a Corpo</span>\`);
+
         div.innerHTML = \`
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <select onchange="updateWeaponPreset(\${idx}, this.value)" style="flex:1; margin-right:8px;" \${state.is_locked ? 'disabled' : ''}>
@@ -2681,7 +2802,7 @@ const htmlContent = `<!DOCTYPE html>
             <span>Dano: <strong style="color:var(--ink);">\${w.damage}</strong></span>
             <span>Crítico: <strong style="color:var(--ink);">\${w.crit}</strong></span>
             <span>Alcance: <strong style="color:var(--ink);">\${w.range}</strong></span>
-            <span>\${w.type === 'fogo' ? 'Pente: ' + w.ammo : 'Corpo a Corpo'}</span>
+            \${extraInfo}
           </div>
         \`;
         container.appendChild(div);
@@ -2703,7 +2824,12 @@ const htmlContent = `<!DOCTYPE html>
       let baseAttr = w.type === 'fogo' ? foc : forVal;
       let va = 10 + baseAttr + (w.vaBonus || 0) + (buffs.va || 0);
 
-      // Colapso #1
+      // Bônus de perícia treinada em combate corpo a corpo (+2 se treinado em Briga/Corpo a Corpo)
+      if (w.type === 'melee' && (state.trainedSkills || []).some(s => s.toLowerCase().includes('briga'))) {
+        va += 2;
+      }
+
+      // Colapso #1: Visão Fraturada (-2 no VA de armas de fogo a mais de 12m)
       if (state.colapsoId === 1 && w.type === 'fogo') {
         va -= 2;
       }
@@ -2908,10 +3034,16 @@ const htmlContent = `<!DOCTYPE html>
         div.style.padding = "6px 0";
         div.style.borderBottom = "1px solid rgba(255,255,255,0.05)";
 
+        const subtitle = w.type === 'fogo'
+          ? \`🔫 Alcance \${w.range} · Crítico \${w.crit} · <span style="color:#fca5a5;">Falha \${w.failure} · Recuo \${w.recoil}</span>\`
+          : (w.prop
+            ? \`⚔️ Corpo a Corpo · Crítico \${w.crit} · <span style="color:var(--brass);">\${w.prop}</span>\`
+            : \`⚔️ Corpo a Corpo · Crítico \${w.crit}\`);
+
         div.innerHTML = \`
           <div>
             <strong style="font-size:0.85rem; color:var(--ink);">\${w.name}</strong>
-            <div style="font-size:0.72rem; color:var(--ink-dim);">\${w.type === 'fogo' ? '🔫 Alcance ' + w.range : '⚔️ Corpo a Corpo'} · Crítico \${w.crit}</div>
+            <div style="font-size:0.72rem; color:var(--ink-dim);">\${subtitle}</div>
           </div>
           <div style="display:flex; align-items:center; gap:8px;">
             <div class="fixed-va-badge">VA \${va}</div>
@@ -2922,6 +3054,7 @@ const htmlContent = `<!DOCTYPE html>
         \`;
         container.appendChild(div);
       });
+
     }
 
     function renderPreviewSkillsList() {

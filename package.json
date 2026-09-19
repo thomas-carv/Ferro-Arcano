@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "dev": "python -m http.server 4173"
+    "dev": "python -m http.server 4173",
+    "test": "node --test tests/quality.test.cjs"
   }
 }

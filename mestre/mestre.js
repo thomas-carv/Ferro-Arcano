@@ -3,6 +3,7 @@
 
   const STORAGE_ROOM_KEY = 'ferro_arcano_active_room';
   const STORAGE_PLAYERS_KEY = 'ferro_arcano_room_players_';
+  const STORAGE_COMBAT_KEY = 'ferro_arcano_combat_';
 
   // Catálogo de colapsos para rolagem rápida pelo mestre
   const COLAPSOS = [
@@ -55,10 +56,12 @@
   let roomCode = localStorage.getItem(STORAGE_ROOM_KEY) || 'FA-7842';
   let players = new Map(); // id -> playerData
   let eventLogs = [];
+  let combatRound = 0;
 
   // ================= INICIALIZAÇÃO =================
   window.onload = () => {
     initRoomCode();
+    combatRound = Math.max(0, Number(localStorage.getItem(STORAGE_COMBAT_KEY + roomCode)) || 0);
     loadPersistedPlayers();
     initNetwork();
     setupEventListeners();
@@ -75,7 +78,7 @@
       if (raw) {
         const arr = JSON.parse(raw);
         arr.forEach(p => {
-          if (p && p.id) players.set(p.id, p);
+          if (isValidPlayer(p)) players.set(p.id, p);
         });
       }
     } catch (e) {
@@ -107,7 +110,7 @@
 
     // Escuta entrada de jogadores
     window.FerroArcanoNetwork.on('PLAYER_JOIN', (payload) => {
-      if (!payload || !payload.id) return;
+      if (!isValidPlayer(payload)) return;
       players.set(payload.id, payload);
       savePersistedPlayers();
       renderAll();
@@ -117,11 +120,12 @@
         player: payload
       });
       broadcastSquadRoster();
+      if (combatRound > 0) window.FerroArcanoNetwork.broadcast('ROUND_STARTED', { round: combatRound });
     });
 
     // Escuta atualizações enviadas pelos jogadores
     window.FerroArcanoNetwork.on('PLAYER_UPDATE', (payload) => {
-      if (!payload || !payload.id) return;
+      if (!isValidPlayer(payload)) return;
       const existing = players.get(payload.id);
       // Mantém trava imposta pelo mestre se não especificada
       const locked = existing ? existing.is_locked : true;
@@ -135,13 +139,14 @@
     // Escuta rolagens de dados dos jogadores
     window.FerroArcanoNetwork.on('ROLL_LOG', (payload) => {
       if (!payload) return;
-      logEvent(payload.kind || 'damage', payload.message, payload.playerName);
+      const kind = ['damage', 'heal', 'skill', 'system', 'player'].includes(payload.kind) ? payload.kind : 'damage';
+      logEvent(kind, escapeHtml(String(payload.message || '').replace(/<[^>]*>/g, '')), payload.playerName);
     });
 
     // Escuta ações de combate e uso de habilidades/recursos
     window.FerroArcanoNetwork.on('ACTION_LOG', (payload) => {
       if (!payload || !payload.text) return;
-      logEvent('skill', payload.text, payload.playerName || 'Agente');
+      logEvent('skill', escapeHtml(payload.text), payload.playerName || 'Agente');
     });
 
     // Escuta buffs aplicados entre aliados (ex.: Mediador Arcano)
@@ -180,7 +185,9 @@
       const newCode = 'FA-' + randNum;
       if (confirm(`Deseja criar e migrar para a nova sala ${newCode}?`)) {
         roomCode = newCode;
+        combatRound = 0;
         localStorage.setItem(STORAGE_ROOM_KEY, roomCode);
+        localStorage.setItem(STORAGE_COMBAT_KEY + roomCode, '0');
         players.clear();
         savePersistedPlayers();
         initRoomCode();
@@ -212,10 +219,13 @@
     document.getElementById('btn-gm-d100').onclick = () => rollGmDice(100);
     document.getElementById('btn-gm-descanso').onclick = triggerSquadShortRest;
     document.getElementById('btn-gm-curatotal').onclick = triggerSquadFullRest;
+    document.getElementById('btn-next-round').onclick = startNextRound;
   }
 
   // ================= RENDERIZAÇÃO =================
   function renderAll() {
+    const roundLabel = document.getElementById('combat-round');
+    if (roundLabel) roundLabel.textContent = combatRound > 0 ? `Rodada ${combatRound}` : 'Fora de combate';
     renderSquadSummary();
     renderPlayersGrid();
   }
@@ -278,23 +288,43 @@
 
       // Habilidades Ativas
       const activePowers = p.activeAbilities || [];
+      const conditions = Array.isArray(p.conditions) ? p.conditions : [];
+      const avatarUrl = safeImageUrl(p.avatarUrl);
 
       return `
         <article class="player-card ${isLocked ? 'locked' : ''}" id="card-${p.id}">
           <div class="player-card-header">
-            <img src="${p.avatarUrl || 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=200'}" class="player-avatar" alt="Avatar">
+            <img src="${avatarUrl}" class="player-avatar" alt="Avatar de ${escapeHtml(p.name || 'Agente')}">
             <div class="player-info">
               <div class="player-name-row">
                 <h3>${escapeHtml(p.name || 'Agente')}</h3>
                 <span class="corp-badge">${corp.flag} ${corp.name}</span>
               </div>
-              <p class="player-class-sub">${capitalize(p.classId || 'combatente')} Nv. ${p.level || 1}${p.trailName ? ' · ' + p.trailName : ''}</p>
+              <p class="player-class-sub">${escapeHtml(capitalize(p.classId || 'combatente'))} Nv. ${Number(p.level) || 1}${p.trailName ? ' · ' + escapeHtml(p.trailName) : ''}</p>
               <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
                 <span class="lock-badge ${isLocked ? 'locked' : 'unlocked'}" onclick="togglePlayerLock('${p.id}')">
                   ${isLocked ? '🔒 Ficha Travada' : '🔓 Liberada p/ Jogador'}
                 </span>
-                <span style="font-size:0.7rem; color:var(--ink-dim);">Def: <strong>${p.defenseTotal || 10}</strong> · Esquiva: <strong>+${p.esquivaBonus || 0}</strong></span>
               </div>
+              <div class="player-tactical-stats">
+                <span title="Defesa Estática">🛡️ Def: <strong>${p.defenseTotal || 10}</strong></span>
+                <span title="Redução de Dano Física">🧱 RD Fís: <strong>${p.rdFisica || 0}</strong></span>
+                <span title="Redução de Dano Mágica">🔮 RD Mág: <strong>${p.rdMagica || 0}</strong></span>
+                <span title="Bônus de Esquiva ativa">🏃 Esq: <strong>+${p.esquivaBonus || 0}</strong></span>
+                <span title="Pontos de Ação no turno">⚡ PA: <strong style="color:var(--brass);">${p.currentPa !== undefined ? p.currentPa : 3}/${p.maxPa || 3}</strong></span>
+                <span title="Reação da rodada">↩ Reação: <strong>${p.combat?.reactionAvailable === false ? 'usada' : 'disponível'}</strong></span>
+                <span title="Recurso da Classe">${escapeHtml(p.resourceName || 'Recurso')}: <strong style="color:var(--brass);">${p.classResource !== undefined ? p.classResource : 0}</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="active-powers-section">
+            <div class="active-powers-title"><span>Condições (${conditions.length})</span></div>
+            <div class="active-powers-list">
+              ${conditions.length ? conditions.map(condition => {
+                const rule = window.FerroArcanoRules.CONDITIONS[condition.id];
+                return `<span class="condition-chip">${escapeHtml(rule?.name || condition.id)}${condition.turnsRemaining != null ? ` · ${Number(condition.turnsRemaining)}r` : ''}</span>`;
+              }).join('') : '<span style="font-size:0.72rem;color:var(--ink-dim);">Sem condições registradas.</span>'}
             </div>
           </div>
 
@@ -493,23 +523,37 @@
     logEvent('heal', '🩹 <strong>Descanso Curto do Esquadrão (30 min)</strong> aplicado a todos os agentes!');
   }
 
+  function startNextRound() {
+    combatRound += 1;
+    localStorage.setItem(STORAGE_COMBAT_KEY + roomCode, String(combatRound));
+    players.forEach(player => {
+      player.combat = Object.assign({}, player.combat, { round: combatRound, reactionAvailable: true });
+      player.currentPa = (player.maxPa || 3) + Math.min(1, Math.max(0, player.combat.pendingPa || 0));
+      player.combat.pendingPa = 0;
+    });
+    savePersistedPlayers();
+    window.FerroArcanoNetwork.broadcast('ROUND_STARTED', { round: combatRound });
+    renderAll();
+    logEvent('system', `▶ <strong>Rodada ${combatRound}</strong> iniciada. PA, reação e limites de recuperação foram renovados.`);
+  }
+
   function triggerSquadFullRest() {
     if (players.size === 0) return;
     players.forEach(p => {
       p.currentPv = p.pvMax || 30;
       p.currentExaustao = p.exMax || 40;
-      p.colapsoId = 0;
+      p.colapsoPoints = Math.max(0, (p.colapsoPoints || 0) - 1);
 
       window.FerroArcanoNetwork.broadcast('GM_UPDATE_PLAYER', {
         playerId: p.id,
         currentPv: p.currentPv,
         currentExaustao: p.currentExaustao,
-        colapsoId: 0
+        colapsoPoints: p.colapsoPoints
       });
     });
     savePersistedPlayers();
     renderAll();
-    logEvent('heal', '🏕️ <strong>Descanso Completo (8 horas)</strong>: Todos os agentes restaurados e Colapsos dissipados!');
+    logEvent('heal', '🏕️ <strong>Descanso Completo (8 horas)</strong>: PV e Exaustão restaurados; cada agente reduziu 1 ponto de Colapso. Sequelas permanecem registradas.');
   }
 
   function rollGmDice(sides) {
@@ -547,6 +591,22 @@
 
   function escapeHtml(str) {
     return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  function isValidPlayer(payload) {
+    return Boolean(payload && /^[A-Za-z0-9_-]{1,80}$/.test(String(payload.id || '')));
+  }
+
+  function safeImageUrl(value) {
+    const fallback = 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=200';
+    if (!value) return fallback;
+    try {
+      const url = new URL(String(value), window.location.href);
+      const safeDataImage = /^data:image\/(?:png|jpe?g|webp|gif);base64,/i.test(String(value));
+      return (['http:', 'https:'].includes(url.protocol) || safeDataImage) ? escapeHtml(url.href) : fallback;
+    } catch (_) {
+      return fallback;
+    }
   }
 
   function capitalize(str) {

@@ -438,7 +438,48 @@ button.quiet:hover {
   font-size: 0.68rem;
   line-height: 1.3;
 }
+.condition-chip { display:inline-flex; margin:2px 4px 2px 0; padding:3px 7px; border:1px solid #7c3aed; border-radius:999px; color:#ddd6fe; background:rgba(124,58,237,.12); font-size:.68rem; }
 
+/* Centro de comando: hierarquia de informação para leitura rápida em sessão. */
+::selection { background:rgba(251,191,36,.28); color:#fff; }
+html { scrollbar-color:#713f12 #09090b; }
+body {
+  background-color:#070709;
+  background-image:
+    radial-gradient(circle at 66% 0%, rgba(37,99,235,.09), transparent 29rem),
+    radial-gradient(circle at 10% 2%, rgba(245,158,11,.08), transparent 24rem),
+    linear-gradient(rgba(255,255,255,.014) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.014) 1px, transparent 1px);
+  background-size:auto,auto,48px 48px,48px 48px;
+}
+.topbar { position:sticky; top:0; z-index:20; margin:0 -8px; padding:12px 8px 16px; background:rgba(7,7,9,.88); backdrop-filter:blur(18px); }
+.topbar::after { content:"COMANDO // SINCRONIZAÇÃO TÁTICA"; position:absolute; right:8px; bottom:3px; color:#3f3f46; font:700 8px/1 monospace; letter-spacing:.14em; }
+.brand-badge { position:relative; overflow:hidden; background:linear-gradient(145deg, rgba(245,158,11,.18), rgba(59,130,246,.06)); }
+.brand-badge::after { content:""; position:absolute; width:22px; height:22px; border:1px solid rgba(251,191,36,.22); transform:rotate(45deg); }
+.summary-card, .player-card, .panel-box { backdrop-filter:blur(12px); box-shadow:inset 0 1px rgba(255,255,255,.025), 0 18px 48px rgba(0,0,0,.24); }
+.summary-card { position:relative; overflow:hidden; transition:transform .18s, border-color .18s; }
+.summary-card::before { content:""; position:absolute; left:0; top:0; bottom:0; width:2px; background:var(--brass); }
+.summary-card:nth-child(2)::before { background:#ef4444; }
+.summary-card:nth-child(3)::before { background:#60a5fa; }
+.summary-card:nth-child(4)::before { background:#a78bfa; }
+.summary-card:hover { transform:translateY(-1px); border-color:#3f3f46; }
+.panel-box-header { position:relative; }
+.panel-box-header::after { content:""; position:absolute; left:0; bottom:-11px; width:36px; height:1px; background:var(--brass); }
+.player-card { position:relative; overflow:hidden; }
+.player-card::before { content:""; position:absolute; left:0; top:0; right:0; height:2px; background:linear-gradient(90deg, var(--brass), #3b82f6, transparent 72%); opacity:.7; }
+.event-log-container { scrollbar-color:#713f12 transparent; }
+button:focus-visible, a:focus-visible, input:focus-visible { outline:2px solid var(--brass); outline-offset:3px; }
+@media (max-width:720px) {
+  body { padding:10px 12px 36px; }
+  .topbar { position:relative; }
+  .topbar::after { display:none; }
+  .topbar-tools { width:100%; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .topbar-tools > * { justify-content:center; }
+  .room-badge, .status-pill { grid-column:span 2; }
+  .players-grid { grid-template-columns:minmax(0,1fr); }
+  .squad-summary-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:440px) { .squad-summary-grid { grid-template-columns:1fr; } }
 /* Armas & VA Fixo */
 .weapons-mini-list {
   display: flex;
@@ -600,4 +641,69 @@ button.quiet:hover {
   padding: 8px 12px;
   color: var(--ink);
   font-size: 0.85rem;
+}
+
+/* Estatísticas Táticas Completas do Agente */
+.player-tactical-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin-top: 8px;
+  font-size: 0.72rem;
+  color: var(--ink-dim);
+}
+
+.player-tactical-stats span {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.player-tactical-stats strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* Habilidades Ativas em Tempo Real no Card do Mestre */
+.active-powers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.active-power-card {
+  background: rgba(245, 158, 11, 0.04);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 6px;
+  padding: 6px 10px;
+  transition: all 0.2s ease;
+}
+
+.active-power-card:hover {
+  background: rgba(245, 158, 11, 0.08);
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.active-power-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.active-power-title-row strong {
+  font-size: 0.75rem;
+  color: #fef08a;
+}
+
+.active-power-desc {
+  margin: 3px 0 0 0;
+  font-size: 0.68rem;
+  color: var(--ink-dim);
+  line-height: 1.4;
 }
